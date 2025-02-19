@@ -4,10 +4,12 @@ import AuthController from '../controllers/auth.controller';
 import AuthRepository from '../repositories/auth.repository';
 import UserRepository from '../repositories/user.repository';
 import { PrismaClient } from '@prisma/client';
+import JwtUtil from './jwt.util';
 
 const container = new Container();
 
 container.bind<PrismaClient>(PrismaClient).toSelf().inSingletonScope();
+container.bind<JwtUtil>(JwtUtil).toSelf().inSingletonScope();
 
 container.bind<AuthRepository>(AuthRepository).toSelf();
 container.bind<UserRepository>(UserRepository).toSelf();
