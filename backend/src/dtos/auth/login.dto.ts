@@ -1,7 +1,7 @@
 /**
  * LoginDto interface
  */
-export default interface RegisterDto {
+export default interface LoginDto {
     username: string;
     password: string;
   }
