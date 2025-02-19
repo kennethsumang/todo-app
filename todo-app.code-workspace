@@ -5,6 +5,12 @@
     { "path": "." }
   ],
   "settings": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "prettier.semi": false,
     "sonarlint.focusOnNewCode": true,
     "sonarlint.disableTelemetry": true,
     "sonarlint.trace.server": "off"
@@ -16,7 +22,6 @@
       "sonarsource.sonarlint-vscode",
       "ms-playwright.playwright",
       "humao.rest-client",
-      "prisma.prisma",
     ]
   }
 }
