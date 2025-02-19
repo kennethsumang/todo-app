@@ -10,6 +10,9 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // Routes
+app.get('/', (req, res) => {
+  res.send({ "msg": "Hello, World!" });
+});
 app.use('/api/auth', authRoutes);
 
 // Error Handling
