@@ -41,4 +41,50 @@ describe('AuthService.login', () => {
       token: 'token',
     });
   });
+
+  it('should throw an error when username is not defined in request', async () => {
+    const mockUser = { id: 1, username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    userRepositoryMock.getUserByUsername.resolves(mockUser);
+    jwtUtilMock.create.resolves('token')
+
+    const requestData = {
+      password: 'newpassword',
+    };
+
+    await expect(authService.login(requestData)).to.be.rejectedWith('Missing username.');
+  });
+
+  it('should throw an error when password is not defined in request', async () => {
+    const mockUser = { id: 1, username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    userRepositoryMock.getUserByUsername.resolves(mockUser);
+    jwtUtilMock.create.resolves('token')
+
+    const requestData = {
+      username: 'newuser',
+    };
+
+    await expect(authService.login(requestData)).to.be.rejectedWith('Missing password.');
+  });
+
+  it('should throw an error when username and password is not defined in request', async () => {
+    const mockUser = { id: 1, username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    userRepositoryMock.getUserByUsername.resolves(mockUser);
+    jwtUtilMock.create.resolves('token')
+
+    const requestData = {};
+
+    await expect(authService.login(requestData)).to.be.rejectedWith('Missing username. Missing password.');
+  });
+
+  it('should throw an error when user does not exist', async () => {
+    userRepositoryMock.getUserByUsername.resolves(null);
+    jwtUtilMock.create.resolves('token')
+
+    const requestData = {
+      username: 'newuser',
+      password: 'newpassword'
+    };
+
+    await expect(authService.login(requestData)).to.be.rejectedWith('User does not exist.');
+  });
 });
