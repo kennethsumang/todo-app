@@ -37,7 +37,8 @@ describe('AuthService.register', () => {
     };
 
     const response = await authService.register(requestData);
-    expect(response).to.deep.equal(_.omit(mockUser, 'password'));
+    const expectedReturnData = _.omit(mockUser, 'password');
+    expect(response).to.deep.equal(expectedReturnData);
   });
 
   it('should throw an exception when the request is missing the username field', async () => {
