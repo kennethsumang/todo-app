@@ -6,6 +6,7 @@ import UserRepository from '../repositories/user.repository';
 import RegisterValidator from '../validators/auth/register.validator';
 import BadRequestError from '../exceptions/badRequest.error';
 import ServerError from '../exceptions/server.error';
+import _ from 'lodash';
 
 interface RegisterResponseInterface {
   id: number;
@@ -37,7 +38,8 @@ export default class AuthService {
       throw new BadRequestError('User with that username already exists.');
     }
 
-    const newUser = await this.userRepository.createUser(validated);
+    const formData = _.omit(validated, 'retypePassword');
+    const newUser = await this.userRepository.createUser(formData);
     if (!newUser) {
       throw new ServerError('User saving failed.');
     }

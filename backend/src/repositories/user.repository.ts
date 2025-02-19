@@ -22,6 +22,12 @@ export default class UserRepository implements UserRepositoryInterface{
         data: {
           ...data,
           createdAt: getUtcDate(),
+        },
+        select: {
+          id: true,
+          username: true,
+          createdAt: true,
+          updatedAt: true,
         }
       })
   }

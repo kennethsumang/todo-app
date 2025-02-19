@@ -14,7 +14,7 @@ export default class AuthController {
   }
 
   async register(req: Request, res: Response) {
-    // return this.authService.register(req.body);
+    return this.authService.register(req.body);
   }
 
   async logout(req: Request, res: Response) {
