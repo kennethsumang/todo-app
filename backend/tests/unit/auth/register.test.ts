@@ -26,7 +26,7 @@ describe('AuthService.register', () => {
   });
 
   it('should return user data when the user is successfully created', async () => {
-    const mockUser = { id: 1, username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: 1, username: 'newuser', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
 
@@ -37,8 +37,7 @@ describe('AuthService.register', () => {
     };
 
     const response = await authService.register(requestData);
-    const expectedReturnData = _.omit(mockUser, 'password');
-    expect(response).to.deep.equal(expectedReturnData);
+    expect(response).to.deep.equal(mockUser);
   });
 
   it('should throw an exception when the request is missing the username field', async () => {
