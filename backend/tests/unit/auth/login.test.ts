@@ -42,6 +42,19 @@ describe('AuthService.login', () => {
     });
   });
 
+  it('should throw an error when password does not match the record', async () => {
+    const mockUser = { id: 1, username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    userRepositoryMock.getUserByUsername.resolves(mockUser);
+    jwtUtilMock.create.resolves('token')
+
+    const requestData = {
+      username: 'newuser',
+      password: 'notmypassword',
+    };
+
+    await expect(authService.login(requestData)).to.be.rejectedWith('Credentials do not match.');
+  });
+
   it('should throw an error when username is not defined in request', async () => {
     const mockUser = { id: 1, username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.getUserByUsername.resolves(mockUser);
