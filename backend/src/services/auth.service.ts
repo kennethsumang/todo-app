@@ -42,6 +42,7 @@ export default class AuthService {
 
     const formData = _.omit(validated, 'retypePassword');
     const newUser = await this.userRepository.createUser(formData);
+    console.log('New User: ', newUser);
     if (!newUser) {
       throw new ServerError('User saving failed.');
     }
