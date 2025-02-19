@@ -1,0 +1,14 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {},
+  "scripts": {
+    "dev:fe": "cd ./frontend && yarn dev",
+    "dev:be": "",
+    "start:fe": "cd ./frontend && yarn build && yarn start",
+    "start:be": "",
+    "commit": "cz"
+  }
+}
