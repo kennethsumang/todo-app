@@ -39,7 +39,8 @@ export default class AuthService {
       throw new BadRequestError('User does not exist.');
     }
 
-    if (validated.password !== user.password) {
+    const comparedPassword = await this.hash.compare(validated.password, user.password);
+    if (!comparedPassword) {
       throw new BadRequestError('Credentials do not match.');
     }
 
@@ -61,6 +62,7 @@ export default class AuthService {
     }
 
     const formData = _.omit(validated, 'retypePassword');
+    formData.password = await this.hash.hash(formData.password);
     const newUser = await this.userRepository.createUser(formData);
     if (!newUser) {
       throw new ServerError('User saving failed.');
