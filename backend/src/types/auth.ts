@@ -1,5 +1,5 @@
 export interface CustomJwtPayload {
-  id: number;
+  id: string;
   username: string;
   createdAt: Date|string|number;
   updatedAt: Date|string|number|null;

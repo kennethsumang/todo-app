@@ -37,4 +37,18 @@ export default class UserRepository implements UserRepositoryInterface{
       .user
       .findFirst({ where: { username } });
   }
+
+  async getUserById(userId: string): Promise<Omit<User, 'password'>|null> {
+    return await this.prisma
+      .user
+      .findUnique({ 
+        where: { id: userId },
+        select: {
+          id: true,
+          username: true,
+          createdAt: true,
+          updatedAt: true,
+        }
+      });
+  }
 }

@@ -11,9 +11,21 @@ datasource db {
 }
 
 model User {
-  id        Int @id @default(autoincrement())
+  id        String @id @default(uuid())
   username  String @unique
   password  String
   createdAt DateTime
   updatedAt DateTime?
+
+  refreshTokens RefreshToken[]
+}
+
+model RefreshToken {
+  id         String   @id @default(uuid())
+  token      String   // Store hashed refresh tokens for security
+  userId     String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
