@@ -1,6 +1,6 @@
 import LoginDto from '../dtos/auth/login.dto';
 import RegisterDto from '../dtos/auth/register.dto';
-import AuthRepository from '../repositories/auth.repository';
+import RefreshTokenRepository from '../repositories/refreshToken.repository';
 import { inject, injectable } from 'inversify';
 import UserRepository from '../repositories/user.repository';
 import RegisterValidator from '../validators/auth/register.validator';
@@ -10,12 +10,19 @@ import _ from 'lodash';
 import JwtUtil from '../utils/jwt.util';
 import LoginValidator from '../validators/auth/login.validator';
 import HashUtil from '../utils/hash.util';
+import { randomBytes } from 'crypto';
 
 interface UserDataInterface {
-  id: number;
+  id: string;
   username: string;
   createdAt: Date;
   updatedAt: Date|null;
+}
+
+interface LoginResponse {
+  user: UserDataInterface;
+  accessToken: string;
+  refreshToken: string;
 }
 
 /**
@@ -24,13 +31,13 @@ interface UserDataInterface {
 @injectable()
 export default class AuthService {
   constructor(
-    @inject(AuthRepository) private readonly authRepository: AuthRepository,
+    @inject(RefreshTokenRepository) private readonly refreshTokenRepository: RefreshTokenRepository,
     @inject(UserRepository) private readonly userRepository: UserRepository,
     @inject(JwtUtil) private readonly jwt: JwtUtil,
     @inject(HashUtil) private readonly hash: HashUtil,
   ) {}
 
-  async login(data: Record<string, any>): Promise<{ user: UserDataInterface, accessToken: string}> {
+  async login(data: Record<string, any>): Promise<LoginResponse> {
     const validated = (new LoginValidator).validate<LoginDto>(data);
 
     // check if user exists
@@ -46,9 +53,16 @@ export default class AuthService {
 
     const tokenUserData = _.omit(user, 'password');
     const token = await this.jwt.create(tokenUserData);
+    const refreshToken = randomBytes(64).toString('hex');
+
+    // save refresh token hashed in DB
+    const hashedRefreshToken = await this.hash.hash(refreshToken);
+    await this.refreshTokenRepository.create(hashedRefreshToken, user.id);
+
     return {
       user: tokenUserData,
-      accessToken: token
+      accessToken: token,
+      refreshToken: refreshToken,
     };
   }
 
