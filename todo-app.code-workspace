@@ -5,6 +5,7 @@
     { "path": "." }
   ],
   "settings": {
+    "editor.formatOnPaste": false,
     "sonarlint.focusOnNewCode": true,
     "sonarlint.disableTelemetry": true,
     "sonarlint.trace.server": "off"
