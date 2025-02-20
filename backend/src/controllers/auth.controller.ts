@@ -22,6 +22,6 @@ export default class AuthController {
   }
 
   async refreshToken(req: Request, res: Response) {
-    return this.authService.refreshToken(req.body.refreshToken, req.user!.id);
+    return this.authService.refreshToken(req.body.refreshToken, req.body.userId);
   }
 }

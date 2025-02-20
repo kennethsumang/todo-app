@@ -86,9 +86,13 @@ export default class AuthService {
     return newUser;
   }
 
-  async refreshToken(refreshToken: string|undefined, userId: string) {
+  async refreshToken(refreshToken: string|undefined, userId: string|undefined) {
     if (!refreshToken) {
       throw new BadRequestError('Missing refresh token.');
+    }
+
+    if (!userId) {
+      throw new BadRequestError('Missing userId');
     }
 
     // check user id
@@ -100,6 +104,7 @@ export default class AuthService {
     // find this refresh token in DB
     const refreshTokensOfUser = await this.refreshTokenRepository.getTokensByUserId(userId);
     let found = false;
+    console.log('Token List: ', refreshTokensOfUser);
     for (const refreshTokenDetail of refreshTokensOfUser) {
       const hashedToken = refreshTokenDetail.token;
       const sameToken = await this.hash.compare(refreshToken, hashedToken);

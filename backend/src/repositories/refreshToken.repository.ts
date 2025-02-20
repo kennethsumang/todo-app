@@ -26,13 +26,14 @@ export default class RefreshTokenRepository {
   }
 
   async getTokensByUserId(userId: string): Promise<RefreshToken[]> {
+    console.log('Date: ', getUtcDate());
     return await this.prisma
       .refreshToken
       .findMany({
         where: {
           userId: userId,
           expiresAt: {
-            lte: getUtcDate()
+            gte: getUtcDate()
           }
         }
       });
