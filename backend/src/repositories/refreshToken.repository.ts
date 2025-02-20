@@ -28,6 +28,13 @@ export default class RefreshTokenRepository {
   async getTokensByUserId(userId: string): Promise<RefreshToken[]> {
     return await this.prisma
       .refreshToken
-      .findMany({ where: { userId: userId }});
+      .findMany({
+        where: {
+          userId: userId,
+          expiresAt: {
+            lte: getUtcDate()
+          }
+        }
+      });
   }
 }
