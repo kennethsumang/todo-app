@@ -8,6 +8,7 @@ import BadRequestError from '../exceptions/badRequest.error';
 import ServerError from '../exceptions/server.error';
 import _ from 'lodash';
 import JwtUtil from '../utils/jwt.util';
+import LoginValidator from '../validators/auth/login.validator';
 
 interface UserDataInterface {
   id: number;
@@ -28,7 +29,24 @@ export default class AuthService {
   ) {}
 
   async login(data: Record<string, any>): Promise<{ user: UserDataInterface, accessToken: string}> {
-    throw new Error('Method not implemented.');
+    const validated = (new LoginValidator).validate<LoginDto>(data);
+
+    // check if user exists
+    const user = await this.userRepository.getUserByUsername(validated.username);
+    if (!user) {
+      throw new BadRequestError('User does not exist.');
+    }
+
+    if (validated.password !== user.password) {
+      throw new BadRequestError('Credentials do not match.');
+    }
+
+    const tokenUserData = _.omit(user, 'password');
+    const token = await this.jwt.create(tokenUserData);
+    return {
+      user: tokenUserData,
+      accessToken: token
+    };
   }
 
   async register(data: Record<string, any>): Promise<UserDataInterface> {
@@ -42,7 +60,6 @@ export default class AuthService {
 
     const formData = _.omit(validated, 'retypePassword');
     const newUser = await this.userRepository.createUser(formData);
-    console.log('New User: ', newUser);
     if (!newUser) {
       throw new ServerError('User saving failed.');
     }
