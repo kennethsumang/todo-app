@@ -130,6 +130,12 @@ export default class AuthService {
       throw new BadRequestError('Missing userId.');
     }
 
+    // check user
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.');
+    }
+    
     // find this refresh token in DB
     const refreshTokensOfUser = await this.refreshTokenRepository.getTokensByUserId(userId);
     let found = false;
