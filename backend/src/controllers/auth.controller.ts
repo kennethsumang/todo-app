@@ -7,7 +7,7 @@ import { inject, injectable } from 'inversify';
  */
 @injectable()
 export default class AuthController {
-  constructor(@inject(AuthService) private authService: AuthService) {}
+  constructor(@inject(AuthService) private readonly authService: AuthService) {}
 
   async login(req: Request, res: Response) {
     return this.authService.login(req.body);

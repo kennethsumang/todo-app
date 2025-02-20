@@ -13,7 +13,7 @@ export interface UserRepositoryInterface {
  */
 @injectable()
 export default class UserRepository implements UserRepositoryInterface{
-  constructor(@inject(PrismaClient) private prisma: PrismaClient) {}
+  constructor(@inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
   async createUser(data: Omit<RegisterDto, 'retypePassword'>): Promise<Omit<User, 'password'>|null> {
     return this.prisma

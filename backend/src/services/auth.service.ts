@@ -23,9 +23,9 @@ interface UserDataInterface {
 @injectable()
 export default class AuthService {
   constructor(
-    @inject(AuthRepository) private authRepository: AuthRepository,
-    @inject(UserRepository) private userRepository: UserRepository,
-    @inject(JwtUtil) private jwt: JwtUtil,
+    @inject(AuthRepository) private readonly authRepository: AuthRepository,
+    @inject(UserRepository) private readonly userRepository: UserRepository,
+    @inject(JwtUtil) private readonly jwt: JwtUtil,
   ) {}
 
   async login(data: Record<string, any>): Promise<{ user: UserDataInterface, accessToken: string}> {
