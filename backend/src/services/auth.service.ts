@@ -92,7 +92,7 @@ export default class AuthService {
     }
 
     if (!userId) {
-      throw new BadRequestError('Missing userId');
+      throw new BadRequestError('Missing userId.');
     }
 
     // check user id
