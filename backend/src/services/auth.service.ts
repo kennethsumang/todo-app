@@ -11,6 +11,7 @@ import JwtUtil from '../utils/jwt.util';
 import LoginValidator from '../validators/auth/login.validator';
 import HashUtil from '../utils/hash.util';
 import { randomBytes } from 'crypto';
+import StringUtil from '../utils/string.util';
 
 interface UserDataInterface {
   id: string;
@@ -35,6 +36,7 @@ export default class AuthService {
     @inject(UserRepository) private readonly userRepository: UserRepository,
     @inject(JwtUtil) private readonly jwt: JwtUtil,
     @inject(HashUtil) private readonly hash: HashUtil,
+    @inject(StringUtil) private readonly str: StringUtil,
   ) {}
 
   async login(data: Record<string, any>): Promise<LoginResponse> {
@@ -53,7 +55,7 @@ export default class AuthService {
 
     const tokenUserData = _.omit(user, 'password');
     const token = await this.jwt.create(tokenUserData);
-    const refreshToken = randomBytes(64).toString('hex');
+    const refreshToken = await this.str.getRandomString(64);
 
     // save refresh token hashed in DB
     const hashedRefreshToken = await this.hash.hash(refreshToken);

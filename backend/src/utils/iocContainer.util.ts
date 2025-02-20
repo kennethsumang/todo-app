@@ -6,16 +6,22 @@ import UserRepository from '../repositories/user.repository';
 import { PrismaClient } from '@prisma/client';
 import JwtUtil from './jwt.util';
 import HashUtil from './hash.util';
+import UserService from '../services/user.service';
+import UserController from '../controllers/user.controller';
+import StringUtil from './string.util';
 
 const container = new Container();
 
 container.bind<PrismaClient>(PrismaClient).toSelf().inSingletonScope();
 container.bind<JwtUtil>(JwtUtil).toSelf().inSingletonScope();
 container.bind<HashUtil>(HashUtil).toSelf().inSingletonScope();
+container.bind<StringUtil>(StringUtil).toSelf().inSingletonScope();
 
 container.bind<RefreshTokenRepository>(RefreshTokenRepository).toSelf();
 container.bind<UserRepository>(UserRepository).toSelf();
 container.bind<AuthService>(AuthService).toSelf();
+container.bind<UserService>(UserService).toSelf();
 container.bind<AuthController>(AuthController).toSelf();
+container.bind<UserController>(UserController).toSelf();
 
 export default container;
