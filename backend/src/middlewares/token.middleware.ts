@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import BadRequestError from '../exceptions/badRequest.error';
 import JwtUtil from '../utils/jwt.util';
+import { CustomJwtPayload } from '../types/auth';
 
 dayjs.extend(utc);
 
@@ -22,7 +23,7 @@ const tokenMiddleware = async (
   }
 
   const token = bearerToken[1];
-  req.user = await (new JwtUtil).verify(token);
+  req.user = await (new JwtUtil).verify(token) as CustomJwtPayload;
   next();
 };
 

@@ -1,10 +1,8 @@
 import { Request } from 'express';
 import { CustomJwtPayload } from './auth';
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: CustomJwtPayload;
-    }
+declare module "express" {
+  interface Request {
+    user?: CustomJwtPayload;
   }
 }
