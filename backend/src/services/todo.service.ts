@@ -2,6 +2,9 @@ import { inject, injectable } from "inversify";
 import UserRepository from "../repositories/user.repository";
 import TodoRepository from "../repositories/todo.repository";
 import { Todo } from "@prisma/client";
+import CreateTodoValidator from "../validators/todo/createTodo.validator";
+import { CreateTodoDto } from "../dtos/todo/createTodo.dto";
+import BadRequestError from "../exceptions/badRequest.error";
 
 @injectable()
 export default class TodoService {
@@ -11,11 +14,33 @@ export default class TodoService {
   ) {}
 
   async createTodo(data: Record<string, unknown>, userId: string|undefined): Promise<Todo> {
-    throw new Error('Method not implemented.');
+    const validated = (new CreateTodoValidator).validate<CreateTodoDto>(data);
+
+    // check user
+    if (!userId) {
+      throw new BadRequestError('Missing userId.');
+    }
+
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.');
+    }
+
+    return await this.todoRepository.createTodo(validated, userId);
   }
 
   async fetchTodo(filters: Record<string, unknown>, userId: string|undefined): Promise<Todo[]> {
-    throw new Error('Method not implemented.');
+    if (!userId) {
+      
+      throw new BadRequestError('Missing userId.');
+    }
+
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.');
+    }
+
+    return await this.todoRepository.fetchTodos(userId);
   }
 
   async updateTodo(todoId: string|undefined, data: Record<string, unknown>, userId: string|undefined): Promise<Todo> {

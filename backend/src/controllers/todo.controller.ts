@@ -7,7 +7,7 @@ export default class TodoController {
   constructor(@inject(TodoService) private readonly todoService: TodoService) {}
 
   async create(req: Request, res: Response) {
-    //
+    return this.todoService.createTodo(req.body, req.user?.id);
   }
 
   async update(req: Request, res: Response) {
@@ -15,7 +15,7 @@ export default class TodoController {
   }
 
   async fetch(req: Request, res: Response) {
-    //
+    return this.todoService.fetchTodo(req.query, req.user?.id);
   }
 
   async remove(req: Request, res: Response) {
