@@ -32,7 +32,7 @@ describe('AuthService.register', () => {
   });
 
   it('should return user data when the user is successfully created', async () => {
-    const mockUser = { id: 'id', username: 'newuser', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
     hashUtilMock.hash.resolves('newpasswordhashed');
@@ -48,7 +48,7 @@ describe('AuthService.register', () => {
   });
 
   it('should throw an exception when the request is missing the username field', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
 
@@ -61,7 +61,7 @@ describe('AuthService.register', () => {
   });
 
   it('should throw an exception when the request is missing the password field', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
 
@@ -74,7 +74,7 @@ describe('AuthService.register', () => {
   });
 
   it('should throw an exception when the request is missing the retypePassword field', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
 
@@ -87,7 +87,7 @@ describe('AuthService.register', () => {
   });
 
   it('should throw an exception when the request has mismatched password and retypePassword fields', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
 
@@ -101,7 +101,7 @@ describe('AuthService.register', () => {
   });
 
   it('should throw an exception when the user with the supplied username is already existing', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(mockUser);
 

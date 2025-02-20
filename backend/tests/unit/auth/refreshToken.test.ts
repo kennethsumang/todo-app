@@ -39,7 +39,7 @@ describe('AuthService.refreshToken', () => {
     const refreshTokenList = [
       { id: 'uuid1', token: 'hashedcurrentrefreshtoken', userId: 'newuser', expiresAt: addToCurrentDate(30), createdAt: getUtcDate() }
     ];
-    const mockUser = { id: 'id', username: 'newuser', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', createdAt: new Date(), updatedAt: null };
     
     userRepositoryMock.getUserById.resolves(mockUser);
     refreshTokenRepositoryMock.getTokensByUserId.resolves(refreshTokenList);
@@ -55,7 +55,7 @@ describe('AuthService.refreshToken', () => {
     const refreshTokenList = [
       { id: 'uuid1', token: 'hashedcurrentrefreshtoken', userId: 'newuser', expiresAt: addToCurrentDate(30), createdAt: getUtcDate() }
     ];
-    const mockUser = { id: 'id', username: 'newuser', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', createdAt: new Date(), updatedAt: null };
     
     userRepositoryMock.getUserById.resolves(mockUser);
     refreshTokenRepositoryMock.getTokensByUserId.resolves(refreshTokenList);
@@ -70,7 +70,7 @@ describe('AuthService.refreshToken', () => {
     const refreshTokenList = [
       { id: 'uuid1', token: 'hashedcurrentrefreshtoken', userId: 'newuser', expiresAt: addToCurrentDate(30), createdAt: getUtcDate() }
     ];
-    const mockUser = { id: 'id', username: 'newuser', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', createdAt: new Date(), updatedAt: null };
     
     userRepositoryMock.getUserById.resolves(mockUser);
     refreshTokenRepositoryMock.getTokensByUserId.resolves(refreshTokenList);
@@ -84,7 +84,7 @@ describe('AuthService.refreshToken', () => {
     const currentRefreshToken = 'currentrefreshtoken';
     const userId = 'newuser';
     const refreshTokenList = [] as RefreshToken[];
-    const mockUser = { id: 'id', username: 'newuser', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', createdAt: new Date(), updatedAt: null };
     
     userRepositoryMock.getUserById.resolves(mockUser);
     refreshTokenRepositoryMock.getTokensByUserId.resolves(refreshTokenList);
