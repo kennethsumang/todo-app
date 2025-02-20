@@ -87,8 +87,35 @@ export default class AuthService {
     return newUser;
   }
 
-  async refreshToken() {
-    return {};
+  async refreshToken(refreshToken: string|undefined, userId: string) {
+    if (!refreshToken) {
+      throw new BadRequestError('Missing refresh token.');
+    }
+
+    // check user id
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.');
+    }
+
+    // find this refresh token in DB
+    const refreshTokensOfUser = await this.refreshTokenRepository.getTokensByUserId(userId);
+    let found = false;
+    for (const refreshTokenDetail of refreshTokensOfUser) {
+      const hashedToken = refreshTokenDetail.token;
+      const sameToken = await this.hash.compare(refreshToken, hashedToken);
+      if (sameToken) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) {
+      throw new BadRequestError('Invalid refresh token.');
+    }
+
+    const tokenUserData = _.omit(user, 'password');
+    const newAccessToken = await this.jwt.create(tokenUserData);
+    return { accessToken: newAccessToken };
   }
 
   async logout() {

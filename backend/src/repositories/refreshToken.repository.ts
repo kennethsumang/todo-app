@@ -13,7 +13,6 @@ export default class RefreshTokenRepository {
   constructor(@inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
   async create(token: string, userId: string): Promise<RefreshToken> {
-    console.log(addToCurrentDate(config.refreshTokenExpiryInDays));
     return await this.prisma
       .refreshToken
       .create({
@@ -24,5 +23,11 @@ export default class RefreshTokenRepository {
           user: { connect: { id: userId } },
         },
       });
+  }
+
+  async getTokensByUserId(userId: string): Promise<RefreshToken[]> {
+    return await this.prisma
+      .refreshToken
+      .findMany({ where: { userId: userId }});
   }
 }
