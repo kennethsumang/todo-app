@@ -54,6 +54,36 @@ describe('TodoService.createTodo', () => {
     const response = await todoService.createTodo(todoFormData, userId);
     expect(response).to.deep.equal(mockTodo);
   });
+  
+  it('should throw an exception when user does not exist in DB', async () => {
+    const dueAt = addToCurrentDate(30);
+    const todoFormData = {
+      title: "Todo 1",
+      details: "Todo 1 Details",
+      status: "NOT_STARTED",
+      priority: "LOW",
+      dueAt: dueAt,
+    };
+    const userId = '8ba384bc-0373-462b-8196-d35af7813739';
+    const mockUser = null;
+    const mockTodo = {
+      id: "6f83a4e6-bd31-4fa1-a15b-66ffcb5ad177",
+      userId: "8ba384bc-0373-462b-8196-d35af7813739",
+      title: "Todo 1",
+      details: "Todo 1 Details",
+      priority: $Enums.TodoPriority.LOW,
+      status: $Enums.TodoStatus.NOT_STARTED,
+      createdAt: getUtcDate(),
+      "dueAt": dueAt,
+      "completedAt": null,
+      "updatedAt": null
+    }
+
+    userRepositoryMock.getUserById.resolves(mockUser);
+    todoRepository.createTodo.resolves(mockTodo);
+
+    await expect(todoService.createTodo(todoFormData, userId)).to.be.rejectedWith('User not found.');
+  });
 
   it('should throw an exception when userId is missing', async () => {
     const dueAt = addToCurrentDate(30);
