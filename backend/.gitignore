@@ -4,3 +4,4 @@ dist
 prisma/dev.db
 *.db-journal
 temp
+*.pem
