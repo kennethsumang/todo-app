@@ -37,4 +37,10 @@ export default class RefreshTokenRepository {
         }
       });
   }
+
+  async deleteRefreshToken(id: string): Promise<RefreshToken> {
+    return await this.prisma
+      .refreshToken
+      .delete({ where: { id }});
+  }
 }

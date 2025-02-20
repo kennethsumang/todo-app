@@ -121,7 +121,38 @@ export default class AuthService {
     return { accessToken: newAccessToken };
   }
 
-  async logout() {
-    return {};
+  async logout(refreshToken: string|undefined, userId: string|undefined): Promise<{ result: boolean }> {
+    if (!refreshToken) {
+      throw new BadRequestError('Missing refresh token.');
+    }
+
+    if (!userId) {
+      throw new BadRequestError('Missing userId.');
+    }
+
+    // find this refresh token in DB
+    const refreshTokensOfUser = await this.refreshTokenRepository.getTokensByUserId(userId);
+    let found = false;
+    let tokenId = null;
+    for (const refreshTokenDetail of refreshTokensOfUser) {
+      const hashedToken = refreshTokenDetail.token;
+      const sameToken = await this.hash.compare(refreshToken, hashedToken);
+      if (sameToken) {
+        found = true;
+        tokenId = refreshTokenDetail.id;
+        break;
+      }
+    }
+
+    if (!found || !tokenId) {
+      throw new BadRequestError('Invalid refresh token.');
+    }
+
+    const deletedToken = await this.refreshTokenRepository.deleteRefreshToken(tokenId);
+    if (!deletedToken) {
+      throw new ServerError('Token deletion failed.');
+    }
+
+    return { result: true };
   }
 }

@@ -18,7 +18,7 @@ export default class AuthController {
   }
 
   async logout(req: Request, res: Response) {
-    // return this.authService.logout();
+    return this.authService.logout(req.body.refreshToken, req.body.userId);
   }
 
   async refreshToken(req: Request, res: Response) {
