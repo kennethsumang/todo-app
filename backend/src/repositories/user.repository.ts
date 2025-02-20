@@ -5,7 +5,7 @@ import { getUtcDate } from '../utils/date.util';
 
 export interface UserRepositoryInterface {
   createUser: (data: Omit<RegisterDto, 'retypePassword'>) => Promise<Omit<User, 'password'>|null>;
-  getUserByUsername: (username: string) => Promise<Omit<User, 'password'>|null>;
+  getUserByUsername: (username: string) => Promise<User|null>;
 }
 
 /**
@@ -13,7 +13,7 @@ export interface UserRepositoryInterface {
  */
 @injectable()
 export default class UserRepository implements UserRepositoryInterface{
-  constructor(@inject(PrismaClient) private prisma: PrismaClient) {}
+  constructor(@inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
   async createUser(data: Omit<RegisterDto, 'retypePassword'>): Promise<Omit<User, 'password'>|null> {
     return this.prisma
@@ -32,7 +32,7 @@ export default class UserRepository implements UserRepositoryInterface{
       })
   }
 
-  async getUserByUsername(username: string): Promise<Omit<User, 'password'>|null> {
+  async getUserByUsername(username: string): Promise<User|null> {
     return await this.prisma
       .user
       .findFirst({ where: { username } });
