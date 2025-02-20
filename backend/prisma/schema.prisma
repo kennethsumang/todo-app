@@ -10,6 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum TodoPriority {
+  LOW
+  HIGH
+  CRITICAL
+}
+
+enum TodoStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id        String @id @default(uuid())
   username  String @unique
@@ -28,4 +41,16 @@ model RefreshToken {
   createdAt  DateTime @default(now())
 
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Todo {
+  id          String @id @default(uuid())
+  title       String // 25 chars max
+  details     String // 300 chars max
+  priority    TodoPriority
+  status      TodoStatus
+  createdAt   DateTime
+  dueAt       DateTime
+  completedAt DateTime?
+  updatedAt   DateTime?
 }
