@@ -51,4 +51,15 @@ export default class TodoRepository {
         },
       });
   }
+
+  async deleteTodo(todoId: string, userId: string): Promise<Todo> {
+    return await this.prisma
+      .todo
+      .delete({
+        where: {
+          id: todoId,
+          userId: userId,
+        }
+      });
+  }
 }

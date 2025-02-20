@@ -7,6 +7,7 @@ import { CreateTodoDto } from "../dtos/todo/createTodo.dto";
 import BadRequestError from "../exceptions/badRequest.error";
 import UpdateTodoValidator from "../validators/todo/updateTodo.validator";
 import { UpdateTodoDto } from "../dtos/todo/updateTodo.dto";
+import ServerError from "../exceptions/server.error";
 
 @injectable()
 export default class TodoService {
@@ -70,6 +71,29 @@ export default class TodoService {
   }
 
   async deleteTodo(todoId: string|undefined, userId: string|undefined): Promise<{ result: boolean }> {
-    throw new Error('Method not implemented.');
+    if (!todoId) {
+      throw new BadRequestError('Missing todoId.');
+    }
+
+    if (!userId) {
+      throw new BadRequestError('Missing userId.');
+    }
+
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.');
+    }
+
+    const todo = await this.todoRepository.getTodoById(todoId, userId);
+    if (!todo) {
+      throw new BadRequestError('Todo not found.');
+    }
+
+    const deletedTodo = await this.todoRepository.deleteTodo(todoId, userId);
+    if (!deletedTodo) {
+      throw new ServerError('Todo deletion failed.');
+    }
+
+    return { result: true };
   }
 }
