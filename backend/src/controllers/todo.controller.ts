@@ -11,7 +11,7 @@ export default class TodoController {
   }
 
   async update(req: Request, res: Response) {
-    //
+    return this.todoService.updateTodo(req.params?.todoId, req.body, req.user?.id);
   }
 
   async fetch(req: Request, res: Response) {
@@ -19,6 +19,6 @@ export default class TodoController {
   }
 
   async remove(req: Request, res: Response) {
-    //
+    return this.todoService.deleteTodo(req.params?.todoId, req.user?.id);
   }
 }
