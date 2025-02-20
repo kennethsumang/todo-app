@@ -104,7 +104,6 @@ export default class AuthService {
     // find this refresh token in DB
     const refreshTokensOfUser = await this.refreshTokenRepository.getTokensByUserId(userId);
     let found = false;
-    console.log('Token List: ', refreshTokensOfUser);
     for (const refreshTokenDetail of refreshTokensOfUser) {
       const hashedToken = refreshTokenDetail.token;
       const sameToken = await this.hash.compare(refreshToken, hashedToken);
