@@ -42,7 +42,7 @@ describe('AuthService.login', () => {
     const response = await authService.login(requestData);
     expect(response).to.deep.equal({
       user: _.omit(mockUser, 'password'),
-      token: 'token',
+      accessToken: 'token',
     });
   });
 

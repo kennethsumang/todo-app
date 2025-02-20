@@ -6,7 +6,7 @@ export default class BaseValidator {
   schema: Schema = Joi.object({});
 
   validate<T>(data: Record<string, any>): T {
-    const { error, value } = this.schema.validate(data);
+    const { error, value } = this.schema.validate(data, { abortEarly: false });
     if (!error) {
       return value as T;
     }
