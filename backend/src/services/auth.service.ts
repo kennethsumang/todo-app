@@ -9,6 +9,7 @@ import ServerError from '../exceptions/server.error';
 import _ from 'lodash';
 import JwtUtil from '../utils/jwt.util';
 import LoginValidator from '../validators/auth/login.validator';
+import HashUtil from '../utils/hash.util';
 
 interface UserDataInterface {
   id: number;
@@ -26,6 +27,7 @@ export default class AuthService {
     @inject(AuthRepository) private readonly authRepository: AuthRepository,
     @inject(UserRepository) private readonly userRepository: UserRepository,
     @inject(JwtUtil) private readonly jwt: JwtUtil,
+    @inject(HashUtil) private readonly hash: HashUtil,
   ) {}
 
   async login(data: Record<string, any>): Promise<{ user: UserDataInterface, accessToken: string}> {

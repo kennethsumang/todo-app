@@ -7,6 +7,7 @@ import AuthRepository from '../../../src/repositories/auth.repository';
 import chaiAsPromised from 'chai-as-promised';
 import JwtUtil from '../../../src/utils/jwt.util';
 import _ from 'lodash';
+import HashUtil from '../../../src/utils/hash.util';
 
 chai.use(chaiAsPromised);
 
@@ -14,21 +15,24 @@ describe('AuthService.register', () => {
   let userRepositoryMock: sinon.SinonStubbedInstance<UserRepository>;
   let authRepositoryMock: sinon.SinonStubbedInstance<AuthRepository>;
   let jwtUtilMock: sinon.SinonStubbedInstance<JwtUtil>;
+  let hashUtilMock: sinon.SinonStubbedInstance<HashUtil>;
   let authService: AuthService;
 
   beforeEach(() => {
     userRepositoryMock = sinon.createStubInstance(UserRepository);
     authRepositoryMock = {};
     jwtUtilMock = {} as unknown as sinon.SinonStubbedInstance<JwtUtil>;
+    hashUtilMock = sinon.createStubInstance(HashUtil);
 
     // Inject the mock into the service
-    authService = new AuthService(authRepositoryMock, userRepositoryMock, jwtUtilMock);
+    authService = new AuthService(authRepositoryMock, userRepositoryMock, jwtUtilMock, hashUtilMock);
   });
 
   it('should return user data when the user is successfully created', async () => {
     const mockUser = { id: 1, username: 'newuser', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.createUser.resolves(mockUser);
     userRepositoryMock.getUserByUsername.resolves(null);
+    hashUtilMock.hash.resolves('newpasswordhashed');
 
     const requestData = {
       username: 'newuser',
