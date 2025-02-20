@@ -10,7 +10,6 @@ import _ from 'lodash';
 import JwtUtil from '../utils/jwt.util';
 import LoginValidator from '../validators/auth/login.validator';
 import HashUtil from '../utils/hash.util';
-import { randomBytes } from 'crypto';
 import StringUtil from '../utils/string.util';
 
 interface UserDataInterface {
