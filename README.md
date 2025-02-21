@@ -19,3 +19,24 @@ openssl rsa -in privateKey.pem -pubout -out publicKey.pem
 ```
 npx prisma migrate dev
 ```
+
+## API Development
+1. Start the backend server.
+2. Open the `/backend/temp/rest/auth.http` file.
+3. Execute the register endpoint.
+4. Execute the login endpoint. Take note of the `userId`, `accessToken`, and `refreshToken` fields.
+5. Create `settings.json` under `backend/.vscode`.
+6. Fill the values in `backend/.vscode/settings.json` using the values you have taken in login endpoint.
+```json
+{
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "url": "http://localhost:3000",
+      "userId": "<userId>",
+      "accessToken": "<accessToken>",
+      "refreshToken": "<refreshToken>"
+    }
+  }
+}
+```
+7. You can now execute the authenticated endpoints in HTTP files.
