@@ -1,4 +1,4 @@
-GET {{url}}/api/todos
+GET {{url}}/api/todos?limit=3&page=1
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 

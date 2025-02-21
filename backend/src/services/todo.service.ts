@@ -8,6 +8,8 @@ import BadRequestError from "../exceptions/badRequest.error";
 import UpdateTodoValidator from "../validators/todo/updateTodo.validator";
 import { UpdateTodoDto } from "../dtos/todo/updateTodo.dto";
 import ServerError from "../exceptions/server.error";
+import FetchTodoValidator from "../validators/todo/fetchTodo.validator";
+import FetchTodoDto from "../dtos/todo/fetchTodo.dto";
 
 @injectable()
 export default class TodoService {
@@ -34,7 +36,6 @@ export default class TodoService {
 
   async fetchTodo(filters: Record<string, unknown>, userId: string|undefined): Promise<Todo[]> {
     if (!userId) {
-      
       throw new BadRequestError('Missing userId.');
     }
 
@@ -43,7 +44,10 @@ export default class TodoService {
       throw new BadRequestError('User not found.');
     }
 
-    return await this.todoRepository.fetchTodos(userId);
+    const validated = (new FetchTodoValidator).validate<FetchTodoDto>(filters);
+    validated.page = validated.page ?? 1;
+    validated.limit = validated.limit ?? 10;
+    return await this.todoRepository.fetchTodos(validated, userId);
   }
 
   async updateTodo(todoId: string|undefined, data: Record<string, unknown>, userId: string|undefined): Promise<Todo> {

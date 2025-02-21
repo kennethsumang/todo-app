@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import { CreateTodoDto } from "../dtos/todo/createTodo.dto";
 import { getUtcDate } from "../utils/date.util";
 import { UpdateTodoDto } from "../dtos/todo/updateTodo.dto";
+import FetchTodoDto from "../dtos/todo/fetchTodo.dto";
 
 @injectable()
 export default class TodoRepository {
@@ -20,10 +21,19 @@ export default class TodoRepository {
       })
   }
 
-  async fetchTodos(userId: string): Promise<Todo[]> {
+  async fetchTodos(filters: FetchTodoDto, userId: string): Promise<Todo[]> {
+    const whereQuery: Record<string, any> = { userId };
+    if (filters.id) {
+      whereQuery.id = filters.id;
+    }
+    
     return await this.prisma
       .todo
-      .findMany({ where: { userId }});
+      .findMany({
+        where: whereQuery,
+        skip: (filters.page! - 1) * filters.limit!,
+        take: filters.limit!,
+      });
   }
 
   async getTodoById(todoId: string, userId: string): Promise<Todo|null> {
