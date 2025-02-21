@@ -7,10 +7,10 @@ import { inject, injectable } from 'inversify';
  */
 @injectable()
 export default class AuthController {
-  constructor(@inject(AuthService) private authService: AuthService) {}
+  constructor(@inject(AuthService) private readonly authService: AuthService) {}
 
   async login(req: Request, res: Response) {
-    // return this.authService.login(req.body);
+    return this.authService.login(req.body);
   }
 
   async register(req: Request, res: Response) {
@@ -18,10 +18,10 @@ export default class AuthController {
   }
 
   async logout(req: Request, res: Response) {
-    // return this.authService.logout();
+    return this.authService.logout(req.body.refreshToken, req.body.userId);
   }
 
   async refreshToken(req: Request, res: Response) {
-    // return this.authService.refreshToken();
+    return this.authService.refreshToken(req.body.refreshToken, req.body.userId);
   }
 }

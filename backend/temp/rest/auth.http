@@ -1,0 +1,30 @@
+POST {{url}}/api/auth/register
+Content-Type: application/json
+
+
+{
+    "username": "admin",
+    "password": "admin",
+    "retypePassword": "admin"
+}
+
+
+###
+POST {{url}}/api/auth/login
+Content-Type: application/json
+
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+
+
+###
+POST {{url}}/api/auth/refreshToken
+Content-Type: application/json
+
+{
+    "refreshToken": "{{refreshToken}}",
+    "userId": "{{userId}}"
+}

@@ -1,0 +1,2 @@
+GET {{url}}
+Content-Type: application/json
