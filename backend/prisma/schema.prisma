@@ -18,6 +18,7 @@ model User {
   updatedAt DateTime?
 
   refreshTokens RefreshToken[]
+  todos         Todo[]
 }
 
 model RefreshToken {
@@ -28,4 +29,19 @@ model RefreshToken {
   createdAt  DateTime @default(now())
 
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Todo {
+  id          String @id @default(uuid())
+  userId      String
+  title       String // 25 chars max
+  details     String // 300 chars max
+  priority    Int
+  status      Int
+  createdAt   DateTime
+  dueAt       DateTime
+  completedAt DateTime?
+  updatedAt   DateTime?
+
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

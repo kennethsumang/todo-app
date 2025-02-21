@@ -15,6 +15,6 @@ export default class BaseValidator {
     _.forEach(error.details, (errorData) => {
       joinedErrorMessages += errorData.message + ' ';
     });
-    throw new BadRequestError(joinedErrorMessages);
+    throw new BadRequestError(joinedErrorMessages.trim());
   }
 }

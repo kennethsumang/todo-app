@@ -32,7 +32,7 @@ describe('AuthService.login', () => {
   });
 
   it('should return user data and token when login is successful', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.getUserByUsername.resolves(mockUser);
     jwtUtilMock.create.resolves('token')
     hashUtilMock.compare.resolves(true);
@@ -53,7 +53,7 @@ describe('AuthService.login', () => {
   });
 
   it('should throw an error when password does not match the record', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.getUserByUsername.resolves(mockUser);
     jwtUtilMock.create.resolves('token');
     hashUtilMock.compare.resolves(false);
@@ -67,7 +67,7 @@ describe('AuthService.login', () => {
   });
 
   it('should throw an error when username is not defined in request', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.getUserByUsername.resolves(mockUser);
     jwtUtilMock.create.resolves('token')
     hashUtilMock.compare.resolves(true);
@@ -80,7 +80,7 @@ describe('AuthService.login', () => {
   });
 
   it('should throw an error when password is not defined in request', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.getUserByUsername.resolves(mockUser);
     jwtUtilMock.create.resolves('token')
     hashUtilMock.compare.resolves(true);
@@ -93,7 +93,7 @@ describe('AuthService.login', () => {
   });
 
   it('should throw an error when username and password is not defined in request', async () => {
-    const mockUser = { id: 'id', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
+    const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
     userRepositoryMock.getUserByUsername.resolves(mockUser);
     jwtUtilMock.create.resolves('token')
     hashUtilMock.compare.resolves(true);

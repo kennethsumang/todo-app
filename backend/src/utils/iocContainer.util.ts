@@ -9,6 +9,9 @@ import HashUtil from './hash.util';
 import UserService from '../services/user.service';
 import UserController from '../controllers/user.controller';
 import StringUtil from './string.util';
+import TodoService from '../services/todo.service';
+import TodoController from '../controllers/todo.controller';
+import TodoRepository from '../repositories/todo.repository';
 
 const container = new Container();
 
@@ -23,5 +26,9 @@ container.bind<AuthService>(AuthService).toSelf();
 container.bind<UserService>(UserService).toSelf();
 container.bind<AuthController>(AuthController).toSelf();
 container.bind<UserController>(UserController).toSelf();
+
+container.bind<TodoRepository>(TodoRepository).toSelf();
+container.bind<TodoService>(TodoService).toSelf();
+container.bind<TodoController>(TodoController).toSelf();
 
 export default container;
