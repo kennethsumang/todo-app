@@ -29,22 +29,18 @@ export default class CreateTodoValidator extends BaseValidator {
         'any.required': 'DueAt is required.',
       }),
     status: Joi
-      .string()
+      .number()
       .required()
-      .valid('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')
       .messages({
         'any.required': 'Status is required.',
         'string.base': 'Status is invalid.',
-        'string.valid': 'Status is invalid.',
       }),
     priority: Joi
-      .string()
+      .number()
       .required()
-      .valid('LOW', 'HIGH', 'CRITICAL')
       .messages({
         'any.required': 'Priority is required.',
         'string.base': 'Priority is invalid.',
-        'string.valid': 'Priority is invalid.',
       })
   })
 }

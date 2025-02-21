@@ -18,12 +18,10 @@ export default class UpdateTodoValidator extends BaseValidator {
         'date.base': 'DueAt is invalid.',
       }),
     status: Joi
-      .string()
+      .number()
       .optional()
-      .valid('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED')
       .messages({
         'string.base': 'Status is invalid.',
-        'string.valid': 'Status is invalid.',
       }),
   })
 }

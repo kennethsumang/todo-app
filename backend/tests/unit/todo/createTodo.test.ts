@@ -7,7 +7,7 @@ import chaiAsPromised from 'chai-as-promised';
 import _ from 'lodash';
 import TodoRepository from '../../../src/repositories/todo.repository';
 import { addToCurrentDate, getUtcDate } from '../../../src/utils/date.util';
-import { $Enums } from '@prisma/client';
+import { priorities, statuses } from '../../../src/constants/todo.constant';
 
 chai.use(chaiAsPromised);
 
@@ -29,8 +29,8 @@ describe('TodoService.createTodo', () => {
     const todoFormData = {
       title: "Todo 1",
       details: "Todo 1 Details",
-      status: "NOT_STARTED",
-      priority: "LOW",
+      status: statuses.NOT_STARTED,
+      priority: priorities.LOW,
       dueAt: dueAt,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
@@ -40,8 +40,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -60,8 +60,8 @@ describe('TodoService.createTodo', () => {
     const todoFormData = {
       title: "Todo 1",
       details: "Todo 1 Details",
-      status: "NOT_STARTED",
-      priority: "LOW",
+      status: statuses.NOT_STARTED,
+      priority: priorities.LOW,
       dueAt: dueAt,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
@@ -71,8 +71,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -90,8 +90,8 @@ describe('TodoService.createTodo', () => {
     const todoFormData = {
       title: "Todo 1",
       details: "Todo 1 Details",
-      status: "NOT_STARTED",
-      priority: "LOW",
+      status: statuses.NOT_STARTED,
+      priority: priorities.LOW,
       dueAt: dueAt,
     };
     const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
@@ -100,8 +100,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -118,8 +118,8 @@ describe('TodoService.createTodo', () => {
     const dueAt = addToCurrentDate(30);
     const todoFormData = {
       details: "Todo 1 Details",
-      status: "NOT_STARTED",
-      priority: "LOW",
+      status: statuses.NOT_STARTED,
+      priority: priorities.LOW,
       dueAt: dueAt,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
@@ -129,8 +129,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -147,8 +147,8 @@ describe('TodoService.createTodo', () => {
     const dueAt = addToCurrentDate(30);
     const todoFormData = {
       title: "Todo 1",
-      status: "NOT_STARTED",
-      priority: "LOW",
+      status: statuses.NOT_STARTED,
+      priority: priorities.LOW,
       dueAt: dueAt,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
@@ -158,8 +158,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -177,8 +177,8 @@ describe('TodoService.createTodo', () => {
     const todoFormData = {
       title: "Todo 1",
       details: "Todo 1 Details",
-      status: "NOT_STARTED",
-      priority: "LOW",
+      status: statuses.NOT_STARTED,
+      priority: priorities.LOW,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
     const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
@@ -187,8 +187,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -206,7 +206,7 @@ describe('TodoService.createTodo', () => {
     const todoFormData = {
       title: "Todo 1",
       details: "Todo 1 Details",
-      status: "NOT_STARTED",
+      status: statuses.NOT_STARTED,
       dueAt: dueAt,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
@@ -216,8 +216,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,
@@ -236,7 +236,7 @@ describe('TodoService.createTodo', () => {
       title: "Todo 1",
       details: "Todo 1 Details",
       dueAt: dueAt,
-      priority: "LOW",
+      priority: priorities.LOW,
     };
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
     const mockUser = { id: '8ba384bc-0373-462b-8196-d35af7813739', username: 'newuser', password: 'newpassword', createdAt: new Date(), updatedAt: null };
@@ -245,8 +245,8 @@ describe('TodoService.createTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       "dueAt": dueAt,
       "completedAt": null,

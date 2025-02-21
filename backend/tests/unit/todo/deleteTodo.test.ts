@@ -7,7 +7,7 @@ import chaiAsPromised from 'chai-as-promised';
 import _ from 'lodash';
 import TodoRepository from '../../../src/repositories/todo.repository';
 import { addToCurrentDate, getUtcDate } from '../../../src/utils/date.util';
-import { $Enums } from '@prisma/client';
+import { priorities, statuses } from '../../../src/constants/todo.constant';
 
 chai.use(chaiAsPromised);
 
@@ -34,8 +34,8 @@ describe('TodoService.deleteTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       dueAt: dueAt,
       completedAt: null,
@@ -60,8 +60,8 @@ describe('TodoService.deleteTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       dueAt: dueAt,
       completedAt: null,
@@ -85,8 +85,8 @@ describe('TodoService.deleteTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       dueAt: dueAt,
       completedAt: null,
@@ -123,8 +123,8 @@ describe('TodoService.deleteTodo', () => {
       userId: "8ba384bc-0373-462b-8196-d35af7813739",
       title: "Todo 1",
       details: "Todo 1 Details",
-      priority: $Enums.TodoPriority.LOW,
-      status: $Enums.TodoStatus.NOT_STARTED,
+      priority: priorities.LOW,
+      status: statuses.NOT_STARTED,
       createdAt: getUtcDate(),
       dueAt: dueAt,
       completedAt: null,

@@ -7,7 +7,7 @@ import chaiAsPromised from 'chai-as-promised';
 import _ from 'lodash';
 import TodoRepository from '../../../src/repositories/todo.repository';
 import { addToCurrentDate, getUtcDate } from '../../../src/utils/date.util';
-import { $Enums } from '@prisma/client';
+import { priorities, statuses } from '../../../src/constants/todo.constant';
 
 chai.use(chaiAsPromised);
 
@@ -38,8 +38,8 @@ describe('TodoService.updateTodo', () => {
         userId: "8ba384bc-0373-462b-8196-d35af7813739",
         title: "Todo 1",
         details: "Todo 1 Details",
-        priority: $Enums.TodoPriority.LOW,
-        status: $Enums.TodoStatus.NOT_STARTED,
+        priority: priorities.LOW,
+        status: statuses.NOT_STARTED,
         createdAt: getUtcDate(),
         "dueAt": dueAt,
         "completedAt": null,
@@ -59,7 +59,7 @@ describe('TodoService.updateTodo', () => {
   it('should return the updated todo when the request is valid and the status is updated', async () => {
     const dueAt = addToCurrentDate(30);
     const todoFormData = {
-      status: $Enums.TodoStatus.IN_PROGRESS
+      status: statuses.IN_PROGRESS
     };
     const todoId = '6f83a4e6-bd31-4fa1-a15b-66ffcb5ad177';
     const userId = '8ba384bc-0373-462b-8196-d35af7813739';
@@ -70,8 +70,8 @@ describe('TodoService.updateTodo', () => {
         userId: "8ba384bc-0373-462b-8196-d35af7813739",
         title: "Todo 1",
         details: "Todo 1 Details",
-        priority: $Enums.TodoPriority.LOW,
-        status: $Enums.TodoStatus.NOT_STARTED,
+        priority: priorities.LOW,
+        status: statuses.NOT_STARTED,
         createdAt: getUtcDate(),
         "dueAt": dueAt,
         "completedAt": null,
@@ -103,8 +103,8 @@ describe('TodoService.updateTodo', () => {
         userId: "8ba384bc-0373-462b-8196-d35af7813739",
         title: "Todo 1",
         details: "Todo 1 Details",
-        priority: $Enums.TodoPriority.LOW,
-        status: $Enums.TodoStatus.NOT_STARTED,
+        priority: priorities.LOW,
+        status: statuses.NOT_STARTED,
         createdAt: getUtcDate(),
         "dueAt": dueAt,
         "completedAt": null,

@@ -10,19 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum TodoPriority {
-  LOW
-  HIGH
-  CRITICAL
-}
-
-enum TodoStatus {
-  NOT_STARTED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-}
-
 model User {
   id        String @id @default(uuid())
   username  String @unique
@@ -49,8 +36,8 @@ model Todo {
   userId      String
   title       String // 25 chars max
   details     String // 300 chars max
-  priority    TodoPriority
-  status      TodoStatus
+  priority    Int
+  status      Int
   createdAt   DateTime
   dueAt       DateTime
   completedAt DateTime?
