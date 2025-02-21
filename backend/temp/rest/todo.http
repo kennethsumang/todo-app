@@ -1,0 +1,27 @@
+GET {{url}}/api/todos
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+POST {{url}}/api/todos
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+{
+    "title": "Todo 1",
+    "details": "Todo 1 Details",
+    "status": "NOT_STARTED",
+    "priority": "LOW",
+    "dueAt": "2026-02-20T12:43:16.994Z"
+}
+
+###
+PUT {{url}}/api/todos/6f83a4e6-bd31-4fa1-a15b-66ffcb5ad177
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+{
+    "details": "Todo 1 Details Edited 1"
+}
