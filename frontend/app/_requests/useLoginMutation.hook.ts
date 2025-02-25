@@ -1,6 +1,7 @@
 // hooks/useLoginMutation.ts
 import { useMutation } from '@tanstack/react-query';
 import ApiError from '../_exception/api.error';
+import { AuthUserState } from '../_types/auth';
 
 interface LoginPayload {
   username: string;
@@ -8,8 +9,9 @@ interface LoginPayload {
 }
 
 interface LoginResponse {
-  token: string;
-  // include additional fields returned by your API if needed
+  accessToken: string;
+  refreshToken: string;
+  user: AuthUserState;
 }
 
 const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {

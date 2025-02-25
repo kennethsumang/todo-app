@@ -8,12 +8,14 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useEffect, useRef, useState } from "react";
 import { useLoginMutation } from "@/app/_requests/useLoginMutation.hook";
 import { Id, toast } from "react-toastify";
+import useAuthStore from "@/app/_store/auth.store";
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ username?: string, password?: string}>({});
   const { mutate, data, error, status } = useLoginMutation();
+  const { setUser, setAccessToken } = useAuthStore();
   const toastId = useRef<Id|null>(null);
 
   useEffect(() => {
@@ -29,6 +31,8 @@ export default function LoginForm() {
         return;
       case 'success':
         toast.update(toastId.current!, { type: 'success', render: 'Logged in successfully!', autoClose: 3000 });
+        setUser(data.user);
+        setAccessToken(data.accessToken);
         return;
     }
   }, [error, data, status]);
