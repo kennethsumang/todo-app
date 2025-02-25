@@ -5,12 +5,33 @@ import classes from "./LoginForm.module.css";
 import CustomDivider from "../../common/CustomDivider/CustomDivider";
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import { GoogleLogin } from '@react-oauth/google';
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useLoginMutation } from "@/app/_requests/useLoginMutation.hook";
+import { Id, toast } from "react-toastify";
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ username?: string, password?: string}>({});
+  const { mutate, data, error, status } = useLoginMutation();
+  const toastId = useRef<Id|null>(null);
+
+  useEffect(() => {
+    switch (status) {
+      case 'idle':
+        return;
+      case 'pending':
+        toastId.current = toast.info('Logging you in...', { toastId: 'login', autoClose: false });
+        return;
+      case 'error':
+        const message = error.code === 400 ? 'Invalid credentials' : 'An unexpected error has occurred.';
+        toast.update(toastId.current!, { type: 'error', render: message, autoClose: 3000 });
+        return;
+      case 'success':
+        toast.update(toastId.current!, { type: 'success', render: 'Logged in successfully!', autoClose: 3000 });
+        return;
+    }
+  }, [error, data, status]);
 
   async function handleSigninButtonClick() {
     let hasErrors = false;
@@ -27,6 +48,7 @@ export default function LoginForm() {
 
     if (!hasErrors) {
       setErrors({});
+      mutate({ username, password });
     } else {
       setErrors(errors);
     }
