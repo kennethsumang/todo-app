@@ -1,22 +1,22 @@
 "use client";
 
 import { Button, Link, Stack, TextField, Typography } from "@mui/material";
-import classes from "./LoginForm.module.css";
 import CustomDivider from "../../common/CustomDivider/CustomDivider";
-import FacebookLogin from '@greatsumini/react-facebook-login';
-import { GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from "@greatsumini/react-facebook-login";
+import { GoogleLogin } from "@react-oauth/google";
+import classes from "./SignupForm.module.css";
 
-export default function LoginForm() {
+export default function SignupForm() {
   return (
     <Stack spacing={{ xs: 1, lg: 2 }}>
-      <span className={classes.signInSpan}>Sign in</span>
+      <span className={classes.signupSpan}>Create an account</span>
       <TextField label="User Name" size="small" />
       <TextField type="password" size="small" label="Password" />
       <Button variant="contained">Sign in</Button>
       <Typography align="center">
-        {`Don't have an account?`}
+        {`Already have an account?`}
         &nbsp;
-        <Link href="/register">Sign up.</Link>
+        <Link href="/">Sign in.</Link>
       </Typography>
       <CustomDivider>OR</CustomDivider>
       <FacebookLogin
