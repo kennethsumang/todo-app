@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import { Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./_providers/Providers";
 import { ToastContainer } from "react-toastify";
-
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-sans",
-  subsets: ["latin"]
-});
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 export const metadata: Metadata = {
   title: "Todo Application",
@@ -21,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoMono.variable}`}>
+      <body>
         <Providers>
           <ToastContainer />
           {children}
