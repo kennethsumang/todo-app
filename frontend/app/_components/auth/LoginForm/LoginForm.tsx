@@ -8,7 +8,7 @@ import { GoogleLogin } from '@react-oauth/google';
 
 export default function LoginForm() {
   return (
-    <Stack spacing={{ xs: 1 }}>
+    <Stack spacing={{ xs: 1, lg: 2 }}>
       <span className={classes.signInSpan}>Sign in</span>
       <TextField label="User Name" size="small" />
       <TextField type="password" size="small" label="Password" />

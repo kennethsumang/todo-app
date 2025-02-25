@@ -1,13 +1,16 @@
-import classes from "./Layout.module.css";
-
 interface Props {
   children: React.ReactNode;
 }
 
 const AuthLayout: React.FC<Props> = function (props) {
   return (
-    <div className={classes.layoutContainer}>
-      <div className={classes.mainContainer}>
+    <div style={{ height: '100vh' }}>
+      <div style={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}>
         {props.children}
       </div>
     </div>
