@@ -10,7 +10,7 @@ interface LoginPayload {
 
 interface LoginResponse {
   accessToken: string;
-  refreshToken: string;
+  // refreshToken: string;
   user: AuthUserState;
 }
 
