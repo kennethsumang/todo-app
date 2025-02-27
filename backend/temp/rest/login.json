@@ -1,0 +1,12 @@
+{
+  "data": {
+    "user": {
+      "id": "8ba384bc-0373-462b-8196-d35af7813739",
+      "username": "admin",
+      "createdAt": "2025-02-20T04:20:21.360Z",
+      "updatedAt": null
+    },
+    "accessToken": "eyJhbGciOiJSUzI1NiJ9.eyJpZCI6IjhiYTM4NGJjLTAzNzMtNDYyYi04MTk2LWQzNWFmNzgxMzczOSIsInVzZXJuYW1lIjoiYWRtaW4iLCJjcmVhdGVkQXQiOiIyMDI1LTAyLTIwVDA0OjIwOjIxLjM2MFoiLCJ1cGRhdGVkQXQiOm51bGwsImlhdCI6MTc0MDA1NzE2NCwiZXhwIjoxNzQwMDY0MzY0LCJpc3MiOiJjb20ua2VubmV0aHN1bWFuZy50b2RvIiwiYXVkIjoiY29tLmtlbm5ldGhzdW1hbmcudG9kbyJ9.pdiZVR8nXaYwIKcvmR0hIXLRgKU156ri25wuzJC402mCHidayFNuJWvrASb4hHM5WAbWqoNm2DBYfaGI4aQt8GQCHfukO2IFcWaAMhUNDnWVYN8Ir43jXeCwjHMJMhy1pVdN9Do3xBnJqcFpFT58V55Mgc67Fe1ibybA91FEdFBkkB9h-70YTxrtRlW_dIgDtnQdXld5oGGp84QfEcswl9V7hPEYT294GS_Edj5wVZ-NR68aqHdlYtayJCt-UFtZqwrXyc6MrfiaJENZ-nUiQNp0dpRx6rzDifOG4ebRaKYOVs6eKVMWj--kXD7CiK1alC3bvcjLeGJE5NyfgV8q8A",
+    "refreshToken": "5ae438fff56043218e7365e2a5991cfe6edc4ebf0513cacabce8cabfd32163c104126e320098d3b964d3f06aedd4d7b540a1bc0be8fda48a2d0576228a906f96"
+  }
+}

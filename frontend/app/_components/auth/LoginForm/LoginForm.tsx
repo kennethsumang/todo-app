@@ -9,13 +9,21 @@ import { useEffect, useRef, useState } from "react";
 import { useLoginMutation } from "@/app/_requests/useLoginMutation.hook";
 import { Id, toast } from "react-toastify";
 import useAuthStore from "@/app/_store/auth.store";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCurrentProfile } from "@/app/_requests/user/useGetCurrentProfile.request";
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ username?: string, password?: string}>({});
   const { mutate, data, error, status } = useLoginMutation();
-  const { setUser, setAccessToken } = useAuthStore();
+  const { accessToken, setUser, setAccessToken } = useAuthStore();
+  const queryResponse = useQuery({
+    queryKey: ['currentUser', accessToken],
+    queryFn: () => getCurrentProfile(accessToken!),
+    enabled: !!accessToken,
+  });
+  const queryClient = useQueryClient();
   const toastId = useRef<Id|null>(null);
 
   useEffect(() => {
@@ -35,7 +43,7 @@ export default function LoginForm() {
         setAccessToken(data.accessToken);
         return;
     }
-  }, [error, data, status]);
+  }, [error, data, status, setUser, setAccessToken]);
 
   async function handleSigninButtonClick() {
     let hasErrors = false;
@@ -52,7 +60,16 @@ export default function LoginForm() {
 
     if (!hasErrors) {
       setErrors({});
-      mutate({ username, password });
+      mutate(
+        { username, password },
+        {
+          onSuccess: (data) => {
+            setAccessToken(data.accessToken);
+            queryResponse.refetch().then((data) => console.log(data));
+          }
+        }
+      );
+      queryClient.getQueryData(['currentUser']);
     } else {
       setErrors(errors);
     }
