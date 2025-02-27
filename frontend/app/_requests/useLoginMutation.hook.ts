@@ -19,6 +19,7 @@ const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+    credentials: 'include',
   });
 
   const data = await response.json();
@@ -40,6 +41,6 @@ const loginUserWithDelay = async (payload: LoginPayload): Promise<LoginResponse>
 
 export const useLoginMutation = () => {
   return useMutation<LoginResponse, ApiError, LoginPayload>({
-    mutationFn: loginUserWithDelay,
+    mutationFn: loginUser,
   });
 };

@@ -1,10 +1,21 @@
+import _ from 'lodash';
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import type { NextRequest } from 'next/server';
+import { AuthUserState } from '@/app/_types/auth';
+
+interface LoginResponseData {
+  user: AuthUserState;
+  accessToken: string;
+  refreshToken: string;
+}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     // Parse the JSON body from the request
     const { username, password } = await request.json();
+    const cookieStore = await cookies();
+    const refreshToken = cookieStore.get('refreshToken')?.value;
 
     if (!username || !password) {
       return NextResponse.json(
@@ -20,9 +31,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const response = await fetch(`${backendUrl}/api/auth/login`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Cookie: `refreshToken=${refreshToken}`
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
+      credentials: 'include',
     });
 
     const data = await response.json();
@@ -34,8 +47,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    const responseData = data as LoginResponseData;
+
     // Return the successful response to the client
-    return NextResponse.json(data, { status: 200 });
+    const dataToReturn = _.omit(responseData, 'refreshToken');
+    return NextResponse.json(dataToReturn, { status: 200 });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
