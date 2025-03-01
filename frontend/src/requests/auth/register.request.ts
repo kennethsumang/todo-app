@@ -25,8 +25,8 @@ export class RegisterRequest extends BaseRequest<
   method = "POST";
 }
 
-export default async function requestLogin(credentials: RegisterPayload) {
+export default async function requestRegister(payload: RegisterPayload) {
   return await new RegisterRequest().request({
-    body: credentials,
+    body: payload,
   });
 }

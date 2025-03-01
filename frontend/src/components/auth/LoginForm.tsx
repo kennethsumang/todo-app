@@ -27,10 +27,6 @@ export default function LoginForm() {
 
   function handleFormSubmit(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     event.preventDefault();
-    handleSigninButtonClick();
-  }
-
-  async function handleSigninButtonClick() {
     let hasErrors = false;
     let errors: { username?: string, password?: string} = {}
     if (!username) {
