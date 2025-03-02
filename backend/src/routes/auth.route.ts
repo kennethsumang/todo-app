@@ -9,6 +9,6 @@ const authController = container.get(AuthController);
 router.post('/login', asyncHandler(authController.login.bind(authController)));
 router.post('/logout', asyncHandler(authController.logout.bind(authController)));
 router.post('/register', asyncHandler(authController.register.bind(authController)));
-router.post('/refreshToken', asyncHandler(authController.refreshToken.bind(authController)));
+router.post('/refresh-token', asyncHandler(authController.refreshToken.bind(authController)));
 
 export default router;
