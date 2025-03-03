@@ -31,50 +31,6 @@ export default class BaseRequest<T extends RequestOptions, U> {
         ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
         "Content-Type": "application/json",
       },
-      credentials: "include",
-    };
-
-    if (options.body) {
-      fetchOptions.body = JSON.stringify(options.body);
-    }
-
-    if (options.headers) {
-      fetchOptions.headers = { ...fetchOptions.headers, ...options.headers };
-    }
-
-    const response = await fetch(url.toString(), fetchOptions);
-    if (!response.ok) {
-      throw new ApiError(response.statusText, response.status);
-    }
-
-    const responseData = await response.json();
-    return responseData.data as U;
-  }
-
-  async serverRequest(options: T): Promise<U> {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { cookies } = require("next/headers");
-    const cookieStore = await cookies();
-    const allCookies = await cookieStore.getAll();
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      throw new Error("Invalid API URL.");
-    }
-
-    const replacedParams = this.replacePlaceholders(this.url, options.params);
-    let url = new URL(`${apiUrl}${replacedParams}`);
-    url = this.appendQueryParams(url, options.query);
-
-    const fetchOptions: RequestInit = {
-      method: this.method,
-      headers: {
-        ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
-        "Content-Type": "application/json",
-        Cookie: _.map(allCookies, (data) => `${data.name}=${data.value};`).join(
-          ""
-        ),
-      },
-      credentials: "include",
     };
 
     if (options.body) {

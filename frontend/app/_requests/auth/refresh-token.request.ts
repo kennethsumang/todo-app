@@ -15,7 +15,3 @@ export class RefreshTokenRequest extends BaseRequest<
 export default async function requestTokenRefresh() {
   return await new RefreshTokenRequest().request({});
 }
-
-export async function serverRequestTokenRefresh() {
-  return await new RefreshTokenRequest().serverRequest({});
-}

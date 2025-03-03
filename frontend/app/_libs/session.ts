@@ -1,11 +1,27 @@
-import "server-only";
+import { SessionOptions, getIronSession } from "iron-session";
 import { cookies } from "next/headers";
+import { AuthUserState } from "../_types/auth";
 
-export async function saveCookie(key: string, name: string) {
-  const cookieStore = await cookies();
+export interface SessionData {
+  user?: AuthUserState;
+  refreshToken?: string;
+  accessToken?: string;
+}
 
-  cookieStore.set(key, name, {
-    httpOnly: true,
-    sameSite: "lax",
-  });
+export const defaultSession: SessionData = {
+  user: undefined,
+  refreshToken: undefined,
+  accessToken: undefined,
+};
+
+export const sessionOptions: SessionOptions = {
+  password: process.env.COOKIE_PASSWORD ?? "",
+  cookieName: process.env.COOKIE_NAME ?? "",
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+  },
+};
+
+export async function getSessionFromServer() {
+  return await getIronSession<SessionData>(await cookies(), sessionOptions);
 }

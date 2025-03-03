@@ -8,8 +8,9 @@ import { SyntheticEvent, useState } from "react";
 import { toast } from "react-toastify";
 import useAuthStore from "@/app/_store/auth.store";
 import { useMutation } from "@tanstack/react-query";
-import requestLogin, { LoginPayload } from "@/app/_requests/auth/login.request";
+import { LoginPayload, LoginResponse } from "@/app/_requests/auth/login.request";
 import { useRouter } from "next/navigation";
+import config from "@/app/_config/app.config";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -18,7 +19,16 @@ export default function LoginForm() {
   const [errors, setErrors] = useState<{ username?: string, password?: string}>({});
   const { setUser, setAccessToken } = useAuthStore();
   const loginMutation = useMutation({
-    mutationFn: (credentials: LoginPayload) => requestLogin(credentials),
+    mutationFn: async (credentials: LoginPayload) => {
+      const response = await fetch(`${config.appUrl}/api/auth/login`, {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return await response.json() as LoginResponse;
+    },
     onSuccess: (data) => {
       setUser(data.user);
       setAccessToken(data.accessToken);

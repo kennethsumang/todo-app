@@ -10,9 +10,9 @@ interface LoginRequestOptions extends RequestOptions {
   body: LoginPayload;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   accessToken: string;
-  // refreshToken: string;
+  refreshToken: string;
   user: AuthUserState;
 }
 
