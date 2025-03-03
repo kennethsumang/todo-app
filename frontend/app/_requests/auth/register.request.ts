@@ -11,15 +11,13 @@ interface RegisterRequestOptions extends RequestOptions {
   body: RegisterPayload;
 }
 
-interface LoginResponse {
-  accessToken: string;
-  // refreshToken: string;
+interface RegisterResponse {
   user: AuthUserState;
 }
 
 export class RegisterRequest extends BaseRequest<
   RegisterRequestOptions,
-  LoginResponse
+  RegisterResponse
 > {
   url = "/api/auth/register";
   method = "POST";

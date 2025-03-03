@@ -118,7 +118,10 @@ export default class AuthService {
 
     const tokenUserData = _.omit(user, 'password');
     const newAccessToken = await this.jwt.create(tokenUserData);
-    return { accessToken: newAccessToken };
+    return {
+      accessToken: newAccessToken,
+      refreshToken: refreshToken,
+    };
   }
 
   async logout(refreshToken: string|undefined, userId: string|undefined): Promise<{ result: boolean }> {
