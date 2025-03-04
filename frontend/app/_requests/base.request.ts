@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import _ from "lodash";
 import ApiError from "../_exceptions/api.error";
 
 export interface RequestOptions {
   token?: string;
   body?: Record<string, any>;
   params?: Record<string, string>;
-  query?: Record<string, string>;
+  query?: Record<string, any>;
   headers?: Record<string, string>;
   cookie?: Record<string, any>;
 }
@@ -63,7 +62,10 @@ export default class BaseRequest<T extends RequestOptions, U> {
     });
   }
 
-  appendQueryParams(url: URL, params: Record<string, string> | undefined): URL {
+  appendQueryParams(
+    url: URL,
+    params: Record<string, string | number> | undefined
+  ): URL {
     if (!params) {
       return url;
     }

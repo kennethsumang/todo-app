@@ -11,8 +11,8 @@ Authorization: Bearer {{accessToken}}
 {
     "title": "Todo 1",
     "details": "Todo 1 Details",
-    "status": "NOT_STARTED",
-    "priority": "LOW",
+    "status": 1,
+    "priority": 1,
     "dueAt": "2026-02-20T12:43:16.994Z"
 }
 

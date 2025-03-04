@@ -1,0 +1,15 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+export function convertUtcToUserTimezone(
+  date: Date | string,
+  format: string = "MM/DD/YYYY"
+): string {
+  const userTz = dayjs.tz.guess();
+  const utcDate = dayjs.utc(date).tz(userTz);
+  return utcDate.format(format);
+}
