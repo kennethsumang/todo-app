@@ -15,21 +15,21 @@ export default class BaseRequest<T extends RequestOptions, U> {
   method: string = "GET";
 
   async request(options: T): Promise<U> {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiUrl) {
-      throw new Error("Invalid API URL.");
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+    if (!appUrl) {
+      throw new Error("Invalid URL.");
     }
 
     const replacedParams = this.replacePlaceholders(this.url, options.params);
-    let url = new URL(`${apiUrl}${replacedParams}`);
+    let url = new URL(`${appUrl}${replacedParams}`);
     url = this.appendQueryParams(url, options.query);
 
     const fetchOptions: RequestInit = {
       method: this.method,
       headers: {
-        ...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
         "Content-Type": "application/json",
       },
+      credentials: "include",
     };
 
     if (options.body) {
@@ -41,14 +41,19 @@ export default class BaseRequest<T extends RequestOptions, U> {
     }
 
     const response = await fetch(url.toString(), fetchOptions);
-    if (!response.ok) {
-      throw new ApiError(response.statusText, response.status);
+    if (response.ok) {
+      const responseData = await response.json();
+      return responseData.data as U;
     }
 
-    const responseData = await response.json();
-    return responseData.data as U;
+    throw new ApiError(response.statusText, response.status);
   }
 
+  /**
+   * Replace placeholders in URL params
+   * @param {string} template
+   * @param {Record<string, string>|undefined} values
+   */
   replacePlaceholders(
     template: string,
     values: Record<string, string> | undefined
@@ -62,6 +67,11 @@ export default class BaseRequest<T extends RequestOptions, U> {
     });
   }
 
+  /**
+   * Appends query params to the URL
+   * @param {URL} url
+   * @param {Record<string, string|number>|undefined} params
+   */
   appendQueryParams(
     url: URL,
     params: Record<string, string | number> | undefined

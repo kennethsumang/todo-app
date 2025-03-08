@@ -15,7 +15,7 @@ export interface TodoResponse {
   data: TodoItem[];
 }
 
-export class LoginRequest extends BaseRequest<
+export class TodoRequest extends BaseRequest<
   TodoRequestOptions,
   TodoResponse
 > {
@@ -25,10 +25,8 @@ export class LoginRequest extends BaseRequest<
 
 export default async function requestTodoList(
   filters: TodoFilters,
-  token: string
 ) {
-  return await new LoginRequest().request({
-    token,
+  return await new TodoRequest().request({
     query: filters,
   });
 }

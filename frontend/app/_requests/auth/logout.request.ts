@@ -1,29 +1,18 @@
-import { AuthUserState } from "../../_types/auth";
 import BaseRequest, { RequestOptions } from "../base.request";
 
-export interface LogoutPayload {
-  refreshToken: string;
-  userId: string;
-}
-
-interface LogoutRequestOptions extends RequestOptions {
-  body: LogoutPayload;
-}
 
 export interface LogoutResponse {
-  result: boolean;
+  success: boolean;
 }
 
-export class LoginRequest extends BaseRequest<
-  LogoutRequestOptions,
+export class LogoutRequest extends BaseRequest<
+  RequestOptions,
   LogoutResponse
 > {
   url = "/api/auth/logout";
   method = "POST";
 }
 
-export default async function requestLogout(payload: LogoutPayload) {
-  return await new LoginRequest().request({
-    body: payload,
-  });
+export default async function requestLogout() {
+  return await new LogoutRequest().request({});
 }

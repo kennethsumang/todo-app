@@ -1,6 +1,4 @@
-import { getSessionFromServer } from "@/app/_libs/session";
-import requestLogin from "@/app/_requests/auth/login.request";
-import { ApiError } from "next/dist/server/api-utils";
+import {getSessionFromServer, SessionData} from "@/app/_libs/session";
 
 export async function POST(request: Request) {
   const session = await getSessionFromServer();
@@ -18,37 +16,35 @@ export async function POST(request: Request) {
     );
   }
 
-  try {
-    const response = await requestLogin({
-      username: body.username,
-      password: body.password,
-    });
-    session.user = response.user;
-    session.refreshToken = response.refreshToken;
-    session.accessToken = response.accessToken;
-    await session.save();
-    return Response.json(response, { status: 200 });
-  } catch (e) {
-    if (e instanceof ApiError) {
-      return Response.json(
-        {
-          error: {
-            code: e.statusCode,
-            message: e.message,
-          },
-        },
-        { status: e.statusCode, statusText: e.message }
-      );
-    }
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`);
+  const response = await fetch(
+    url.toString(),
+    {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    },
+  );
 
+  if (!response.ok) {
     return Response.json(
       {
         error: {
-          code: 500,
-          message: (e as Error).message,
+          code: response.status,
+          message: response.statusText,
         },
       },
-      { status: 500, statusText: (e as Error).message }
+      { status: response.status, statusText: response.statusText }
     );
   }
+
+  const responseJson = await response.json();
+  const responseData = responseJson.data as SessionData;
+  session.user = responseData.user;
+  session.refreshToken = responseData.refreshToken;
+  session.accessToken = responseData.accessToken;
+  await session.save();
+  return Response.json(responseJson, { status: 200 });
 }

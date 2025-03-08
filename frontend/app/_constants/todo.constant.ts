@@ -1,14 +1,14 @@
 const statuses = {
-  NOT_STARTED: 0,
-  IN_PROGRESS: 1,
-  COMPLETED: 2,
-  CANCELLED: 3,
+  "Not Started": 0,
+  "In Progress": 1,
+  "Completed": 2,
+  "Cancelled": 3,
 };
 
 const priorities = {
-  LOW: 0,
-  HIGH: 1,
-  CRITICAL: 2,
+  "Low": 0,
+  "High": 1,
+  "Critical": 2,
 };
 
 const statusValueToLabel: Record<string, string> = {

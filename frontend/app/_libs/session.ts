@@ -1,6 +1,7 @@
 import { SessionOptions, getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { AuthUserState } from "../_types/auth";
+import {NextRequest, NextResponse} from "next/server";
 
 export interface SessionData {
   user?: AuthUserState;
@@ -24,4 +25,8 @@ export const sessionOptions: SessionOptions = {
 
 export async function getSessionFromServer() {
   return await getIronSession<SessionData>(await cookies(), sessionOptions);
+}
+
+export async function getSessionFromApiRoute(req: NextRequest) {
+  return await getIronSession<SessionData>(req, new NextResponse, sessionOptions);
 }

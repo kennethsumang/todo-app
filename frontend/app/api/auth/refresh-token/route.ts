@@ -1,12 +1,9 @@
-import { getSessionFromServer } from "@/app/_libs/session";
-import requestTokenRefresh from "@/app/_requests/auth/refresh-token.request";
-import { ApiError } from "next/dist/server/api-utils";
+import {getSessionFromServer, SessionData} from "@/app/_libs/session";
 
-export async function POST(request: Request) {
+export async function POST() {
   const session = await getSessionFromServer();
-  const body = await request.json();
 
-  if (!body.refreshToken || !body.userId) {
+  if (!session.refreshToken || !session.user?.id) {
     return Response.json(
       {
         error: {
@@ -18,37 +15,38 @@ export async function POST(request: Request) {
     );
   }
 
-  try {
-    const response = await requestTokenRefresh({
-      userId: body.userId,
-      refreshToken: body.refreshToken,
-    });
-    session.user = response.user;
-    session.refreshToken = response.refreshToken;
-    session.accessToken = response.accessToken;
-    await session.save();
-    return Response.json(response, { status: 200 });
-  } catch (e) {
-    if (e instanceof ApiError) {
-      return Response.json(
-        {
-          error: {
-            code: e.statusCode,
-            message: e.message,
-          },
-        },
-        { status: e.statusCode, statusText: e.message }
-      );
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`);
+  const response = await fetch(
+    url.toString(),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refreshToken: session.refreshToken!,
+        userId: session.user!.id,
+      })
     }
+  );
 
+  if (!response.ok) {
     return Response.json(
       {
         error: {
-          code: 500,
-          message: (e as Error).message,
+          code: response.status,
+          message: response.statusText,
         },
       },
-      { status: 500, statusText: (e as Error).message }
+      { status: response.status, statusText: response.statusText }
     );
   }
+
+  const responseJson = await response.json();
+  const responseData = responseJson.data as SessionData;
+  session.user = responseData.user;
+  session.refreshToken = responseData.refreshToken;
+  session.accessToken = responseData.accessToken;
+  await session.save();
+  return Response.json(response, { status: 200 });
 }

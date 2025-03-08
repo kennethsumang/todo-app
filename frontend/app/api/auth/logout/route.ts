@@ -1,6 +1,4 @@
 import { getSessionFromServer } from "@/app/_libs/session";
-import requestLogout from "@/app/_requests/auth/logout.request";
-import { ApiError } from "next/dist/server/api-utils";
 
 export async function POST() {
   const session = await getSessionFromServer();
@@ -19,34 +17,33 @@ export async function POST() {
     );
   }
 
-  try {
-    const response = await requestLogout({
-      userId,
-      refreshToken,
-    });
-    session.destroy();
-    return Response.json(response, { status: 200 });
-  } catch (e) {
-    if (e instanceof ApiError) {
-      return Response.json(
-        {
-          error: {
-            code: e.statusCode,
-            message: e.message,
-          },
-        },
-        { status: e.statusCode, statusText: e.message }
-      );
-    }
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`);
+  const response = await fetch(
+    url.toString(),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refreshToken: refreshToken,
+        userId: userId,
+      }),
+    },
+  );
 
+  if (!response.ok) {
     return Response.json(
       {
         error: {
-          code: 500,
-          message: (e as Error).message,
+          code: response.status,
+          message: response.statusText,
         },
       },
-      { status: 500, statusText: (e as Error).message }
+      { status: response.status, statusText: response.statusText }
     );
   }
+
+  session.destroy();
+  return Response.json({ success: true }, { status: 200 });
 }
