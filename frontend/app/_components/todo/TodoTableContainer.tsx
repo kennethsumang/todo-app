@@ -1,13 +1,10 @@
 "use client";
 
-import { priorityValueToLabel, statusValueToLabel } from "@/app/_constants/todo.constant";
-import { convertUtcToUserTimezone } from "@/app/_libs/date";
+import { convertUtcToUserTimezone, getUtcDate } from "@/app/_libs/date";
 import { TodoItem } from "@/app/_types/todo";
 import {
   Button,
   Checkbox,
-  Chip,
-  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -23,7 +20,45 @@ import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 
 export default function TodoTableContainer() {
-  const { todos, filters } = useTodoStore();
+  // const { todos, filters } = useTodoStore();
+  const todos: TodoItem[] = [
+    {
+      id: 'a03d3c40-4485-4a82-8473-de42dfa2c401',
+      userId: 'test',
+      title: 'Prepare for developer meeting discussion',
+      details: 'Prepare notes and things to remember for the meeting.',
+      status: 2,
+      priority: 0,
+      createdAt: getUtcDate().toString(),
+      dueAt: getUtcDate().toString(),
+      completedAt: null,
+      updatedAt: null,
+    },
+    {
+      id: '34cc1e47-4906-4974-ad72-61d49a3cf04b',
+      userId: 'test',
+      title: 'Prepare Materials for Sprint Review',
+      details: 'Prepare documentation and slides for the finished stories.',
+      status: 1,
+      priority: 2,
+      createdAt: getUtcDate().toString(),
+      dueAt: getUtcDate().toString(),
+      completedAt: null,
+      updatedAt: null,
+    },
+    {
+      id: '34a9a2a3-2eba-4348-8e76-f501a95262c1',
+      userId: 'test',
+      title: 'Conduct onboarding for new hires',
+      details: 'Prepare and conduct onboarding meetings about application functionalities.',
+      status: 0,
+      priority: 1,
+      createdAt: getUtcDate().toString(),
+      dueAt: getUtcDate().toString(),
+      completedAt: null,
+      updatedAt: null,
+    }
+  ]
 
   return (
     <Paper square={false} className="flex flex-row justify-between p-2">

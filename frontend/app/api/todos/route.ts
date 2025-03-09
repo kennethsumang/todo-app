@@ -1,4 +1,4 @@
-import { getSessionFromApiRoute, SessionData } from "@/app/_libs/session";
+import { getSessionFromApiRoute } from "@/app/_libs/session";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res: NextResponse) {
