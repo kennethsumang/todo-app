@@ -32,7 +32,7 @@ export default function LoginForm() {
     onSuccess: (data) => {
       setUser(data.user);
       setAccessToken(data.accessToken);
-      router.push('/app');
+      router.push('/todos');
     },
     onError: (error) => {
       console.error(error);

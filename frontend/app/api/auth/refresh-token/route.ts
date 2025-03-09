@@ -1,6 +1,7 @@
-import {getSessionFromServer, SessionData} from "@/app/_libs/session";
+import { getSessionFromServer, SessionData } from "@/app/_libs/session";
 
 export async function POST() {
+  console.log("Executing POST /api/auth/refresh-token.");
   const session = await getSessionFromServer();
 
   if (!session.refreshToken || !session.user?.id) {
@@ -15,20 +16,19 @@ export async function POST() {
     );
   }
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`);
-  const response = await fetch(
-    url.toString(),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refreshToken: session.refreshToken!,
-        userId: session.user!.id,
-      })
-    }
+  const url = new URL(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh-token`
   );
+  const response = await fetch(url.toString(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refreshToken: session.refreshToken!,
+      userId: session.user!.id,
+    }),
+  });
 
   if (!response.ok) {
     return Response.json(

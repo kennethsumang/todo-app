@@ -1,7 +1,7 @@
 import { SessionOptions, getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { AuthUserState } from "../_types/auth";
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export interface SessionData {
   user?: AuthUserState;
@@ -20,13 +20,28 @@ export const sessionOptions: SessionOptions = {
   cookieName: process.env.COOKIE_NAME ?? "",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite: "lax",
   },
 };
 
 export async function getSessionFromServer() {
-  return await getIronSession<SessionData>(await cookies(), sessionOptions);
+  const sessionStore = await getIronSession<SessionData>(
+    await cookies(),
+    sessionOptions
+  );
+  console.log(`Session: ${JSON.stringify(sessionStore)}`);
+  return sessionStore;
 }
 
-export async function getSessionFromApiRoute(req: NextRequest) {
-  return await getIronSession<SessionData>(req, new NextResponse, sessionOptions);
+export async function getSessionFromApiRoute(
+  req: NextRequest,
+  res: NextResponse
+) {
+  const sessionStore = await getIronSession<SessionData>(
+    req,
+    res,
+    sessionOptions
+  );
+  return sessionStore;
 }

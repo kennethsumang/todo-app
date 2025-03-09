@@ -10,3 +10,10 @@ export interface TodoItem {
   completedAt: Date | string | null;
   updatedAt: Date | string | null;
 }
+
+export interface TodoFilters {
+  userId?: string;
+  id?: string;
+  page?: number;
+  limit?: number;
+}

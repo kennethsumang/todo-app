@@ -1,7 +1,9 @@
-import { getSessionFromServer } from "@/app/_libs/session";
+import { getSessionFromApiRoute } from "@/app/_libs/session";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST() {
-  const session = await getSessionFromServer();
+export async function POST(req: NextRequest, res: NextResponse) {
+  console.log("Executing POST /api/auth/logout.");
+  const session = await getSessionFromApiRoute(req, res);
   const userId = session.user?.id;
   const refreshToken = session.refreshToken;
 
@@ -18,19 +20,16 @@ export async function POST() {
   }
 
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`);
-  const response = await fetch(
-    url.toString(),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refreshToken: refreshToken,
-        userId: userId,
-      }),
+  const response = await fetch(url.toString(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({
+      refreshToken: refreshToken,
+      userId: userId,
+    }),
+  });
 
   if (!response.ok) {
     return Response.json(

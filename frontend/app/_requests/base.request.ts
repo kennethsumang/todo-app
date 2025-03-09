@@ -27,9 +27,11 @@ export default class BaseRequest<T extends RequestOptions, U> {
     const fetchOptions: RequestInit = {
       method: this.method,
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
       },
       credentials: "include",
+      mode: "same-origin",
     };
 
     if (options.body) {
@@ -77,6 +79,10 @@ export default class BaseRequest<T extends RequestOptions, U> {
     params: Record<string, string | number> | undefined
   ): URL {
     if (!params) {
+      return url;
+    }
+
+    if (Object.keys(params).length === 0) {
       return url;
     }
 

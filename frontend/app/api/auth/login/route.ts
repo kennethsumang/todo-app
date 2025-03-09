@@ -1,6 +1,7 @@
-import {getSessionFromServer, SessionData} from "@/app/_libs/session";
+import { getSessionFromServer, SessionData } from "@/app/_libs/session";
 
 export async function POST(request: Request) {
+  console.log("Executing POST /api/auth/login.");
   const session = await getSessionFromServer();
   const body = await request.json();
 
@@ -17,16 +18,13 @@ export async function POST(request: Request) {
   }
 
   const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`);
-  const response = await fetch(
-    url.toString(),
-    {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      }
+  const response = await fetch(url.toString(), {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+  });
 
   if (!response.ok) {
     return Response.json(
