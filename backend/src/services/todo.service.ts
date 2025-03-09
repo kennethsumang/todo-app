@@ -18,6 +18,11 @@ export default class TodoService {
     @inject(TodoRepository) private readonly todoRepository: TodoRepository,
   ) {}
 
+  /**
+   * Creates a new record
+   * @param {Record<string, unknown>} data
+   * @param {string|undefined} userId
+   */
   async createTodo(data: Record<string, unknown>, userId: string|undefined): Promise<Todo> {
     const validated = (new CreateTodoValidator).validate<CreateTodoDto>(data);
 
@@ -34,6 +39,11 @@ export default class TodoService {
     return await this.todoRepository.createTodo(validated, userId);
   }
 
+  /**
+   * Fetch todos
+   * @param {Record<string, unknown>} filters
+   * @param {string|undefined} userId
+   */
   async fetchTodo(filters: Record<string, unknown>, userId: string|undefined): Promise<Todo[]> {
     if (!userId) {
       throw new BadRequestError('Missing userId.');
@@ -50,6 +60,39 @@ export default class TodoService {
     return await this.todoRepository.fetchTodos(validated, userId);
   }
 
+  /**
+   * Fetch specific record
+   * @param {string|undefined} todoId
+   * @param {string|undefined} userId
+   */
+  async fetchSpecificTodo(todoId: string|undefined, userId: string|undefined): Promise<Todo> {
+    if (!userId) {
+      throw new BadRequestError('Missing userId.');
+    }
+
+    if (!todoId) {
+      throw new BadRequestError('Missing todoId.');
+    }
+
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.');
+    }
+
+    const todo = await this.todoRepository.getTodoById(todoId, userId);
+    if (!todo) {
+      throw new BadRequestError('Todo not found.');
+    }
+
+    return todo;
+  }
+
+  /**
+   * Updates a record
+   * @param {string|undefined} todoId
+   * @param {Record<string, unknown>} data
+   * @param {string|undefined} userId
+   */
   async updateTodo(todoId: string|undefined, data: Record<string, unknown>, userId: string|undefined): Promise<Todo> {
     if (!todoId) {
       throw new BadRequestError('Missing todoId.');
@@ -74,6 +117,11 @@ export default class TodoService {
     return await this.todoRepository.updateTodo(todoId, validated, userId);
   }
 
+  /**
+   * Delete a record
+   * @param {string|undefined} todoId
+   * @param {string|undefined} userId
+   */
   async deleteTodo(todoId: string|undefined, userId: string|undefined): Promise<{ result: boolean }> {
     if (!todoId) {
       throw new BadRequestError('Missing todoId.');

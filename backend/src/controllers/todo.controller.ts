@@ -21,6 +21,11 @@ export default class TodoController {
     return { todos: todos };
   }
 
+  async fetchSpecificTodo(req: Request, res: Response) {
+    const todo = await this.todoService.fetchSpecificTodo(req.params?.todoId, req.user?.id);
+    return { todo };
+  }
+
   async remove(req: Request, res: Response) {
     return this.todoService.deleteTodo(req.params?.todoId, req.user?.id);
   }

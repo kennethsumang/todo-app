@@ -10,7 +10,7 @@ export default class TodoRepository {
   constructor(@inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
   async createTodo(data: CreateTodoDto, userId: string): Promise<Todo> {
-    return await this.prisma
+    return this.prisma
       .todo
       .create({
         data: {
@@ -27,7 +27,7 @@ export default class TodoRepository {
       whereQuery.id = filters.id;
     }
     
-    return await this.prisma
+    return this.prisma
       .todo
       .findMany({
         where: whereQuery,
@@ -37,7 +37,7 @@ export default class TodoRepository {
   }
 
   async getTodoById(todoId: string, userId: string): Promise<Todo|null> {
-    return await this.prisma
+    return this.prisma
       .todo
       .findFirst({
         where: {
@@ -48,7 +48,7 @@ export default class TodoRepository {
   }
 
   async updateTodo(todoId: string, data: UpdateTodoDto, userId: string): Promise<Todo> {
-    return await this.prisma
+    return this.prisma
       .todo
       .update({
         where: {
@@ -63,7 +63,7 @@ export default class TodoRepository {
   }
 
   async deleteTodo(todoId: string, userId: string): Promise<Todo> {
-    return await this.prisma
+    return this.prisma
       .todo
       .delete({
         where: {
