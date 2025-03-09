@@ -16,6 +16,7 @@ const AppDrawer: React.FC<Props> = ({ username }) => {
         '& .MuiDrawer-paper': {
           width: 240,
           boxSizing: 'border-box',
+          borderRight: 'none',
         },
       }}
       variant="persistent"

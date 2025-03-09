@@ -13,3 +13,7 @@ export function convertUtcToUserTimezone(
   const utcDate = dayjs.utc(date).tz(userTz);
   return utcDate.format(format);
 }
+
+export function getUtcDate(): Date {
+  return dayjs.utc().toDate();
+}
