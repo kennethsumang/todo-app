@@ -5,6 +5,7 @@ import { TodoItem } from "@/app/_types/todo";
 import {
   Button,
   Checkbox,
+  Link,
   Paper,
   Table,
   TableBody,
@@ -121,7 +122,11 @@ export default function TodoTableContainer() {
                     checked={false}
                   />
                 </TableCell>
-                <TableCell>{todo.title}</TableCell>
+                <TableCell>
+                  <Link href={`/todos/${todo.id}`} className="!text-black !underline !decoration-black">
+                    {todo.title}
+                  </Link>
+                </TableCell>
                 <TableCell>{convertUtcToUserTimezone(todo.dueAt)}</TableCell>
                 <TableCell>
                   <TodoPriorityChip priority={todo.priority} />
