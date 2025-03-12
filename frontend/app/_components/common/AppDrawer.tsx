@@ -2,12 +2,15 @@
 
 import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface Props {
   username: string;
 }
 
 const AppDrawer: React.FC<Props> = ({ username }) => {
+  const router = useRouter();
+
   return (
     <Drawer
       sx={{
@@ -33,7 +36,7 @@ const AppDrawer: React.FC<Props> = ({ username }) => {
         <Divider />
         <List>
           <ListItem key="Home" disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => router.push("/todos")}>
               <ListItemIcon>
                 <Image src="/Home.svg" width="24" height="24" alt="home" />
               </ListItemIcon>
