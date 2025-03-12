@@ -17,3 +17,14 @@ export interface TodoFilters {
   page?: number;
   limit?: number;
 }
+
+export interface TodoForm {
+  priority: number;
+  status: number;
+  title: string;
+  dueAt: Date | string;
+  details: string;
+}
+
+export type TodoFormKeys = keyof TodoForm;
+export type TodoFormValues = TodoForm[TodoFormKeys];

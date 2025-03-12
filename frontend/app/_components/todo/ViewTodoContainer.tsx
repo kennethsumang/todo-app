@@ -73,7 +73,7 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
           <Button variant="text">
             <Image src="/Trash.svg" alt="trash icon" width={16} height={16} />
           </Button>
-          <Button variant="text">
+          <Button variant="text" onClick={() => router.push(`/todos/${todoId}/edit`)}>
             <Image src="/Pencil.svg" alt="pencil icon" width={16} height={16} />
           </Button>
         </div>
