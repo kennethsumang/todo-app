@@ -20,7 +20,7 @@ const TodoFormContainer: React.FC<Props> = ({ initialData }) => {
   }, [initialData, setForm]);
 
   return (
-    <div className="pl-24 pr-24">
+    <div className="pl-24 pr-24 pt-8">
       <form>
         <div className="flex flex-col gap-3">
           <div className="flex flex-row gap-3">
