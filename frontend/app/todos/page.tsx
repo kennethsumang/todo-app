@@ -5,7 +5,7 @@ import AppBreadcrumb from "@/app/_components/misc/AppBreadcrumb";
 
 export default async function DashboardPage() {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 h-full w-full">
       <AppBreadcrumb todoId={null} />
       <TodoDashboardContainer />
     </div>

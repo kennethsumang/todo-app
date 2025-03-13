@@ -3,19 +3,30 @@
 import useTodoStore from "@/app/_store/todo.store";
 import TodoFilterContainer from "./TodoFilterContainer";
 import TodoTableContainer from "./TodoTableContainer";
-import { useEffect } from "react";
+import { mockRequestTodoList } from "@/app/_requests/todo/fetch-todos.request";
+import { useQuery } from "@tanstack/react-query";
+import LoadingPage from "../misc/LoadingPage";
 
 export default function TodoDashboardContainer() {
-  const { todos, fetchTodos } = useTodoStore();
+  const { filters } = useTodoStore();
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["todos", filters],
+    queryFn: () => mockRequestTodoList(filters, 500),
+  });
 
-  useEffect(() => {
-    fetchTodos();
-  }, [fetchTodos]);
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+  
+  if (error) {
+    console.error(error);
+    return <></>;
+  }
 
   return (
     <>
       <TodoFilterContainer />
-      <TodoTableContainer  />
+      <TodoTableContainer todos={data?.todos ?? []} />
     </>
   )
 }

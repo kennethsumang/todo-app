@@ -77,6 +77,7 @@ const TodoFormContainer: React.FC<Props> = ({ initialData }) => {
                 label="Date Created"
                 value={toDayjs(convertUtcToUserTimezone(initialData.createdAt))}
                 onChange={() => {}}
+                disabled
               />
             </FormControl>
           )}

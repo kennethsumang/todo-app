@@ -1,15 +1,15 @@
 "use client";
 
 import {useQuery} from "@tanstack/react-query";
-import React, {useEffect} from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import {Button, Divider, Paper} from "@mui/material";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
-import requestSpecificTodo from "@/app/_requests/todo/fetch-specific-todo.request";
+import requestSpecificTodo, { mockRequestSpecificTodo } from "@/app/_requests/todo/fetch-specific-todo.request";
 import Image from "next/image";
-import {TodoItem} from "@/app/_types/todo";
 import {convertUtcToUserTimezone} from "@/app/_libs/date";
+import LoadingPage from "../misc/LoadingPage";
 
 interface Props {
   todoId: string;
@@ -17,48 +17,30 @@ interface Props {
 
 const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
   const router = useRouter();
-  const data: { todo: TodoItem } = {
-    todo: {
-      id: '34cc1e47-4906-4974-ad72-61d49a3cf04b',
-      userId: 'test',
-      title: 'Prepare Materials for Sprint Review',
-      details: 'Prepare documentation and slides for the finished stories.',
-      status: 1,
-      priority: 2,
-      createdAt: "2025-03-04T14:40:33.286Z",
-      dueAt: "2026-02-19T12:43:16.994Z",
-      completedAt: null,
-      updatedAt: null,
-    }
-  };
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["todo", todoId],
+    queryFn: () => mockRequestSpecificTodo(todoId, 500)
+  })
 
   const subtasks = [
     { title: "Prepare documentation", status: 2 },
     { title: "Prepare slides", status: 1 },
     { title: "Setup call", status: 0 },
   ]
-  // const { data, error, isLoading } = useQuery({
-  //   queryKey: ['todo', todoId],
-  //   queryFn: () => requestSpecificTodo(todoId),
-  //   retry: false,
-  // });
-  //
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
-  // if (!todoId) {
-  //   return router.replace("/app");
-  // }
+  if (!todoId) {
+    router.replace("/app");
+    return <></>;
+  }
 
-  // if (isLoading) {
-  //   return <>Still loading...</>;
-  // }
-  //
-  // if (error) {
-  //   console.error(error);
-  //   return <></>;
-  // }
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+  
+  if (error) {
+    console.error(error);
+    return <></>;
+  }
 
   return (
     <Paper square={false} className="flex flex-col gap-8 p-3 h-full">

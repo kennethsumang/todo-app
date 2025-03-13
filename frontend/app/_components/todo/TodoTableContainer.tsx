@@ -1,6 +1,6 @@
 "use client";
 
-import { convertUtcToUserTimezone, getUtcDate } from "@/app/_libs/date";
+import { convertUtcToUserTimezone } from "@/app/_libs/date";
 import { TodoItem } from "@/app/_types/todo";
 import {
   Button,
@@ -16,52 +16,16 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import React from "react";
-import useTodoStore from "@/app/_store/todo.store";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import { useRouter } from "next/navigation";
 
-export default function TodoTableContainer() {
+interface Props {
+  todos: TodoItem[];
+}
+
+const TodoTableContainer: React.FC<Props> = ({ todos }) => {
   const router = useRouter();
-  // const { todos, filters } = useTodoStore();
-  const todos: TodoItem[] = [
-    {
-      id: 'a03d3c40-4485-4a82-8473-de42dfa2c401',
-      userId: 'test',
-      title: 'Prepare for developer meeting discussion',
-      details: 'Prepare notes and things to remember for the meeting.',
-      status: 2,
-      priority: 0,
-      createdAt: "2025-03-04T14:40:33.286Z",
-      dueAt: "2026-02-20T12:43:16.994Z",
-      completedAt: null,
-      updatedAt: null,
-    },
-    {
-      id: '34cc1e47-4906-4974-ad72-61d49a3cf04b',
-      userId: 'test',
-      title: 'Prepare Materials for Sprint Review',
-      details: 'Prepare documentation and slides for the finished stories.',
-      status: 1,
-      priority: 2,
-      createdAt: "2025-03-04T14:40:33.286Z",
-      dueAt: "2026-02-19T12:43:16.994Z",
-      completedAt: null,
-      updatedAt: null,
-    },
-    {
-      id: '34a9a2a3-2eba-4348-8e76-f501a95262c1',
-      userId: 'test',
-      title: 'Conduct onboarding for new hires',
-      details: 'Prepare and conduct onboarding meetings about application functionalities.',
-      status: 0,
-      priority: 1,
-      createdAt: "2025-03-04T14:40:33.286Z",
-      dueAt: "2026-02-18T12:43:16.994Z",
-      completedAt: null,
-      updatedAt: null,
-    }
-  ]
 
   return (
     <Paper square={false} className="flex flex-row justify-between p-2">
@@ -149,3 +113,5 @@ export default function TodoTableContainer() {
     </Paper>
   )
 }
+
+export default TodoTableContainer;

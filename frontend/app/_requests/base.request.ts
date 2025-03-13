@@ -14,6 +14,14 @@ export default class BaseRequest<T extends RequestOptions, U> {
   url: string = "";
   method: string = "GET";
 
+  async mockRequest(options: T, delay: number = 0): Promise<U> {
+    throw new Error("Method not implemented yet.");
+  }
+
+  async timeout(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   async request(options: T): Promise<U> {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
     if (!appUrl) {
