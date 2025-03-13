@@ -42,12 +42,14 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
     return <></>;
   }
 
+  const convertedTzCreatedAt = convertUtcToUserTimezone(data!.todo.createdAt, 'D MMM YYYY');
+  const convertedTzDueAt = convertUtcToUserTimezone(data!.todo.dueAt, 'D MMM YYYY')
   return (
-    <Paper square={false} className="flex flex-col gap-8 p-3 h-full">
+    <Paper square={false} className="flex flex-col gap-8 p-5 h-full">
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-row gap-3">
           <TodoPriorityChip priority={data!.todo.priority} />
-          <div className="flex flex-col content-center">
+          <div className="flex flex-col justify-center">
             <TodoStatusProgress status={data!.todo?.status} />
           </div>
         </div>
@@ -63,7 +65,7 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
       <div className="flex flex-col">
         <span className="text-xl font-bold">{data!.todo.title}</span>
         <span className="text-sm text-gray-500">
-          {`${convertUtcToUserTimezone(data!.todo.createdAt, 'D MMM YYYY')} - ${convertUtcToUserTimezone(data!.todo.dueAt, 'D MMM YYYY')}`}
+          {`${convertedTzCreatedAt} - ${convertedTzDueAt}`}
         </span>
         <span className="mt-3">
           {data!.todo.details}
