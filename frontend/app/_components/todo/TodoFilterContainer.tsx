@@ -10,7 +10,7 @@ export default function TodoFilterContainer() {
   return (
     <Paper square={false} className="flex flex-row justify-between p-2">
       <Button variant="text" className="flex flex-row gap-2 !normal-case">
-        <Image src="/Filter.svg" height="16" width="16" alt="filter icon" />
+        <Image src="/Filter.svg" height="24" width="24" alt="filter icon" />
         <Typography className="!text-sm">Filter</Typography>
       </Button>
       <Button

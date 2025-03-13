@@ -5,6 +5,7 @@ import { TodoItem } from "@/app/_types/todo";
 import {
   Button,
   Checkbox,
+  IconButton,
   Link,
   Paper,
   Table,
@@ -15,10 +16,11 @@ import {
   TableSortLabel
 } from "@mui/material";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import { useRouter } from "next/navigation";
+import _ from "lodash";
 
 interface Props {
   todos: TodoItem[];
@@ -26,6 +28,23 @@ interface Props {
 
 const TodoTableContainer: React.FC<Props> = ({ todos }) => {
   const router = useRouter();
+  const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
+
+  /**
+   * Handles item checkbox click
+   * @param {string} id 
+   */
+  function handleItemCheckboxClick(id: string) {
+    if (selectedTodos.includes(id)) {
+      const selectedItems = selectedTodos.filter((item) => id !== item);
+      console.log(selectedItems);
+      setSelectedTodos(selectedItems);
+      return;
+    }
+
+    const selectedItems = [...selectedTodos, id];
+    setSelectedTodos(selectedItems);
+  }
 
   return (
     <Paper square={false} className="flex flex-row justify-between p-2">
@@ -33,7 +52,9 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox">
-              <Image src="/Trash.svg" height="16" width="16" alt="trash icon" />
+              <IconButton>
+                <Image src="/Trash.svg" height="24" width="24" alt="trash icon" />
+              </IconButton>
             </TableCell>
             <TableCell>
               <TableSortLabel
@@ -85,7 +106,8 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
                 <TableCell padding="checkbox">
                   <Checkbox
                     color="primary"
-                    checked={false}
+                    checked={selectedTodos.includes(todo.id)}
+                    onClick={() => handleItemCheckboxClick(todo.id)}
                   />
                 </TableCell>
                 <TableCell>
@@ -101,9 +123,9 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
                   <TodoStatusProgress status={todo.status} />
                 </TableCell>
                 <TableCell>
-                  <Button variant="text" onClick={() => router.push(`/todos/${todo.id}/edit`)}>
-                    <Image src="/Pencil.svg" height="12" width="12" alt="pencil icon" />
-                  </Button>
+                  <IconButton onClick={() => router.push(`/todos/${todo.id}/edit`)}>
+                    <Image src="/Pencil.svg" height="24" width="24" alt="pencil icon" />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             );

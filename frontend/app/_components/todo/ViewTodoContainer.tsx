@@ -3,7 +3,7 @@
 import {useQuery} from "@tanstack/react-query";
 import React from "react";
 import { useRouter } from "next/navigation";
-import {Button, Divider, Paper} from "@mui/material";
+import {Button, Divider, IconButton, Paper} from "@mui/material";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import requestSpecificTodo, { mockRequestSpecificTodo } from "@/app/_requests/todo/fetch-specific-todo.request";
@@ -52,12 +52,12 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
           </div>
         </div>
         <div className="flex flex-row gap-3">
-          <Button variant="text">
-            <Image src="/Trash.svg" alt="trash icon" width={16} height={16} />
-          </Button>
-          <Button variant="text" onClick={() => router.push(`/todos/${todoId}/edit`)}>
-            <Image src="/Pencil.svg" alt="pencil icon" width={16} height={16} />
-          </Button>
+          <IconButton>
+            <Image src="/Trash.svg" alt="trash icon" width={24} height={24} />
+          </IconButton>
+          <IconButton onClick={() => router.push(`/todos/${todoId}/edit`)}>
+            <Image src="/Pencil.svg" alt="pencil icon" width={24} height={24} />
+          </IconButton>
         </div>
       </div>
       <div className="flex flex-col">
