@@ -9,7 +9,7 @@ import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import requestSpecificTodo from "@/app/_requests/todo/fetch-specific-todo.request";
 import Image from "next/image";
 import {TodoItem} from "@/app/_types/todo";
-import {convertUtcToUserTimezone, getUtcDate} from "@/app/_libs/date";
+import {convertUtcToUserTimezone} from "@/app/_libs/date";
 
 interface Props {
   todoId: string;
@@ -19,14 +19,14 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
   const router = useRouter();
   const data: { todo: TodoItem } = {
     todo: {
-      id: todoId,
+      id: '34cc1e47-4906-4974-ad72-61d49a3cf04b',
       userId: 'test',
       title: 'Prepare Materials for Sprint Review',
       details: 'Prepare documentation and slides for the finished stories.',
       status: 1,
       priority: 2,
-      createdAt: getUtcDate().toString(),
-      dueAt: getUtcDate().toString(),
+      createdAt: "2025-03-04T14:40:33.286Z",
+      dueAt: "2026-02-19T12:43:16.994Z",
       completedAt: null,
       updatedAt: null,
     }

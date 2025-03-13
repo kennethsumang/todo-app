@@ -3,7 +3,6 @@
 import { Paper } from "@mui/material";
 import React from "react";
 import TodoForm from "./TodoFormContainer";
-import { getUtcDate } from "@/app/_libs/date";
 import { TodoItem } from "@/app/_types/todo";
 
 interface Props {
@@ -19,8 +18,8 @@ const EditTodoContainer: React.FC<Props> = ({ todoId }) => {
       details: 'Prepare documentation and slides for the finished stories.',
       status: 1,
       priority: 2,
-      createdAt: getUtcDate(),
-      dueAt: getUtcDate(),
+      createdAt: "2025-03-04T14:40:33.286Z",
+      dueAt: "2026-02-19T12:43:16.994Z",
       completedAt: null,
       updatedAt: null,
     }

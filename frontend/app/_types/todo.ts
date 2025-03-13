@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface TodoItem {
   id: string;
   userId: string;
@@ -22,7 +24,7 @@ export interface TodoForm {
   priority: number;
   status: number;
   title: string;
-  dueAt: Date | string;
+  dueAt: Dayjs;
   details: string;
 }
 

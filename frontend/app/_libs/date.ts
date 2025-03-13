@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
@@ -16,4 +16,8 @@ export function convertUtcToUserTimezone(
 
 export function getUtcDate(): Date {
   return dayjs.utc().toDate();
+}
+
+export function toDayjs(date: Date | string): Dayjs {
+  return dayjs(date);
 }
