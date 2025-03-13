@@ -19,8 +19,10 @@ import React from "react";
 import useTodoStore from "@/app/_store/todo.store";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
+import { useRouter } from "next/navigation";
 
 export default function TodoTableContainer() {
+  const router = useRouter();
   // const { todos, filters } = useTodoStore();
   const todos: TodoItem[] = [
     {
@@ -135,7 +137,7 @@ export default function TodoTableContainer() {
                   <TodoStatusProgress status={todo.status} />
                 </TableCell>
                 <TableCell>
-                  <Button variant="text">
+                  <Button variant="text" onClick={() => router.push(`/todos/${todo.id}/edit`)}>
                     <Image src="/Pencil.svg" height="12" width="12" alt="pencil icon" />
                   </Button>
                 </TableCell>
