@@ -1,7 +1,10 @@
-import {getSessionFromServer} from "@/app/_libs/session";
+import { getSessionFromServer } from "@/app/_libs/session";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ todoId: string }> }) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ todoId: string }> }
+) {
   const session = await getSessionFromServer();
   const { todoId } = await params;
 
@@ -17,7 +20,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ todo
     );
   }
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL ?? ""}/api/todos/${todoId}`);
+  const url = new URL(
+    `${process.env.NEXT_PUBLIC_API_URL ?? ""}/api/todos/${todoId}`
+  );
   let response: Response;
   response = await fetch(url.toString(), {
     method: "GET",
@@ -29,7 +34,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ todo
 
   if (response.ok) {
     const responseData = await response.json();
-    return new Response(responseData, { status: 200 });
+    return Response.json(responseData, { status: 200 });
   }
 
   if (response.status === 401) {
@@ -54,7 +59,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ todo
     });
 
     if (response.ok) {
-      return new Response(await response.json(), { status: 200 });
+      return Response.json(await response.json(), { status: 200 });
     }
   }
   // just carry over the api error

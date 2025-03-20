@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
   if (response.ok) {
     const responseData = await response.json();
-    return new Response(responseData, { status: 200 });
+    return Response.json(responseData, { status: 200 });
   }
 
   if (response.status === 401) {
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     });
 
     if (response.ok) {
-      return new Response(await response.json(), { status: 200 });
+      return Response.json(await response.json(), { status: 200 });
     }
   }
   // just carry over the api error

@@ -3,10 +3,10 @@
 import {useQuery} from "@tanstack/react-query";
 import React from "react";
 import { useRouter } from "next/navigation";
-import {Button, Divider, IconButton, Paper} from "@mui/material";
+import {Divider, IconButton, Paper} from "@mui/material";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
-import requestSpecificTodo, { mockRequestSpecificTodo } from "@/app/_requests/todo/fetch-specific-todo.request";
+import requestSpecificTodo from "@/app/_requests/todo/fetch-specific-todo.request";
 import Image from "next/image";
 import {convertUtcToUserTimezone} from "@/app/_libs/date";
 import LoadingPage from "../misc/LoadingPage";
@@ -19,7 +19,7 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
   const router = useRouter();
   const { data, isLoading, error } = useQuery({
     queryKey: ["todo", todoId],
-    queryFn: () => mockRequestSpecificTodo(todoId, 500)
+    queryFn: () => requestSpecificTodo(todoId)
   })
 
   const subtasks = [

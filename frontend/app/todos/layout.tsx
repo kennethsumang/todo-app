@@ -1,3 +1,5 @@
+"use server";
+
 import { redirect } from "next/navigation";
 import AppDrawer from "../_components/common/AppDrawer";
 import AppPageContainer from "../_components/common/AppPageContainer";
