@@ -56,8 +56,7 @@ export default function LoginForm() {
 
     if (!hasErrors) {
       setErrors({});
-      const response = loginMutation.mutate({ username, password });
-      console.log(response);
+      loginMutation.mutate({ username, password });
     } else {
       setErrors(errors);
     }

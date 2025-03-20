@@ -37,7 +37,6 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
   function handleItemCheckboxClick(id: string) {
     if (selectedTodos.includes(id)) {
       const selectedItems = selectedTodos.filter((item) => id !== item);
-      console.log(selectedItems);
       setSelectedTodos(selectedItems);
       return;
     }

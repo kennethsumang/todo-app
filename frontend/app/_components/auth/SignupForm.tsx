@@ -19,9 +19,6 @@ export default function SignupForm() {
   const [errors, setErrors] = useState<{ username?: string, password?: string, retypePassword?: string }>({});
   const registerMutation = useMutation({
     mutationFn: (payload: RegisterPayload) => requestRegister(payload),
-    onSuccess: (data) => {
-      console.log(data);
-    }
   })
 
   function handleFormSubmit(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) {

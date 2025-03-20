@@ -12,7 +12,7 @@ interface Props {
 }
 
 const TodoFormContainer: React.FC<Props> = ({ initialData }) => {
-  const isCreateTodo = initialData === undefined;
+  const isCreateTodo = !initialData;
   const { form, setForm, setFormValue } = useTodoStore();
 
   useEffect(() => {

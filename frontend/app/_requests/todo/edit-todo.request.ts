@@ -1,5 +1,6 @@
 import { TodoForm, TodoItem } from "@/app/_types/todo";
 import BaseRequest, { RequestOptions } from "../base.request";
+import _ from "lodash";
 
 interface TodoRequestOptions extends RequestOptions {
   body: TodoForm;
@@ -23,7 +24,7 @@ export default async function requestUpdateTodo(
   form: TodoForm
 ) {
   return await new UpdateTodoRequest().request({
-    body: form,
+    body: _.omit(form, ["priority"]),
     params: { todoId },
   });
 }

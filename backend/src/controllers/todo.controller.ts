@@ -7,7 +7,7 @@ export default class TodoController {
   constructor(@inject(TodoService) private readonly todoService: TodoService) {}
 
   async create(req: Request, res: Response) {
-    const todo = this.todoService.createTodo(req.body, req.user?.id);
+    const todo = await this.todoService.createTodo(req.body, req.user?.id);
     return { todo: todo };
   }
 

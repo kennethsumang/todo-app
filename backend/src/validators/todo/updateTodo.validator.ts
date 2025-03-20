@@ -3,6 +3,14 @@ import BaseValidator from "../base.validator";
 
 export default class UpdateTodoValidator extends BaseValidator {
   schema = Joi.object({
+    title: Joi
+    .string()
+    .max(25)
+    .optional()
+    .messages({
+      'string.max': 'Title must only have a maximum of 25 characters.',
+      'string.base': 'Title is invalid.',
+    }),
     details: Joi
       .string()
       .max(300)

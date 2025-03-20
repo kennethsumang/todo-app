@@ -20,16 +20,18 @@ interface TodoStore {
   setFormValue: (key: TodoFormKeys, value: TodoFormValues) => void;
 }
 
+export const initialFormValues = {
+  title: "",
+  details: "",
+  priority: 0,
+  status: 0,
+  dueAt: toDayjs(new Date()),
+};
+
 const useTodoStore = create<TodoStore>((set, get) => ({
   todos: [],
   filters: {},
-  form: {
-    title: "",
-    details: "",
-    priority: 0,
-    status: 0,
-    dueAt: toDayjs(new Date()),
-  },
+  form: initialFormValues,
   fetchTodos: async () => {
     const data = await requestTodoList(get().filters);
     set({ todos: data.todos });

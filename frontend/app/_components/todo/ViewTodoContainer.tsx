@@ -1,7 +1,7 @@
 "use client";
 
 import {useQuery} from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {Divider, IconButton, Paper} from "@mui/material";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
@@ -10,6 +10,7 @@ import requestSpecificTodo from "@/app/_requests/todo/fetch-specific-todo.reques
 import Image from "next/image";
 import {convertUtcToUserTimezone} from "@/app/_libs/date";
 import LoadingPage from "../misc/LoadingPage";
+import ApiError from "@/app/_exceptions/api.error";
 
 interface Props {
   todoId: string;
@@ -19,27 +20,29 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
   const router = useRouter();
   const { data, isLoading, error } = useQuery({
     queryKey: ["todo", todoId],
-    queryFn: () => requestSpecificTodo(todoId)
+    queryFn: () => requestSpecificTodo(todoId),
   })
 
   const subtasks = [
     { title: "Prepare documentation", status: 2 },
     { title: "Prepare slides", status: 1 },
     { title: "Setup call", status: 0 },
-  ]
+  ];
 
-  if (!todoId) {
-    router.replace("/app");
-    return <></>;
-  }
+  useEffect(() => {
+    if (!todoId) {
+      router.replace("/todos");
+    }
+  }, [router, todoId]);
+
+  useEffect(() => {
+    if (error && error instanceof ApiError && error.code === 401) {
+      router.replace("/");
+    }
+  }, [error, router]);
 
   if (isLoading) {
     return <LoadingPage />;
-  }
-  
-  if (error) {
-    console.error(error);
-    return <></>;
   }
 
   const convertedTzCreatedAt = convertUtcToUserTimezone(data!.todo.createdAt, 'D MMM YYYY');

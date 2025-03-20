@@ -29,13 +29,17 @@ const TodoFormActions: React.FC<Props> = () => {
 
   const { form } = useTodoStore();
   const { mutateAsync: mutateCreateTodo } = useMutation({
-    mutationFn: () => requestCreateTodo(form)
+    mutationFn: () => requestCreateTodo(form),
+    onSuccess: (data) => {
+      router.push(`/todos/${data.todo.id}`);
+    }
   });
   const { mutateAsync: mutateUpdateTodo } = useMutation({
-    mutationFn: () => requestUpdateTodo(todoId!, form)
-  })
-
-  
+    mutationFn: () => requestUpdateTodo(todoId!, form),
+    onSuccess: (data) => {
+      router.push(`/todos/${data.todo.id}`);
+    }
+  })  
 
   function handleCancelButtonClick() {
     if (isCreateForm) {
