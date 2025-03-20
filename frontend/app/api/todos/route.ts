@@ -68,3 +68,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
     statusText: response.statusText,
   });
 }
+
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+  return Response.json(body, { status: 200 });
+}

@@ -21,7 +21,7 @@ export interface TodoFilters {
 }
 
 export interface TodoForm {
-  priority: number;
+  priority?: number;
   status: number;
   title: string;
   dueAt: Dayjs;
