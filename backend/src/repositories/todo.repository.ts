@@ -26,6 +26,26 @@ export default class TodoRepository {
     if (filters.id) {
       whereQuery.id = filters.id;
     }
+
+    if (filters.priority) {
+      whereQuery.priority = filters.priority;
+    }
+
+    if (filters.status) {
+      whereQuery.status = filters.status;
+    }
+
+    if (filters.title) {
+      whereQuery.title = {
+        contains: filters.title,
+      };
+    }
+
+    if (filters.details) {
+      whereQuery.details = {
+        contains: filters.details,
+      };
+    }
     
     return this.prisma
       .todo
@@ -33,6 +53,9 @@ export default class TodoRepository {
         where: whereQuery,
         skip: (filters.page! - 1) * filters.limit!,
         take: filters.limit!,
+        orderBy: {
+          createdAt: 'desc'
+        }
       });
   }
 

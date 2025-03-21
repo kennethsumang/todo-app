@@ -1,4 +1,4 @@
-GET {{url}}/api/todos?limit=3&page=1
+GET {{url}}/api/todos?limit=3&page=1&title=me
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
@@ -9,8 +9,8 @@ Authorization: Bearer {{accessToken}}
 
 
 {
-    "title": "Todo 1",
-    "details": "Todo 1 Details",
+    "title": "Todo 3 FIND ME",
+    "details": "Todo 3 Details",
     "status": 1,
     "priority": 1,
     "dueAt": "2026-02-20T12:43:16.994Z"

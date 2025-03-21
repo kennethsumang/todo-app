@@ -30,17 +30,25 @@ export default class CreateTodoValidator extends BaseValidator {
       }),
     status: Joi
       .number()
+      .min(0)
+      .max(3)
       .required()
       .messages({
         'any.required': 'Status is required.',
-        'string.base': 'Status is invalid.',
+        'number.base': 'Status is invalid.',
+        'number.min': 'Status is invalid.',
+        'number.max': 'Status is invalid.',
       }),
     priority: Joi
       .number()
+      .min(0)
+      .max(3)
       .required()
       .messages({
         'any.required': 'Priority is required.',
-        'string.base': 'Priority is invalid.',
+        'number.base': 'Priority is invalid.',
+        'number.min': 'Priority is invalid.',
+        'number.max': 'Priority is invalid.',
       })
   })
 }
