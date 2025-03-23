@@ -57,7 +57,6 @@ export default class TodoService {
     const validated = (new FetchTodoValidator).validate<FetchTodoDto>(filters);
     validated.page = validated.page ?? 1;
     validated.limit = validated.limit ?? 10;
-    console.log(validated);
     return await this.todoRepository.fetchTodos(validated, userId);
   }
 

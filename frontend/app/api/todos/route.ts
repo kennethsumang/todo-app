@@ -12,9 +12,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const status = req.nextUrl.searchParams.get("status");
   const priority = req.nextUrl.searchParams.get("priority");
 
-  console.log(`Status: ${status}`);
-  console.log(`Priority: ${priority}`);
-
   if (!session || !session.accessToken) {
     return Response.json(
       {
