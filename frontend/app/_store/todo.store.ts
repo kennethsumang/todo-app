@@ -15,7 +15,7 @@ interface TodoStore {
   filters: TodoFilters;
   form: TodoForm;
   fetchTodos: () => Promise<void>;
-  setFilter: (key: string, value: string | number) => void;
+  setFilter: (key: string, value: string | number | undefined) => void;
   setForm: (data: TodoForm) => void;
   setFormValue: (key: TodoFormKeys, value: TodoFormValues) => void;
 }

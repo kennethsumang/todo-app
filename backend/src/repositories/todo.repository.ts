@@ -27,11 +27,11 @@ export default class TodoRepository {
       whereQuery.id = filters.id;
     }
 
-    if (filters.priority) {
+    if (filters.priority !== undefined) {
       whereQuery.priority = filters.priority;
     }
 
-    if (filters.status) {
+    if (filters.status !== undefined) {
       whereQuery.status = filters.status;
     }
 

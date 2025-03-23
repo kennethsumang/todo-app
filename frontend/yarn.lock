@@ -734,6 +734,13 @@
   dependencies:
     tslib "^2.8.0"
 
+"@szhsin/react-menu@^4.3.1":
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/@szhsin/react-menu/-/react-menu-4.3.1.tgz#ed097b36332e57b73482c2238b5471dbea7b0fa2"
+  integrity sha512-HjGvsPxtkgo0Nb+BLrZ8nBeGbjdZCmpsokOcXzo704kZ+27oMsFZtogvia72HMmledia9+TlgxOvor2H4JhNGA==
+  dependencies:
+    react-transition-state "^2.2.0"
+
 "@tailwindcss/node@4.0.9":
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/@tailwindcss/node/-/node-4.0.9.tgz#27f08681b2cf6197a9c4c0ce0a0cb8dd16b3aaaf"
@@ -3107,6 +3114,11 @@ react-transition-group@^4.4.5:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-transition-state@^2.2.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-transition-state/-/react-transition-state-2.3.0.tgz#ca73ed9f78a86c284459be2cc1e811b59a0df17d"
+  integrity sha512-OucQRyIpeq5g1/5qSBJH4p4U+SzYEoB3MsAXXz3ty116rPqG4jhwrzInImZ2gFi4XOffeLu6HNCZvkCM3DKaeg==
 
 react@^19.0.0:
   version "19.0.0"

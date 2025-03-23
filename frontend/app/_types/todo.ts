@@ -18,6 +18,8 @@ export interface TodoFilters {
   id?: string;
   page?: number;
   limit?: number;
+  status?: number;
+  priority?: number;
 }
 
 export interface TodoForm {

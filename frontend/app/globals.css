@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "@szhsin/react-menu/dist/core.css";
+@import "@szhsin/react-menu/dist/index.css";
+@import "@szhsin/react-menu/dist/transitions/zoom.css";
 
 html, body, #root {
   height: 100vh;

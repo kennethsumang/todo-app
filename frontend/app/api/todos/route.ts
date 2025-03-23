@@ -9,6 +9,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const session = await getSessionFromApiRoute(req, res);
   const page = req.nextUrl.searchParams.get("page");
   const limit = req.nextUrl.searchParams.get("limit");
+  const status = req.nextUrl.searchParams.get("status");
+  const priority = req.nextUrl.searchParams.get("priority");
+
+  console.log(`Status: ${status}`);
+  console.log(`Priority: ${priority}`);
 
   if (!session || !session.accessToken) {
     return Response.json(
@@ -26,6 +31,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
   url.searchParams.append("page", page ?? "1");
   url.searchParams.append("limit", limit ?? "10");
   url.searchParams.append("userId", session.user!.id);
+
+  if (status !== null) {
+    url.searchParams.append("status", status);
+  }
+
+  if (priority !== null) {
+    url.searchParams.append("priority", priority);
+  }
+
   let response: Response;
   response = await fetch(url.toString(), {
     method: "GET",
