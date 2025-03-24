@@ -21,3 +21,7 @@ export function getUtcDate(): Date {
 export function toDayjs(date: Date | string): Dayjs {
   return dayjs(date);
 }
+
+export function isValidDate(date: Dayjs | Date | string): boolean {
+  return dayjs(date).isValid();
+}
