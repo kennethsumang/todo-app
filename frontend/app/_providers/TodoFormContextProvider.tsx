@@ -4,7 +4,7 @@ import { useForm } from '@mantine/form';
 import { TodoForm } from '../_types/todo';
 import { TodoFormProvider } from '../_contexts/todo-form.context';
 import { initialFormValues } from '../_store/todo.store';
-import { isValidDate } from '../_libs/date';
+import { convertUtcToUserTimezone, getUtcDate, isBefore, isValidDate } from '../_libs/date';
 
 interface Props {
   children: React.ReactNode;
@@ -52,7 +52,17 @@ const TodoFormContextProvider: React.FC<Props> = ({ children }) => {
         }
         return data >= 0 && data <= 3 ? null : "Invalid status.";
       },
-      dueAt: (value) => value && isValidDate(value) ? null : "Invalid due date.",
+      dueAt: (value) => {
+        if (!value || isValidDate(value)) {
+          return "Invalid due date.";
+        }
+
+        if (isBefore(value, convertUtcToUserTimezone(getUtcDate()))) {
+          return "Due date must not be a past date.";
+        }
+
+        return null;
+      },
     },
   });
 

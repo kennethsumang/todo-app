@@ -2,6 +2,8 @@ import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
+export type ValidDateType = Dayjs | Date | string;
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -22,6 +24,10 @@ export function toDayjs(date: Date | string): Dayjs {
   return dayjs(date);
 }
 
-export function isValidDate(date: Dayjs | Date | string): boolean {
+export function isValidDate(date: ValidDateType): boolean {
   return dayjs(date).isValid();
+}
+
+export function isBefore(date: ValidDateType, refDate: ValidDateType): boolean {
+  return dayjs(date).isBefore(dayjs(refDate));
 }

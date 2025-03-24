@@ -4,6 +4,7 @@ import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useTodoFormContext } from "@/app/_contexts/todo-form.context";
 import { Dayjs } from "dayjs";
+import { convertUtcToUserTimezone, getUtcDate, toDayjs } from "@/app/_libs/date";
 
 interface Props {
   isCreate: boolean;
@@ -70,6 +71,7 @@ const TodoForm: React.FC<Props> = ({ isCreate, createdAt }) => {
         <FormControl fullWidth className="col-span-2">
           <DatePicker
             label="Due Date"
+            minDate={toDayjs(convertUtcToUserTimezone(getUtcDate()))}
             {...form.getInputProps("dueAt")}
           />
           {form.errors?.dueAt && <small className="text-red-500">{form.errors.dueAt}</small>}
