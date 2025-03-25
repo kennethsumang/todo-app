@@ -1,6 +1,8 @@
 "use client";
 
+import requestLogout from "@/app/_requests/auth/logout.request";
 import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -10,6 +12,11 @@ interface Props {
 
 const AppDrawer: React.FC<Props> = ({ username }) => {
   const router = useRouter();
+  const { mutateAsync } = useMutation({
+    mutationFn: () => requestLogout(),
+    onSuccess: () => router.push("/"),
+    onError: () => router.push("/"),
+  });
 
   return (
     <Drawer
@@ -48,7 +55,7 @@ const AppDrawer: React.FC<Props> = ({ username }) => {
               <ListItemIcon>
                 <Image src="/Signout.svg" width="24" height="24" alt="signout" />
               </ListItemIcon>
-              <ListItemText primary="Sign out" />
+              <ListItemText primary="Sign out" onClick={() => mutateAsync()} />
             </ListItemButton>
           </ListItem>
         </List>

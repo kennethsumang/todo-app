@@ -20,7 +20,7 @@ export default function CreateTodoContainer() {
   });
 
   return (
-    <form onSubmit={form.onSubmit(() => mutateCreateTodo())}>
+    <form className="h-[calc(-5rem+100%)]" onSubmit={form.onSubmit(() => mutateCreateTodo())}>
       <Paper square={false} className="flex flex-col gap-8 p-3 h-full">
         <TodoForm isCreate={true} />
       </Paper>

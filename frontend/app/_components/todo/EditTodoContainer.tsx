@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import requestUpdateTodo from "@/app/_requests/todo/edit-todo.request";
 import TodoForm from "./TodoForm";
 import { convertUtcToUserTimezone, toDayjs } from "@/app/_libs/date";
+import ApiError from "@/app/_exceptions/api.error";
 
 interface Props {
   todoId: string;
@@ -46,6 +47,12 @@ const EditTodoContainer: React.FC<Props> = ({ todoId }) => {
       isInitialized.current = true;
     }
   }, [data, form]);
+
+  useEffect(() => {
+    if (error && error instanceof ApiError && error.code === 401) {
+      router.replace("/");
+    }
+  }, [error, router]);
 
   if (isLoading) {
     return <LoadingPage />
