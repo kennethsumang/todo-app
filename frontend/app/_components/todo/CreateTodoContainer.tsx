@@ -8,6 +8,7 @@ import requestCreateTodo from "@/app/_requests/todo/create-todo.request";
 import { useMutation } from "@tanstack/react-query";
 import TodoForm from "./TodoForm";
 import { useTodoFormContext } from "@/app/_contexts/todo-form.context";
+import { convertUtcToUserTimezone, getUtcDate, toDayjs } from "@/app/_libs/date";
 
 export default function CreateTodoContainer() {
   const router = useRouter();
@@ -22,7 +23,10 @@ export default function CreateTodoContainer() {
   return (
     <form className="h-[calc(-5rem+100%)]" onSubmit={form.onSubmit(() => mutateCreateTodo())}>
       <Paper square={false} className="flex flex-col gap-8 p-3 h-full">
-        <TodoForm isCreate={true} />
+        <TodoForm
+          isCreate={true}
+          createdAt={toDayjs(convertUtcToUserTimezone(getUtcDate()))}
+        />
       </Paper>
       <div className="flex flex-row justify-end gap-5">
         <TodoFormActions onCancel={() => router.push("/todos")} />

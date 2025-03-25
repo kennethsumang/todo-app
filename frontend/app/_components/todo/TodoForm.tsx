@@ -17,7 +17,7 @@ const TodoForm: React.FC<Props> = ({ isCreate, createdAt }) => {
   return (
     <div className="pl-24 pr-24 pt-8">
       <div className="grid grid-cols-4 gap-3">
-        <FormControl className="col-span-1" disabled={!isCreate}>
+        <FormControl className="col-span-4 lg:col-span-1" disabled={!isCreate}>
           <InputLabel id="priority-form-label">Priority</InputLabel>
           <Select
             labelId="priority-form-label"
@@ -32,7 +32,7 @@ const TodoForm: React.FC<Props> = ({ isCreate, createdAt }) => {
           </Select>
           {form.errors?.priority && <small className="text-red-500">{form.errors.priority}</small>}
         </FormControl>
-        <FormControl className="col-span-1">
+        <FormControl className="col-span-4 lg:col-span-1">
           <InputLabel id="status-form-label">Status</InputLabel>
           <Select
             labelId="status-form-label"
@@ -59,16 +59,14 @@ const TodoForm: React.FC<Props> = ({ isCreate, createdAt }) => {
           />
           {form.errors?.title && <small className="text-red-500">{form.errors.title}</small>}
         </FormControl>
-        {createdAt && (
-          <FormControl fullWidth className="col-start-1 col-span-2" disabled>
-            <DatePicker
-              label="Date Created"
-              value={createdAt}
-              disabled
-            />
-          </FormControl>
-        )}
-        <FormControl fullWidth className="col-span-2">
+        <FormControl fullWidth className="col-start-1 col-span-4 lg:col-span-2" disabled>
+          <DatePicker
+            label="Date Created"
+            value={createdAt}
+            disabled
+          />
+        </FormControl>
+        <FormControl fullWidth className="col-span-4 lg:col-span-2">
           <DatePicker
             label="Due Date"
             minDate={toDayjs(convertUtcToUserTimezone(getUtcDate()))}
