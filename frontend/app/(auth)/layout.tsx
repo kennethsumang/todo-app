@@ -1,8 +1,17 @@
+import { redirect } from "next/navigation";
+import { getSessionFromServer } from "../_libs/session";
+
 interface Props {
   children: React.ReactNode;
 }
 
-const AuthLayout: React.FC<Props> = (props) => {
+const AuthLayout: React.FC<Props> = async (props) => {
+  const session = await getSessionFromServer();
+  
+  if (session.user && session.accessToken) {
+    redirect("/todos");
+  }
+  
   return (
     <div className="w-full h-full grid grid-cols-2">
       <div style={{
