@@ -1,7 +1,6 @@
 import { getSessionFromServer, SessionData } from "@/app/_libs/session";
 
 export async function POST(request: Request) {
-  console.log("Executing POST /api/auth/login.");
   const session = await getSessionFromServer();
   const body = await request.json();
 

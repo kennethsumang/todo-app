@@ -153,15 +153,13 @@ export default class AuthService {
       }
     }
 
-    if (!found || !tokenId) {
-      throw new BadRequestError('Invalid refresh token.');
+    if (found && tokenId) {
+      const deletedToken = await this.refreshTokenRepository.deleteRefreshToken(tokenId);
+      if (!deletedToken) {
+        throw new ServerError('Token deletion failed.');
+      }
     }
-
-    const deletedToken = await this.refreshTokenRepository.deleteRefreshToken(tokenId);
-    if (!deletedToken) {
-      throw new ServerError('Token deletion failed.');
-    }
-
+  
     return { result: true };
   }
 }

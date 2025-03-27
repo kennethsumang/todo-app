@@ -62,6 +62,13 @@ export async function GET(
       return Response.json(await response.json(), { status: 200 });
     }
   }
+
+  // if response is still 401, remove the session also
+  // this is more likely an expired refresh token
+  if (response.status === 401) {
+    session.destroy();
+  }
+
   // just carry over the api error
   return Response.json(await response.json(), {
     status: response.status,
@@ -133,6 +140,13 @@ export async function PUT(
       return Response.json(await response.json(), { status: 201 });
     }
   }
+
+  // if response is still 401, remove the session also
+  // this is more likely an expired refresh token
+  if (response.status === 401) {
+    session.destroy();
+  }
+
   // just carry over the api error
   return Response.json(await response.json(), {
     status: response.status,

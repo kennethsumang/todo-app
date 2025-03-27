@@ -51,11 +51,11 @@ const AppDrawer: React.FC<Props> = ({ username }) => {
             </ListItemButton>
           </ListItem>
           <ListItem key="Sign out" disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => mutateAsync()} >
               <ListItemIcon>
                 <Image src="/Signout.svg" width="24" height="24" alt="signout" />
               </ListItemIcon>
-              <ListItemText primary="Sign out" onClick={() => mutateAsync()} />
+              <ListItemText primary="Sign out"/>
             </ListItemButton>
           </ListItem>
         </List>

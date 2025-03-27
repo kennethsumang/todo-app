@@ -29,5 +29,5 @@ export function isValidDate(date: ValidDateType): boolean {
 }
 
 export function isBefore(date: ValidDateType, refDate: ValidDateType): boolean {
-  return dayjs(date).isBefore(dayjs(refDate));
+  return dayjs(date).isBefore(dayjs(refDate), "day");
 }

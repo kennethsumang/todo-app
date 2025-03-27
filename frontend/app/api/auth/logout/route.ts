@@ -1,9 +1,7 @@
-import { getSessionFromApiRoute } from "@/app/_libs/session";
-import { NextRequest, NextResponse } from "next/server";
+import { getSessionFromServer } from "@/app/_libs/session";
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  console.log("Executing POST /api/auth/logout.");
-  const session = await getSessionFromApiRoute(req, res);
+export async function POST() {
+  const session = await getSessionFromServer();
   const userId = session.user?.id;
   const refreshToken = session.refreshToken;
 
@@ -13,6 +11,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         error: {
           code: 400,
           message: "Session not found,.",
+          session: session,
         },
       },
       { status: 400, statusText: "Session not found." }

@@ -1,12 +1,9 @@
-import {
-  getSessionFromApiRoute,
-  getSessionFromServer,
-} from "@/app/_libs/session";
-import { NextRequest, NextResponse } from "next/server";
+import { getSessionFromServer } from "@/app/_libs/session";
+import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   console.log("Executing GET /api/todos.");
-  const session = await getSessionFromApiRoute(req, res);
+  const session = await getSessionFromServer();
   const page = req.nextUrl.searchParams.get("page");
   const limit = req.nextUrl.searchParams.get("limit");
   const status = req.nextUrl.searchParams.get("status");
@@ -76,6 +73,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
       return Response.json(await response.json(), { status: 200 });
     }
   }
+
+  // if response is still 401, remove the session also
+  // this is more likely an expired refresh token
+  if (response.status === 401) {
+    session.destroy();
+  }
+
   // just carry over the api error
   return Response.json(await response.json(), {
     status: response.status,
@@ -142,6 +146,13 @@ export async function POST(req: NextRequest) {
       return Response.json(await response.json(), { status: 201 });
     }
   }
+
+  // if response is still 401, remove the session also
+  // this is more likely an expired refresh token
+  if (response.status === 401) {
+    session.destroy();
+  }
+
   // just carry over the api error
   return Response.json(await response.json(), {
     status: response.status,
