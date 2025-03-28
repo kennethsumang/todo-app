@@ -7,7 +7,8 @@
     "dev": "nodemon src/server.ts",
     "build": "npx tsc",
     "start": "node dist/src/server.js",
-    "test": "mocha -r ts-node/register -r reflect-metadata --timeout 5000 'tests/**/*.test.ts'"
+    "test": "mocha -r ts-node/register -r reflect-metadata --timeout 5000 'tests/**/*.test.ts'",
+    "seed-test-db": "ts-node src/bootstrap/seed-test-db.ts"
   },
   "author": "",
   "license": "ISC",

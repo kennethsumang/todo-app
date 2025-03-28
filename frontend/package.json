@@ -6,7 +6,8 @@
     "dev": "next dev -p 5173 --turbopack",
     "build": "next build",
     "start": "next start -p 5173",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "npx playwright test"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.51.1",
     "@tailwindcss/postcss": "^4",
     "@tanstack/eslint-plugin-query": "^5.66.1",
     "@types/lodash": "^4.17.16",

@@ -62,3 +62,16 @@ npx prisma migrate dev
 6. Execute the login endpoint. Take note of the `userId`, `accessToken`, and `refreshToken` fields.
 7. Fill the values in `/backend/temp/rest/http-client.env.json` using the values you have taken in login endpoint.
 8. You can now execute the authenticated endpoints in HTTP files.
+
+## Testing
+### End-to-end (E2E) Testing using Playwright.
+#### Preparing the test database
+1. In `backend/.env`, change the `DATABASE_URL` to `test.db`.
+2. Run `npx prisma migrate dev` to create the test database.
+3. To seed the data for the tests, run `yarn seed-test-db` in `backend` folder.
+
+#### Running Backend
+1. Just execute `yarn dev` in `backend`.
+
+#### Running Playwright test
+1. Just execute `yarn test` in `frontend`.
