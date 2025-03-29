@@ -11,6 +11,10 @@ import { useMutation } from "@tanstack/react-query";
 import { LoginPayload, LoginResponse } from "@/app/_requests/auth/login.request";
 import { useRouter } from "next/navigation";
 import config from "@/app/_config/app.config";
+import LoginValidator from "@/app/_validators/auth/login.validator";
+import _ from "lodash";
+
+type ErrorKey = 'username'|'password';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -42,24 +46,20 @@ export default function LoginForm() {
 
   function handleFormSubmit(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     event.preventDefault();
-    let hasErrors = false;
-    let errors: { username?: string, password?: string} = {}
-    if (!username) {
-      errors = { ...errors, username: 'Username is required!' };
-      hasErrors = true;
+    const formData = { username, password };
+    const validationResponse = (new LoginValidator).validate<LoginPayload>(formData);
+    if ("errors" in validationResponse) {
+      const errorObj: { username?: string, password?: string, retypePassword?: string } = {};
+      _.forEach(validationResponse.errors.details, (value) => {
+        const errorKey = value.path[0] as ErrorKey;
+        errorObj[errorKey] = value.message;
+      });
+      setErrors(errorObj);
+      return;
     }
 
-    if (!password) {
-      errors = ({ ...errors, password: 'Password is required!' });
-      hasErrors = true;
-    }
-
-    if (!hasErrors) {
-      setErrors({});
-      loginMutation.mutate({ username, password });
-    } else {
-      setErrors(errors);
-    }
+    setErrors({});
+    loginMutation.mutate(validationResponse);
   }
 
   return (

@@ -30,12 +30,14 @@ export async function POST() {
     }),
   });
 
+  const responseJson = await response.json();
+
   if (!response.ok) {
     return Response.json(
       {
         error: {
           code: response.status,
-          message: response.statusText,
+          message: responseJson?.error?.message || response.statusText,
         },
       },
       { status: response.status, statusText: response.statusText }

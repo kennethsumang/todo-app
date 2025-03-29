@@ -72,7 +72,7 @@ export default function SignupForm() {
           onChange={(e) => setRetypePassword(e.target.value)}
           onFocus={() => setErrors({ ...errors, retypePassword: undefined })}
         />
-        <Button type="submit" variant="contained">Sign up</Button>
+        <Button type="submit" variant="contained">Sign Up</Button>
         <Typography align="center">
           {`Already have an account?`}
           &nbsp;

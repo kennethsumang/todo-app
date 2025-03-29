@@ -4,19 +4,19 @@ export async function POST(request: Request) {
   const session = await getSessionFromServer();
   const body = await request.json();
 
-  if (!body.username || !body.password) {
+  if (!body.username || !body.password || !body.retypePassword) {
     return Response.json(
       {
         error: {
           code: 400,
-          message: "Invalid or missing credentials.",
+          message: "Invalid register data.",
         },
       },
-      { status: 400, statusText: "Invalid or missing credentials." }
+      { status: 400, statusText: "Invalid register data." }
     );
   }
 
-  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`);
   const response = await fetch(url.toString(), {
     method: "POST",
     body: JSON.stringify(body),
@@ -39,10 +39,5 @@ export async function POST(request: Request) {
     );
   }
 
-  const responseData = responseJson.data as SessionData;
-  session.user = responseData.user;
-  session.refreshToken = responseData.refreshToken;
-  session.accessToken = responseData.accessToken;
-  await session.save();
   return Response.json(responseJson, { status: 200 });
 }
