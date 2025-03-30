@@ -130,7 +130,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
                   <TodoStatusProgress status={todo.status} />
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => router.push(`/todos/${todo.id}/edit`)}>
+                  <IconButton aria-label={`${todo.id}-edit-button`} onClick={() => router.push(`/todos/${todo.id}/edit`)}>
                     <Image src="/Pencil.svg" height="24" width="24" alt="pencil icon" />
                   </IconButton>
                 </TableCell>

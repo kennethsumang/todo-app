@@ -145,12 +145,14 @@ test("clicking a task must redirect to view task page", async ({ page, context }
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await responsePromise;
 
-  const item = page.getByRole('link', { name: 'admin NS L Todo' });
-  const id = await item.getAttribute("data-id");
-  await item.click();
+  const firstItem = page.locator(".todo-title").first();
+  const id = await firstItem.getAttribute("data-id");
+  const title = await firstItem.textContent();
+  await firstItem.click();
 
   await expect(page).toHaveURL(`http://localhost:5173/todos/${id}`);
-  await expect(page.getByText("admin NS L Todo")).toBeVisible();
+  const todoTitleInViewPage = await page.locator(".todo-title").first().textContent();
+  expect(todoTitleInViewPage).toContain(title);
 });
 
 test("clicking the pencil icon must redirect to edit task page", async ({ page, context }) => {
@@ -166,11 +168,12 @@ test("clicking the pencil icon must redirect to edit task page", async ({ page, 
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await responsePromise;
 
-  const item = page.getByRole('link', { name: 'admin NS L Todo' });
-  const pencilButton = page.getByRole('row', { name: 'admin NS L Todo 03/30/2026' }).getByRole('button');
+  const item = page.locator(".todo-title").first();
   const id = await item.getAttribute("data-id");
+  const title = await item.textContent();
+  const pencilButton = page.getByRole('row', { name: `${id}-edit-button` }).getByRole('button');
   await pencilButton.click();
 
   await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
-  await expect(page.getByRole('textbox', { name: 'Title' })).toHaveValue("admin NS L Todo");
+  await expect(page.getByRole('textbox', { name: 'Title' })).toHaveValue(title);
 });

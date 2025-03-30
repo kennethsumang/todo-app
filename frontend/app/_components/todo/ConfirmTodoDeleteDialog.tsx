@@ -26,7 +26,7 @@ const ConfirmTodoDeleteDialog: React.FC<ConfirmDeleteDialogProps> = ({
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Confirm Delete</DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        <DialogContentText className="todo-dialog-content-text">
           Are you sure you want to delete &quot;{todoTitle}&quot;?
         </DialogContentText>
       </DialogContent>
