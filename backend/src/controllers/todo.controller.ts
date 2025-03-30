@@ -17,8 +17,8 @@ export default class TodoController {
   }
 
   async fetch(req: Request, res: Response) {
-    const todos = await this.todoService.fetchTodo(req.query, req.user?.id);
-    return { todos: todos };
+    const result = await this.todoService.fetchTodo(req.query, req.user?.id);
+    return { todos: result.data, count: result.count };
   }
 
   async fetchSpecificTodo(req: Request, res: Response) {

@@ -28,9 +28,14 @@ export const initialFormValues = {
   dueAt: toDayjs(new Date()),
 };
 
+export const initialFilterValues = {
+  limit: 5,
+  page: 1
+}
+
 const useTodoStore = create<TodoStore>((set, get) => ({
   todos: [],
-  filters: {},
+  filters: initialFilterValues,
   form: initialFormValues,
   fetchTodos: async () => {
     const data = await requestTodoList(get().filters);

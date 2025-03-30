@@ -59,6 +59,42 @@ export default class TodoRepository {
       });
   }
 
+  async countTodos(filters: FetchTodoDto, userId: string): Promise<number> {
+    const whereQuery: Record<string, any> = { userId };
+    if (filters.id) {
+      whereQuery.id = filters.id;
+    }
+
+    if (filters.priority !== undefined) {
+      whereQuery.priority = filters.priority;
+    }
+
+    if (filters.status !== undefined) {
+      whereQuery.status = filters.status;
+    }
+
+    if (filters.title) {
+      whereQuery.title = {
+        contains: filters.title,
+      };
+    }
+
+    if (filters.details) {
+      whereQuery.details = {
+        contains: filters.details,
+      };
+    }
+    
+    return this.prisma
+      .todo
+      .count({
+        where: whereQuery,
+        orderBy: {
+          createdAt: 'desc'
+        }
+      });
+  }
+
   async getTodoById(todoId: string, userId: string): Promise<Todo|null> {
     return this.prisma
       .todo

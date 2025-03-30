@@ -33,7 +33,7 @@ export default function TodoDashboardContainer() {
   return (
     <>
       <TodoFilterContainer />
-      <TodoTableContainer todos={data?.todos ?? []} />
+      <TodoTableContainer todos={data?.todos ?? []} count={data?.count ?? 0} />
     </>
   )
 }

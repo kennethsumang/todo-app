@@ -7,6 +7,7 @@ interface TodoRequestOptions extends RequestOptions {
 
 export interface TodoResponse {
   todos: TodoItem[];
+  count: number;
 }
 
 export class TodoRequest extends BaseRequest<TodoRequestOptions, TodoResponse> {

@@ -7,6 +7,7 @@ import {
   Checkbox,
   IconButton,
   Link,
+  Pagination,
   Paper,
   Table,
   TableBody,
@@ -21,14 +22,17 @@ import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import { useRouter } from "next/navigation";
 import _ from "lodash";
+import useTodoStore from "@/app/_store/todo.store";
 
 interface Props {
   todos: TodoItem[];
+  count: number;
 }
 
-const TodoTableContainer: React.FC<Props> = ({ todos }) => {
+const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
   const router = useRouter();
   const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
+  const { filters, setFilter } = useTodoStore();
 
   /**
    * Handles item checkbox click
@@ -46,7 +50,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
   }
 
   return (
-    <Paper square={false} className="flex flex-row justify-between p-2">
+    <Paper square={false} className="flex flex-col justify-between p-2">
       <Table>
         <TableHead>
           <TableRow>
@@ -135,6 +139,13 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
           })}
         </TableBody>
       </Table>
+      <div className="flex flex-row justify-center mt-3 mb-3">
+        <Pagination
+          count={Math.ceil(count / (filters.limit ?? 10))}
+          color="primary"
+          onChange={(e, value) => setFilter("page", value)}
+        />
+      </div>
     </Paper>
   )
 }

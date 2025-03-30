@@ -10,6 +10,7 @@ import { UpdateTodoDto } from "../dtos/todo/updateTodo.dto";
 import ServerError from "../exceptions/server.error";
 import FetchTodoValidator from "../validators/todo/fetchTodo.validator";
 import FetchTodoDto from "../dtos/todo/fetchTodo.dto";
+import _ from "lodash";
 
 @injectable()
 export default class TodoService {
@@ -44,7 +45,7 @@ export default class TodoService {
    * @param {Record<string, unknown>} filters
    * @param {string|undefined} userId
    */
-  async fetchTodo(filters: Record<string, unknown>, userId: string|undefined): Promise<Todo[]> {
+  async fetchTodo(filters: Record<string, unknown>, userId: string|undefined): Promise<{ data: Todo[], count: number }> {
     if (!userId) {
       throw new BadRequestError('Missing userId.');
     }
@@ -57,7 +58,11 @@ export default class TodoService {
     const validated = (new FetchTodoValidator).validate<FetchTodoDto>(filters);
     validated.page = validated.page ?? 1;
     validated.limit = validated.limit ?? 10;
-    return await this.todoRepository.fetchTodos(validated, userId);
+    const count = await this.todoRepository.countTodos(_.omit(validated, ['page', 'limit']), userId);
+    return {
+      data: await this.todoRepository.fetchTodos(validated, userId),
+      count,
+    };
   }
 
   /**
