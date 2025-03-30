@@ -1,9 +1,6 @@
 "use client";
 
 import { Button, Link, Stack, TextField, Typography } from "@mui/material";
-import CustomDivider from "../misc/CustomDivider";
-import FacebookLogin from "@greatsumini/react-facebook-login";
-import { GoogleLogin } from "@react-oauth/google";
 import { SyntheticEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import requestRegister, { RegisterPayload } from "@/app/_requests/auth/register.request";
@@ -96,19 +93,6 @@ export default function SignupForm() {
           &nbsp;
           <Link href="/">Sign in.</Link>
         </Typography>
-        <CustomDivider>OR</CustomDivider>
-        <FacebookLogin
-          appId=""
-          style={{
-            backgroundColor: '#4267b2',
-            color: '#fff',
-            fontSize: '16px',
-            padding: '12px 24px',
-            border: 'none',
-            borderRadius: '4px',
-          }}
-        />
-        <GoogleLogin locale="en_PH" onSuccess={() => {}} />
       </Stack>
     </form>
   )

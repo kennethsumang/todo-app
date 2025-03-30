@@ -284,11 +284,6 @@
     "@eslint/core" "^0.12.0"
     levn "^0.4.1"
 
-"@greatsumini/react-facebook-login@^3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@greatsumini/react-facebook-login/-/react-facebook-login-3.4.0.tgz#52d7943676a310f54365d313b462156ee86f64ce"
-  integrity sha512-NJYqTOcDghZ6zLppC+LJVLep7Xi3gfx9ssQFRd7EhDTU07lC15SG/eZ3ZyvUPsuPBkbhVl6E/Py0w4M5m7Lh9Q==
-
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
@@ -716,11 +711,6 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@react-hook/media-query/-/media-query-1.1.1.tgz#7fc4e52591784a39be924b62b4270ae3e18ec578"
   integrity sha512-VM14wDOX5CW5Dn6b2lTiMd79BFMTut9AZj2+vIRT3LCKgMCYmdqruTtzDPSnIVDQdtxdPgtOzvU9oK20LopuOw==
-
-"@react-oauth/google@^0.12.1":
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/@react-oauth/google/-/google-0.12.1.tgz#b76432c3a525e9afe076f787d2ded003fcc1bee9"
-  integrity sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==
 
 "@rtsao/scc@^1.1.0":
   version "1.1.0"
