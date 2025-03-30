@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 5173",
     "lint": "next lint",
-    "test": "npx playwright test"
+    "test": "./bin/run-e2e-tests.sh",
+    "postinstall": "chmod +x run-e2e-tests.sh"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

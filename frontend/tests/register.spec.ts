@@ -162,3 +162,44 @@ test("retype password must show an error when it is not the same with the passwo
 
   await expect(page.getByText("Passwords do not match.")).toBeVisible();
 });
+
+test("valid inputs must register successfully and user must be able to login to that account", async ({
+  page,
+  context,
+}) => {
+  await context.clearCookies();
+  await page.goto("/register");
+
+  await page
+    .getByRole("textbox", { name: "User Name", exact: true })
+    .fill("admintest");
+  await page
+    .getByRole("textbox", { name: "Password", exact: true })
+    .fill("admintest123!");
+  await page
+    .getByRole("textbox", { name: "Retype Password", exact: true })
+    .fill("admintest123!");
+  const registerResponsePromise = page.waitForResponse((resp) =>
+    resp.url().includes("/api/auth/register")
+  );
+  await page.getByRole("button", { name: "Sign Up", exact: true }).click();
+  await registerResponsePromise;
+
+  await expect(page.getByText(
+    "Registered successfully. Please login to continue."
+  )).toBeVisible();
+
+  // login
+  await expect(page).toHaveURL("http://localhost:5173");
+  await page.getByRole("textbox", { name: "User Name" }).fill("admintest");
+  await page.getByRole("textbox", { name: "Password" }).fill("admintest123!");
+
+  const loginResponsePromise = page.waitForResponse((resp) =>
+    resp.url().includes("/api/auth/login")
+  );
+  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await loginResponsePromise;
+
+  await expect(page.getByText("To-do")).toBeVisible();
+  await expect(page.getByText("admintest")).toBeVisible();
+});

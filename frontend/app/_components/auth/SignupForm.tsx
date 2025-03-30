@@ -9,16 +9,23 @@ import { useMutation } from "@tanstack/react-query";
 import requestRegister, { RegisterPayload } from "@/app/_requests/auth/register.request";
 import RegisterValidator from "@/app/_validators/auth/register.validator";
 import _ from "lodash";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 type ErrorKey = 'username'|'password'|'retypePassword';
 
 export default function SignupForm() {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [retypePassword, setRetypePassword] = useState('');
   const [errors, setErrors] = useState<{ username?: string, password?: string, retypePassword?: string }>({});
   const registerMutation = useMutation({
     mutationFn: (payload: RegisterPayload) => requestRegister(payload),
+    onSuccess: () => {
+      router.push("/");
+      toast("Registered successfully. Please login to continue.");
+    }
   })
 
   function handleFormSubmit(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
