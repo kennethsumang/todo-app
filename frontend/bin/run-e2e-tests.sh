@@ -24,6 +24,16 @@ check_database_env() {
     fi
 }
 
+# Function to check if test db is present
+check_test_db() {
+    local TEST_DB="../backend/prisma/test.db"
+    
+    if [[ ! -f "$TEST_DB" ]]; then
+        echo "❌ Error: $TEST_DB does not exist."
+        exit 1
+    fi
+}
+
 echo "🔍 Checking environment..."
 
 # Check if backend (port 3000) is running
@@ -37,6 +47,10 @@ echo "✅ Frontend is running."
 # Check if DATABASE_URL is set correctly
 check_database_env
 echo "✅ DATABASE_URL is correctly set to file:./test.db."
+
+# Check if test db is present
+check_test_db
+echo "✅ Test Database is correctly set up."
 
 # Seed the test database
 echo "🌱 Seeding test database..."
