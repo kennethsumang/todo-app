@@ -13,6 +13,7 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setForm: (key: string, value: any) => void;
   errors: Record<string, string[]>;
+  removeError: (key: string) => void;
 }
 
 const TodoForm: React.FC<Props> = (props) => {
@@ -28,6 +29,7 @@ const TodoForm: React.FC<Props> = (props) => {
             error={!!props.errors?.priority}
             value={props.form.priority?.toString()}
             onChange={(e) => props.setForm("priority", e.target.value)}
+            onFocus={() => props.removeError("priority")}
           >
             <MenuItem value={0}>Low</MenuItem>
             <MenuItem value={1}>High</MenuItem>
@@ -44,6 +46,7 @@ const TodoForm: React.FC<Props> = (props) => {
             error={!!props.errors?.status}
             value={props.form.status?.toString()}
             onChange={(e) => props.setForm("status", e.target.value)}
+            onFocus={() => props.removeError("status")}
           >
             <MenuItem value={0}>Not Started</MenuItem>
             <MenuItem value={1}>In Progress</MenuItem>
@@ -61,6 +64,7 @@ const TodoForm: React.FC<Props> = (props) => {
             error={!!props.errors?.title}
             value={props.form.title}
             onChange={(e) => props.setForm("title", e.target.value)}
+            onFocus={() => props.removeError("title")}
           />
           {props.errors?.title && <small className="text-red-500">{props.errors.title[0]}</small>}
         </FormControl>
@@ -82,6 +86,7 @@ const TodoForm: React.FC<Props> = (props) => {
             // }}
             value={props.form.dueAt}
             onChange={(value) => props.setForm("dueAt", value)}
+            onOpen={() => props.removeError("dueAt")}
           />
           {props.errors?.dueAt && <small className="text-red-500">{props.errors.dueAt[0]}</small>}
         </FormControl>
@@ -95,6 +100,7 @@ const TodoForm: React.FC<Props> = (props) => {
             error={!!props.errors?.details}
             value={props.form.details}
             onChange={(e) => props.setForm("details", e.target.value)}
+            onFocus={() => props.removeError("details")}
           />
           {props.errors?.details && <small className="text-red-500">{props.errors.details[0]}</small>}
         </FormControl>

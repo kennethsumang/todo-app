@@ -7,10 +7,11 @@ import { useRouter } from "next/navigation";
 import TodoForm from "./TodoForm";
 import { convertUtcToUserTimezone, getUtcDate, toDayjs } from "@/app/_libs/date";
 import useCreateTodoForm from "@/app/_hooks/use-create-todo-form.hook";
+import _ from "lodash";
 
 export default function CreateTodoContainer() {
   const router = useRouter();
-  const { form, validate, setForm, errors, mutate } = useCreateTodoForm();
+  const { form, validate, setForm, errors, setErrors, mutate } = useCreateTodoForm();
 
   async function onFormSubmit(e: FormEvent) {
     e.preventDefault();
@@ -31,6 +32,7 @@ export default function CreateTodoContainer() {
           form={form}
           errors={errors}
           setForm={setForm}
+          removeError={(key) => setErrors(_.omit(errors, [key]))}
         />
       </Paper>
       <div className="flex flex-row justify-end gap-5">

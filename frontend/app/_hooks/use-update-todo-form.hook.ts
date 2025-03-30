@@ -92,6 +92,7 @@ export default function useUpdateTodoForm(todoId: string) {
 
   return {
     errors,
+    setErrors,
     validate,
     form,
     setForm: setFormValue,

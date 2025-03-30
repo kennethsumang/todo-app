@@ -2,17 +2,16 @@
 
 import { Paper } from "@mui/material";
 import React, { FormEvent, useEffect, useRef } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import requestSpecificTodo from "@/app/_requests/todo/fetch-specific-todo.request";
 import LoadingPage from "../misc/LoadingPage";
 import TodoFormActions from "./TodoFormActions";
-import { useTodoFormContext } from "@/app/_contexts/todo-form.context";
 import { useRouter } from "next/navigation";
-import requestUpdateTodo from "@/app/_requests/todo/edit-todo.request";
 import TodoForm from "./TodoForm";
 import { convertUtcToUserTimezone, toDayjs } from "@/app/_libs/date";
 import ApiError from "@/app/_exceptions/api.error";
 import useUpdateTodoForm from "@/app/_hooks/use-update-todo-form.hook";
+import _ from "lodash";
 
 interface Props {
   todoId: string;
@@ -26,13 +25,7 @@ const EditTodoContainer: React.FC<Props> = ({ todoId }) => {
     queryFn: () => requestSpecificTodo(todoId),
     enabled: !!todoId,
   });
-  const { form, setForm, errors, setInitialValues, validate, mutate } = useUpdateTodoForm(todoId);
-  const { mutateAsync } = useMutation({
-    mutationFn: () => requestUpdateTodo(todoId, form),
-    onSuccess: (data) => {
-      router.push(`/todos/${data.todo.id}`);
-    }
-  });
+  const { form, setForm, errors, setErrors, setInitialValues, validate, mutate } = useUpdateTodoForm(todoId);
 
   useEffect(() => {
     if (data && !isInitialized.current) {
@@ -83,6 +76,7 @@ const EditTodoContainer: React.FC<Props> = ({ todoId }) => {
           form={form}
           setForm={setForm}
           errors={errors}
+          removeError={(key) => setErrors(_.omit(errors, [key]))}
         />
       </Paper>
       <div className="flex flex-row justify-end gap-5">
