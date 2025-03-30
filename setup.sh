@@ -26,6 +26,11 @@ fi
 
 echo "✅ Node.js, npm, and yarn are installed."
 
+# Install Bitwarden CLI if not installed
+echo "🔑 Installing Bitwarden CLI (bw)..."
+npm install -g @bitwarden/cli
+echo "✅ Bitwarden CLI installed."
+
 # Ensure backend directory exists
 if [ ! -d "backend" ]; then
     echo "❌ The backend directory does not exist. Please create it first."
@@ -70,14 +75,13 @@ else
 fi
 
 # Generate a new JWT_SECRET and replace it in backend/.env
-JWT_SECRET=$(openssl rand -base64 32)
+JWT_SECRET=$(bw generate -uln --length 32)
 echo "🔐 Updating JWT_SECRET in backend/.env..."
 
-# Detect macOS (Darwin) vs Linux (WSL) and apply the correct `sed` syntax
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' -E "s/^JWT_SECRET=.*/JWT_SECRET=\"$JWT_SECRET\"/" backend/.env
+    sed -i '' -E "s|^JWT_SECRET=.*|JWT_SECRET=\"$JWT_SECRET\"|" backend/.env
 else
-    sed -i -E "s/^JWT_SECRET=.*/JWT_SECRET=\"$JWT_SECRET\"/" backend/.env
+    sed -i -E "s|^JWT_SECRET=.*|JWT_SECRET=\"$JWT_SECRET\"|" backend/.env
 fi
 
 # If JWT_SECRET was not found, append it to the file
@@ -100,7 +104,7 @@ else
 fi
 
 # Generate a new COOKIE_PASSWORD and replace it in frontend/.env
-COOKIE_PASSWORD=$(openssl rand -base64 32)
+COOKIE_PASSWORD=$(bw generate -uln --length 32)
 echo "🍪 Updating COOKIE_PASSWORD in frontend/.env..."
 
 # Detect macOS (Darwin) vs Linux (WSL) and apply the correct `sed` syntax
