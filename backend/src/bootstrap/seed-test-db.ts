@@ -32,11 +32,11 @@ async function createUser() {
 }
 
 async function createOtherUser() {
-  const password = "adminnew123!"
+  const password = "test123!"
   const hashedPassword = await new HashUtil().hash(password);
   const data = await prisma.user.create({
     data: {
-      username: "adminnew",
+      username: "test",
       password: hashedPassword,
       createdAt: dayjs.utc().toDate(),
     },
@@ -51,7 +51,7 @@ async function createTodos(userId: string) {
   const todos = [
     {
       userId: userId,
-      title: "NS L Todo",
+      title: "admin NS L Todo",
       status: 0,
       priority: 0,
       details: "Not Started Status, Low Priority Todo",
@@ -60,7 +60,7 @@ async function createTodos(userId: string) {
     },
     {
       userId: userId,
-      title: "NS H Todo",
+      title: "admin NS H Todo",
       status: 0,
       priority: 1,
       details: "Not Started Status, High Priority Todo",
@@ -69,16 +69,16 @@ async function createTodos(userId: string) {
     },
     {
       userId: userId,
-      title: "NS U Todo",
+      title: "admin NS C Todo",
       status: 0,
       priority: 0,
-      details: "Not Started Status, Urgent Priority Todo",
+      details: "Not Started Status, Critical Priority Todo",
       createdAt: dayjs.utc().toDate(),
       dueAt: dayjs.utc().add(1, 'year').toDate(),
     },
     {
       userId: userId,
-      title: "IP L Todo",
+      title: "admin IP L Todo",
       status: 1,
       priority: 0,
       details: "In Progress Status, Low Priority Todo",
@@ -87,7 +87,7 @@ async function createTodos(userId: string) {
     },
     {
       userId: userId,
-      title: "D L Todo",
+      title: "admin D L Todo",
       status: 2,
       priority: 0,
       details: "Done Status, Low Priority Todo",
@@ -96,7 +96,7 @@ async function createTodos(userId: string) {
     },
     {
       userId: userId,
-      title: "D H Todo",
+      title: "admin D H Todo",
       status: 2,
       priority: 1,
       details: "Done Status, High Priority Todo",
@@ -114,7 +114,7 @@ async function createOtherUserTodos(userId: string) {
   const todos = [
     {
       userId: userId,
-      title: "NS L Todo",
+      title: "test NS L Todo",
       status: 0,
       priority: 0,
       details: "Not Started Status, Low Priority Todo",

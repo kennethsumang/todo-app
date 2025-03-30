@@ -87,5 +87,5 @@ test("logging in with correct credentials should redirect to todos page", async 
   await responsePromise;
 
   await expect(page.getByText("To-do")).toBeVisible();
-  await expect(page.getByText("admin")).toBeVisible();
+  await expect(page.getByText("admin", { exact: true })).toBeVisible();
 });

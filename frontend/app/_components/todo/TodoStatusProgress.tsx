@@ -32,7 +32,7 @@ const TodoStatusProgress: React.FC<Props> = ({ status }) => {
   return (
     <div className="flex flex-row gap-2">
       {circularProgress}
-      <span className="text-sm">{statusText}</span>
+      <span className="text-sm todo-status">{statusText}</span>
     </div>
   )
 }

@@ -16,13 +16,13 @@ const TodoPriorityChip: React.FC<Props> = ({ priority }) => {
 
   switch (priorityText) {
     case 'Critical':
-      return <Chip color="error" label="Critical" />;
+      return <Chip color="error" label="Critical" className="todo-priority" />;
     case 'High':
-      return <Chip color="warning" label="High" />;
+      return <Chip color="warning" label="High" className="todo-priority" />;
     case 'Low':
-      return <Chip color="success" label="Low" />;
+      return <Chip color="success" label="Low" className="todo-priority" />;
     default:
-      return <Chip color="error" label="Error" />;
+      return <Chip color="error" label="Error" className="todo-priority" />;
   }
 }
 

@@ -110,7 +110,11 @@ const TodoTableContainer: React.FC<Props> = ({ todos }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <Link href={`/todos/${todo.id}`} className="!text-black !underline !decoration-black">
+                  <Link
+                    href={`/todos/${todo.id}`}
+                    className="!text-black !underline !decoration-black todo-title"
+                    data-id={todo.id}
+                  >
                     {todo.title}
                   </Link>
                 </TableCell>
