@@ -153,3 +153,78 @@ export async function PUT(
     statusText: response.statusText,
   });
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ todoId: string }> }
+) {
+  const { todoId } = await params;
+  const session = await getSessionFromServer();
+
+  if (!session || !session.accessToken) {
+    return Response.json(
+      {
+        error: {
+          code: 401,
+          message: "Invalid session.",
+        },
+      },
+      { status: 401 }
+    );
+  }
+
+  const url = new URL(
+    `${process.env.NEXT_PUBLIC_API_URL ?? ""}/api/todos/${todoId}`
+  );
+  let response: Response;
+  response = await fetch(url.toString(), {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session.accessToken}`,
+    },
+  });
+
+  if (response.ok) {
+    const responseData = await response.json();
+    return Response.json(responseData, { status: 201 });
+  }
+
+  if (response.status === 401) {
+    // attempt to refresh token
+    const refreshTokenUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/refresh-token`;
+    await fetch(refreshTokenUrl, {
+      method: "POST",
+      body: JSON.stringify({
+        refreshToken: session.refreshToken!,
+        userId: session.user!.id,
+      }),
+      credentials: "include",
+      mode: "same-origin",
+    });
+    // then fetch again resource
+    response = await fetch(url.toString(), {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    });
+
+    if (response.ok) {
+      return Response.json(await response.json(), { status: 201 });
+    }
+  }
+
+  // if response is still 401, remove the session also
+  // this is more likely an expired refresh token
+  if (response.status === 401) {
+    session.destroy();
+  }
+
+  // just carry over the api error
+  return Response.json(await response.json(), {
+    status: response.status,
+    statusText: response.statusText,
+  });
+}
