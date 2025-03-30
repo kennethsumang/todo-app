@@ -130,6 +130,11 @@ cd frontend
 yarn install
 cd ..
 
+echo "📦 Installing playwright dependencies..."
+cd frontend
+yarn playwright install
+cd ..
+
 echo "✅ Dependencies installed."
 
 # Database setup

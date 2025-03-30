@@ -23,6 +23,14 @@ export default function SignupForm() {
 
   function handleFormSubmit(event: SyntheticEvent<HTMLFormElement, SubmitEvent>) {
     event.preventDefault();
+    let newErrors: { username?: string, password?: string, retypePassword?: string } = {};
+
+    // handle empty retyped password
+    if (!retypePassword) {
+      newErrors = { ...errors, retypePassword: "Retyped Password is required." };
+      setErrors(newErrors);
+    }
+
     const formData = { username, password, retypePassword };
     const validationResponse = (new RegisterValidator).validate<RegisterPayload>(formData);
     if ("errors" in validationResponse) {
@@ -31,12 +39,15 @@ export default function SignupForm() {
         const errorKey = value.path[0] as ErrorKey;
         errorObj[errorKey] = value.message;
       });
-      setErrors(errorObj);
-      return;
+      newErrors = { ...newErrors, ...errorObj };
+      setErrors(newErrors);
     }
 
-    setErrors({});
-    registerMutation.mutate(validationResponse);
+    if (Object.keys(newErrors).length === 0) {
+      setErrors({});
+      registerMutation.mutate(validationResponse as RegisterPayload);
+    }
+
   }
 
   return (

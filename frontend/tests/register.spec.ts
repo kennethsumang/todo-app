@@ -47,9 +47,9 @@ test("username, password, and retype password must show errors when they are all
   page,
   context,
 }) => {
-  context.clearCookies();
+  await context.clearCookies();
 
-  page.goto("/register");
+  await page.goto("/register");
   await page.getByRole("button", { name: "Sign Up", exact: true }).click();
 
   await expect(page.getByText("Username is required.")).toBeVisible();

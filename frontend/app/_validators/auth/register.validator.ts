@@ -21,18 +21,14 @@ export default class RegisterValidator extends BaseValidator {
           "Password can only contain letters, numbers, spaces, and the special characters: !, #, (, ), _, -.",
         "string.empty": "Password is required.",
       }),
-    retypePassword: Joi.string()
-      .required()
-      .messages({
-        "string.empty": "Retyped Password is required.",
-      })
-      .custom((value, helpers) => {
-        if (value !== helpers.state.ancestors[0].password) {
-          return helpers.error("any.only", {
-            message: "Passwords do not match.",
-          });
-        }
-        return value;
-      }),
+    retypePassword: Joi
+    .string()
+    .valid(Joi.ref("password"))
+    .required()
+    .messages({
+      "any.only": "Passwords do not match.",
+      "any.required": "Retyped Password is required.",
+      "string.empty": "Retyped Password is required.",
+    }),
   });
 }
