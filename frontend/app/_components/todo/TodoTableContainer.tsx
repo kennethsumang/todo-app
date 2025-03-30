@@ -50,7 +50,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
   }
 
   return (
-    <Paper square={false} className="flex flex-col justify-between p-2">
+    <Paper square={false} className="flex flex-col justify-between p-2 h-full">
       <Table>
         <TableHead>
           <TableRow>
@@ -143,6 +143,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
         <Pagination
           count={Math.ceil(count / (filters.limit ?? 10))}
           color="primary"
+          page={filters.page}
           onChange={(e, value) => setFilter("page", value)}
         />
       </div>
