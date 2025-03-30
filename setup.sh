@@ -2,6 +2,9 @@
 
 echo "🚀 Setting up Todo App Development Environment..."
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 # Check if Node.js, npm, and yarn are installed
 if ! command -v node &> /dev/null
 then
@@ -69,7 +72,17 @@ fi
 # Generate a new JWT_SECRET and replace it in backend/.env
 JWT_SECRET=$(openssl rand -base64 32)
 echo "🔐 Updating JWT_SECRET in backend/.env..."
-sed -i '' -E "s/^JWT_SECRET=.*/JWT_SECRET=\"$JWT_SECRET\"/" backend/.env || echo "JWT_SECRET=\"$JWT_SECRET\"" >> backend/.env
+
+# Detect macOS (Darwin) vs Linux (WSL) and apply the correct `sed` syntax
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' -E "s/^JWT_SECRET=.*/JWT_SECRET=\"$JWT_SECRET\"/" backend/.env
+else
+    sed -i -E "s/^JWT_SECRET=.*/JWT_SECRET=\"$JWT_SECRET\"/" backend/.env
+fi
+
+# If JWT_SECRET was not found, append it to the file
+grep -q "^JWT_SECRET=" backend/.env || echo "JWT_SECRET=\"$JWT_SECRET\"" >> backend/.env
+
 echo "✅ JWT_SECRET updated."
 
 # Setup frontend environment variables
@@ -89,7 +102,17 @@ fi
 # Generate a new COOKIE_PASSWORD and replace it in frontend/.env
 COOKIE_PASSWORD=$(openssl rand -base64 32)
 echo "🍪 Updating COOKIE_PASSWORD in frontend/.env..."
-sed -i '' -E "s/^COOKIE_PASSWORD=.*/COOKIE_PASSWORD=\"$COOKIE_PASSWORD\"/" frontend/.env || echo "COOKIE_PASSWORD=\"$COOKIE_PASSWORD\"" >> frontend/.env
+
+# Detect macOS (Darwin) vs Linux (WSL) and apply the correct `sed` syntax
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' -E "s/^COOKIE_PASSWORD=.*/COOKIE_PASSWORD=\"$COOKIE_PASSWORD\"/" frontend/.env
+else
+    sed -i -E "s/^COOKIE_PASSWORD=.*/COOKIE_PASSWORD=\"$COOKIE_PASSWORD\"/" frontend/.env
+fi
+
+# If COOKIE_PASSWORD was not found, append it to the file
+grep -q "^COOKIE_PASSWORD=" frontend/.env || echo "COOKIE_PASSWORD=\"$COOKIE_PASSWORD\"" >> frontend/.env
+
 echo "✅ COOKIE_PASSWORD updated."
 
 # Install dependencies
