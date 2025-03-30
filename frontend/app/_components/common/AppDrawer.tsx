@@ -5,6 +5,7 @@ import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItem
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Props {
   username: string;
@@ -12,11 +13,18 @@ interface Props {
 
 const AppDrawer: React.FC<Props> = ({ username }) => {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const { mutateAsync } = useMutation({
     mutationFn: () => requestLogout(),
     onSuccess: () => router.push("/"),
     onError: () => router.push("/"),
   });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Prevents mismatches during SSR
 
   return (
     <Drawer

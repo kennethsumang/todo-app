@@ -175,5 +175,5 @@ test("clicking the pencil icon must redirect to edit task page", async ({ page, 
   await pencilButton.click();
 
   await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
-  await expect(page.getByRole('textbox', { name: 'Title' })).toHaveValue(title);
+  await expect(page.getByRole('textbox', { name: 'Title' })).toHaveValue(title!);
 });

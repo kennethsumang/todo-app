@@ -81,7 +81,7 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
         <span className="text-sm text-gray-500">
           {`${convertedTzCreatedAt} - ${convertedTzDueAt}`}
         </span>
-        <span className="mt-3">
+        <span className="mt-3 todo-details">
           {data!.todo.details}
         </span>
       </div>
