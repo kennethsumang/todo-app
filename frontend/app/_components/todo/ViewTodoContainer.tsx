@@ -47,8 +47,17 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
   }, [router, todoId]);
 
   useEffect(() => {
-    if (error && error instanceof ApiError && error.code === 401) {
-      router.replace("/");
+    console.log("ERROR!");
+    console.log(error);
+    if (error && error instanceof ApiError) {
+      if (error.code === 401) {
+        router.replace("/");
+        return;
+      }
+
+      if (error.code === 404) {
+        router.replace("/todos");
+      }
     }
   }, [error, router]);
 

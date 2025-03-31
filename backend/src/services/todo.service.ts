@@ -11,6 +11,7 @@ import ServerError from "../exceptions/server.error";
 import FetchTodoValidator from "../validators/todo/fetchTodo.validator";
 import FetchTodoDto from "../dtos/todo/fetchTodo.dto";
 import _ from "lodash";
+import NotFoundError from "../exceptions/notFound.error";
 
 @injectable()
 export default class TodoService {
@@ -81,12 +82,12 @@ export default class TodoService {
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.');
+      throw new NotFoundError('User not found.');
     }
 
     const todo = await this.todoRepository.getTodoById(todoId, userId);
     if (!todo) {
-      throw new BadRequestError('Todo not found.');
+      throw new NotFoundError('Todo not found.');
     }
 
     return todo;
