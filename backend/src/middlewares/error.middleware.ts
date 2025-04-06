@@ -20,6 +20,7 @@ const errorMiddleware = (
     error: {
       code: statusCode,
       message: message,
+      errorCode: err.errorCode,
       timestamp: dayjs.utc().toISOString(),
     }
   });

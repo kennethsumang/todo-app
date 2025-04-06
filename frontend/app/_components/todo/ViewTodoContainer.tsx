@@ -20,11 +20,15 @@ interface Props {
 }
 
 const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
+  console.log("Component mounted, todoId:", todoId);
   const router = useRouter();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const { data, isLoading, error } = useQuery({
+  const [errorObj, setErrorObj] = useState<Error|null>(null);
+  const { data, isLoading, error, isError, status } = useQuery({
     queryKey: ["todo", todoId],
     queryFn: () => requestSpecificTodo(todoId),
+    retry: false,
+    enabled: !!todoId,
   });
   const { mutateAsync } = useMutation({
     mutationFn: () => requestDeleteTodo(todoId),
@@ -33,33 +37,29 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
       toast("Todo successfully deleted.");
     }
   });
+  // const errorCode = isError && error instanceof ApiError ? error.code + error.errorCode : null;
+  // console.log(`errorCode: ${errorCode}`);
 
-  // const subtasks = [
-  //   { title: "Prepare documentation", status: 2 },
-  //   { title: "Prepare slides", status: 1 },
-  //   { title: "Setup call", status: 0 },
-  // ];
-
-  useEffect(() => {
-    if (!todoId) {
-      router.replace("/todos");
-    }
-  }, [router, todoId]);
+  // useEffect(() => {
+  //   console.log("✅ useEffect triggered with error:", error);
+  // }, [errorCode]);
 
   useEffect(() => {
-    console.log("ERROR!");
-    console.log(error);
+    console.log(`isError: ${isError}`);
+    console.log(`Error: ${error}`);
+    console.log(`Status: ${status}`);
+    console.log("Is ApiError?", error instanceof ApiError); // Might be false
     if (error && error instanceof ApiError) {
       if (error.code === 401) {
         router.replace("/");
         return;
       }
 
-      if (error.code === 404) {
+      if (error.code === 400 && error.errorCode === "TODO_NOT_FOUND") {
         router.replace("/todos");
       }
     }
-  }, [error, router]);
+  }, [status, isError, error]);
 
   if (isLoading) {
     return <LoadingPage />;
@@ -93,22 +93,6 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
         <span className="mt-3 todo-details">
           {data!.todo.details}
         </span>
-      </div>
-      <div className="flex flex-col gap-3">
-        <Divider />
-        <span className="font-bold">Subtasks</span>
-        {/* Placeholder subtasks */}
-        {/* <div className="flex flex-col gap-1">
-          {subtasks.map((subtask) => {
-            return (
-              <div className="grid grid-cols-2" key={subtask.title}>
-                <span>{subtask.title}</span>
-                <TodoStatusProgress status={subtask.status} />
-              </div>
-            )
-          })}
-        </div> */}
-
       </div>
       <ConfirmTodoDeleteDialog
         open={confirmDialogOpen}

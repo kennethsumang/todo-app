@@ -1,6 +1,7 @@
 import { inject, injectable } from "inversify";
 import UserRepository from "../repositories/user.repository";
 import BadRequestError from "../exceptions/badRequest.error";
+import { USER_ERROR_CODES } from "../constants/error.constant";
 
 interface UserDataInterface {
   id: string;
@@ -16,7 +17,7 @@ export default class UserService {
   async fetchCurrentUserDetails(userId: string): Promise<UserDataInterface> {
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.');
+      throw new BadRequestError('User not found.', USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     return user;

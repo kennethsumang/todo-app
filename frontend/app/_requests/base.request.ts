@@ -24,7 +24,6 @@ export default class BaseRequest<T extends RequestOptions, U> {
 
   async request(options: T): Promise<U> {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-    console.log(appUrl);
     if (!appUrl) {
       throw new Error("Invalid URL.");
     }
@@ -52,12 +51,12 @@ export default class BaseRequest<T extends RequestOptions, U> {
     }
 
     const response = await fetch(url.toString(), fetchOptions);
+    const responseJson = await response.json();
     if (response.ok) {
-      const responseData = await response.json();
-      return responseData.data as U;
+      return responseJson.data as U;
     }
 
-    throw new ApiError(response.statusText, response.status);
+    throw new ApiError(response.statusText, response.status, responseJson.error?.errorCode);
   }
 
   /**

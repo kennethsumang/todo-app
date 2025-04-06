@@ -1,16 +1,17 @@
-import LoginDto from '../dtos/auth/login.dto';
-import RegisterDto from '../dtos/auth/register.dto';
-import RefreshTokenRepository from '../repositories/refreshToken.repository';
-import { inject, injectable } from 'inversify';
-import UserRepository from '../repositories/user.repository';
-import RegisterValidator from '../validators/auth/register.validator';
-import BadRequestError from '../exceptions/badRequest.error';
-import ServerError from '../exceptions/server.error';
-import _ from 'lodash';
-import JwtUtil from '../utils/jwt.util';
-import LoginValidator from '../validators/auth/login.validator';
-import HashUtil from '../utils/hash.util';
-import StringUtil from '../utils/string.util';
+import LoginDto from "../dtos/auth/login.dto";
+import RegisterDto from "../dtos/auth/register.dto";
+import RefreshTokenRepository from "../repositories/refreshToken.repository";
+import { inject, injectable } from "inversify";
+import UserRepository from "../repositories/user.repository";
+import RegisterValidator from "../validators/auth/register.validator";
+import BadRequestError from "../exceptions/badRequest.error";
+import ServerError from "../exceptions/server.error";
+import _ from "lodash";
+import JwtUtil from "../utils/jwt.util";
+import LoginValidator from "../validators/auth/login.validator";
+import HashUtil from "../utils/hash.util";
+import StringUtil from "../utils/string.util";
+import { AUTH_ERROR_CODES, USER_ERROR_CODES } from "../constants/error.constant";
 
 interface UserDataInterface {
   id: string;
@@ -44,15 +45,15 @@ export default class AuthService {
     // check if user exists
     const user = await this.userRepository.getUserByUsername(validated.username);
     if (!user) {
-      throw new BadRequestError('User does not exist.');
+      throw new BadRequestError("User does not exist.", USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     const comparedPassword = await this.hash.compare(validated.password, user.password);
     if (!comparedPassword) {
-      throw new BadRequestError('Credentials do not match.');
+      throw new BadRequestError("Credentials do not match.", AUTH_ERROR_CODES.CREDENTIALS_NOT_MATCH);
     }
 
-    const tokenUserData = _.omit(user, 'password');
+    const tokenUserData = _.omit(user, "password");
     const token = await this.jwt.create(tokenUserData);
     const refreshToken = await this.str.getRandomString(64);
 
@@ -73,14 +74,14 @@ export default class AuthService {
     // check if username exists
     const sameUsername = await this.userRepository.getUserByUsername(validated.username);
     if (sameUsername) {
-      throw new BadRequestError('User with that username already exists.');
+      throw new BadRequestError("User with that username already exists.", USER_ERROR_CODES.USERNAME_ALREADY_EXISTS);
     }
 
-    const formData = _.omit(validated, 'retypePassword');
+    const formData = _.omit(validated, "retypePassword");
     formData.password = await this.hash.hash(formData.password);
     const newUser = await this.userRepository.createUser(formData);
     if (!newUser) {
-      throw new ServerError('User saving failed.');
+      throw new ServerError("User saving failed.");
     }
 
     return newUser;
@@ -88,17 +89,17 @@ export default class AuthService {
 
   async refreshToken(refreshToken: string|undefined, userId: string|undefined) {
     if (!refreshToken) {
-      throw new BadRequestError('Missing refresh token.');
+      throw new BadRequestError("Missing refresh token.", AUTH_ERROR_CODES.MISSING_REFRESH_TOKEN);
     }
 
     if (!userId) {
-      throw new BadRequestError('Missing userId.');
+      throw new BadRequestError("Missing userId.", AUTH_ERROR_CODES.SESSION_ERROR);
     }
 
     // check user id
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.');
+      throw new BadRequestError("User not found.", USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     // find this refresh token in DB
@@ -113,10 +114,10 @@ export default class AuthService {
       }
     }
     if (!found) {
-      throw new BadRequestError('Invalid refresh token.');
+      throw new BadRequestError("Invalid refresh token.", AUTH_ERROR_CODES.INVALID_REFRESH_TOKEN);
     }
 
-    const tokenUserData = _.omit(user, 'password');
+    const tokenUserData = _.omit(user, "password");
     const newAccessToken = await this.jwt.create(tokenUserData);
     return {
       accessToken: newAccessToken,
@@ -126,17 +127,17 @@ export default class AuthService {
 
   async logout(refreshToken: string|undefined, userId: string|undefined): Promise<{ result: boolean }> {
     if (!refreshToken) {
-      throw new BadRequestError('Missing refresh token.');
+      throw new BadRequestError("Missing refresh token.", AUTH_ERROR_CODES.MISSING_REFRESH_TOKEN);
     }
 
     if (!userId) {
-      throw new BadRequestError('Missing userId.');
+      throw new BadRequestError("Missing userId.", AUTH_ERROR_CODES.SESSION_ERROR);
     }
 
     // check user
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.');
+      throw new BadRequestError("User not found.");
     }
     
     // find this refresh token in DB
@@ -156,7 +157,7 @@ export default class AuthService {
     if (found && tokenId) {
       const deletedToken = await this.refreshTokenRepository.deleteRefreshToken(tokenId);
       if (!deletedToken) {
-        throw new ServerError('Token deletion failed.');
+        throw new ServerError("Token deletion failed.", AUTH_ERROR_CODES.TOKEN_DELETION_FAILED);
       }
     }
   

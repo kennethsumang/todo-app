@@ -70,9 +70,11 @@ export async function GET(
   }
 
   // just carry over the api error
-  return Response.json(await response.json(), {
+  const responseJson = await response.json();
+  console.log(responseJson);
+  return Response.json(responseJson, {
     status: response.status,
-    statusText: response.statusText,
+    statusText: responseJson?.error?.message ?? response.statusText,
   });
 }
 
