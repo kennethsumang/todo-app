@@ -3,7 +3,7 @@
 import {useMutation, useQuery} from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {Divider, IconButton, Paper} from "@mui/material";
+import {IconButton, Paper} from "@mui/material";
 import TodoPriorityChip from "@/app/_components/todo/TodoPriorityChip";
 import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import requestSpecificTodo from "@/app/_requests/todo/fetch-specific-todo.request";
@@ -20,11 +20,9 @@ interface Props {
 }
 
 const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
-  console.log("Component mounted, todoId:", todoId);
   const router = useRouter();
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [errorObj, setErrorObj] = useState<Error|null>(null);
-  const { data, isLoading, error, isError, status } = useQuery({
+  const { data, isLoading, error, status } = useQuery({
     queryKey: ["todo", todoId],
     queryFn: () => requestSpecificTodo(todoId),
     retry: false,
@@ -37,19 +35,9 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
       toast("Todo successfully deleted.");
     }
   });
-  // const errorCode = isError && error instanceof ApiError ? error.code + error.errorCode : null;
-  // console.log(`errorCode: ${errorCode}`);
-
-  // useEffect(() => {
-  //   console.log("✅ useEffect triggered with error:", error);
-  // }, [errorCode]);
 
   useEffect(() => {
-    console.log(`isError: ${isError}`);
-    console.log(`Error: ${error}`);
-    console.log(`Status: ${status}`);
-    console.log("Is ApiError?", error instanceof ApiError); // Might be false
-    if (error && error instanceof ApiError) {
+    if (status === "error" && error instanceof ApiError) {
       if (error.code === 401) {
         router.replace("/");
         return;
@@ -57,11 +45,16 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
 
       if (error.code === 400 && error.errorCode === "TODO_NOT_FOUND") {
         router.replace("/todos");
+        toast("Todo not found.", { type: "error" });
       }
     }
-  }, [status, isError, error]);
+  }, [status, error, router]);
 
-  if (isLoading) {
+  if (status === "error") {
+    return null; // or a fallback UI while redirecting
+  }
+
+  if (isLoading || status === "pending") {
     return <LoadingPage />;
   }
 

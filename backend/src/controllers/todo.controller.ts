@@ -29,4 +29,8 @@ export default class TodoController {
   async remove(req: Request, res: Response) {
     return this.todoService.deleteTodo(req.params?.todoId, req.user?.id);
   }
+
+  async removeMultiple(req: Request, res: Response) {
+    return this.todoService.deleteMultipleTodo((req.query as Record<string, string>)?.todoIds, req.user?.id);
+  }
 }

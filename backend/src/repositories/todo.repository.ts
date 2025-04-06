@@ -131,4 +131,15 @@ export default class TodoRepository {
         }
       });
   }
+
+  async deleteMultipleTodos(todoIds: string[], userId: string): Promise<any> {
+    return this.prisma
+      .todo
+      .deleteMany({
+        where: {
+          id: { in: todoIds },
+          userId: userId,
+        },
+      });
+  }
 }

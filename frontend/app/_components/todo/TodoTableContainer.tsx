@@ -23,6 +23,10 @@ import TodoStatusProgress from "@/app/_components/todo/TodoStatusProgress";
 import { useRouter } from "next/navigation";
 import _ from "lodash";
 import useTodoStore from "@/app/_store/todo.store";
+import ConfirmMultipleTodoDeleteDialog from "./ConfirmMultipleTodoDeleteDialog";
+import { useMutation } from "@tanstack/react-query";
+import requestDeleteMultipleTodos from "@/app/_requests/todo/delete-multiple-todos.request";
+import { toast } from "react-toastify";
 
 interface Props {
   todos: TodoItem[];
@@ -32,7 +36,17 @@ interface Props {
 const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
   const router = useRouter();
   const [selectedTodos, setSelectedTodos] = useState<string[]>([]);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const { filters, setFilter } = useTodoStore();
+  const { mutateAsync } = useMutation({
+    mutationFn: () => requestDeleteMultipleTodos(selectedTodos.join(",")),
+    onSuccess: () => {
+      toast(`${selectedTodos.length} todos have been successfully deleted.`, { type: "success" });
+    },
+    onError: () => {
+      toast("Failed to delete selected todos. Please try again.", { type: "error" });
+    },
+  });
 
   /**
    * Handles item checkbox click
@@ -55,7 +69,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
         <TableHead>
           <TableRow>
             <TableCell padding="checkbox">
-              <IconButton>
+              <IconButton onClick={() => setConfirmDialogOpen(true)}>
                 <Image src="/Trash.svg" height="24" width="24" alt="trash icon" />
               </IconButton>
             </TableCell>
@@ -111,6 +125,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
                     color="primary"
                     checked={selectedTodos.includes(todo.id)}
                     onClick={() => handleItemCheckboxClick(todo.id)}
+                    className="todo-delete-checkbox"
                   />
                 </TableCell>
                 <TableCell>
@@ -147,6 +162,12 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
           onChange={(e, value) => setFilter("page", value)}
         />
       </div>
+      <ConfirmMultipleTodoDeleteDialog
+        open={confirmDialogOpen}
+        onClose={() => setConfirmDialogOpen(false)}
+        onConfirm={() => mutateAsync()}
+        todoCount={selectedTodos.length}
+      />
     </Paper>
   )
 }

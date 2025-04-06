@@ -26,12 +26,10 @@ export const sessionOptions: SessionOptions = {
 };
 
 export async function getSessionFromServer() {
-  const sessionStore = await getIronSession<SessionData>(
+  return await getIronSession<SessionData>(
     await cookies(),
     sessionOptions
   );
-  console.log(`Session: ${JSON.stringify(sessionStore)}`);
-  return sessionStore;
 }
 
 export async function getSessionFromApiRoute(

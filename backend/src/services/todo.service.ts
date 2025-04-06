@@ -155,4 +155,29 @@ export default class TodoService {
 
     return { result: true };
   }
+
+  /**
+   * Deletes multiple todo items
+   * @param {string|undefined} todoIds 
+   * @param {string|undefined} userId 
+   * @returns {Promise<{ result: number}>}
+   */
+  async deleteMultipleTodo(todoIds: string|undefined, userId: string|undefined): Promise<{ result: number}> {
+    if (!todoIds) {
+      throw new BadRequestError("Missing todoIds.", TODO_ERROR_CODES.MISSING_TODO_ID);
+    }
+
+    if (!userId) {
+      throw new BadRequestError('Missing userId.', AUTH_ERROR_CODES.SESSION_ERROR);
+    }
+
+    const user = await this.userRepository.getUserById(userId);
+    if (!user) {
+      throw new BadRequestError('User not found.', USER_ERROR_CODES.USER_NOT_FOUND);
+    }
+
+    const todoIdList = todoIds.split(",");
+    await this.todoRepository.deleteMultipleTodos(todoIdList, userId);
+    return { result: todoIdList.length };
+  }
 }

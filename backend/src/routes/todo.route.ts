@@ -13,6 +13,7 @@ router.get('/', asyncHandler(todoController.fetch.bind(todoController)));
 router.get('/:todoId', asyncHandler(todoController.fetchSpecificTodo.bind(todoController)));
 router.post('/', asyncHandler(todoController.create.bind(todoController)));
 router.put('/:todoId', asyncHandler(todoController.update.bind(todoController)));
+router.delete('/', asyncHandler(todoController.removeMultiple.bind(todoController)));
 router.delete('/:todoId', asyncHandler(todoController.remove.bind(todoController)));
 
 export default router;
