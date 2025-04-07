@@ -31,12 +31,12 @@ export default class TodoService {
 
     // check user
     if (!userId) {
-      throw new BadRequestError('Missing userId.');
+      throw new BadRequestError("Missing userId.");
     }
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.');
+      throw new BadRequestError("User not found.");
     }
 
     return await this.todoRepository.createTodo(validated, userId);
@@ -49,18 +49,18 @@ export default class TodoService {
    */
   async fetchTodo(filters: Record<string, unknown>, userId: string|undefined): Promise<{ data: Todo[], count: number }> {
     if (!userId) {
-      throw new BadRequestError('Missing userId.');
+      throw new BadRequestError("Missing userId.");
     }
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.');
+      throw new BadRequestError("User not found.");
     }
 
     const validated = (new FetchTodoValidator).validate<FetchTodoDto>(filters);
     validated.page = validated.page ?? 1;
     validated.limit = validated.limit ?? 10;
-    const count = await this.todoRepository.countTodos(_.omit(validated, ['page', 'limit']), userId);
+    const count = await this.todoRepository.countTodos(_.omit(validated, ["page", "limit"]), userId);
     return {
       data: await this.todoRepository.fetchTodos(validated, userId),
       count,
@@ -74,21 +74,21 @@ export default class TodoService {
    */
   async fetchSpecificTodo(todoId: string|undefined, userId: string|undefined): Promise<Todo> {
     if (!userId) {
-      throw new BadRequestError('Missing userId.', AUTH_ERROR_CODES.SESSION_ERROR);
+      throw new BadRequestError("Missing userId.", AUTH_ERROR_CODES.SESSION_ERROR);
     }
 
     if (!todoId) {
-      throw new BadRequestError('Missing todoId.', TODO_ERROR_CODES.MISSING_TODO_ID);
+      throw new BadRequestError("Missing todoId.", TODO_ERROR_CODES.MISSING_TODO_ID);
     }
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new NotFoundError('User not found.', USER_ERROR_CODES.USER_NOT_FOUND);
+      throw new NotFoundError("User not found.", USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     const todo = await this.todoRepository.getTodoById(todoId, userId);
     if (!todo) {
-      throw new BadRequestError('Todo not found.', TODO_ERROR_CODES.TODO_NOT_FOUND);
+      throw new BadRequestError("Todo not found.", TODO_ERROR_CODES.TODO_NOT_FOUND);
     }
 
     return todo;
@@ -102,21 +102,21 @@ export default class TodoService {
    */
   async updateTodo(todoId: string|undefined, data: Record<string, unknown>, userId: string|undefined): Promise<Todo> {
     if (!todoId) {
-      throw new BadRequestError('Missing todoId.', TODO_ERROR_CODES.MISSING_TODO_ID);
+      throw new BadRequestError("Missing todoId.", TODO_ERROR_CODES.MISSING_TODO_ID);
     }
 
     if (!userId) {
-      throw new BadRequestError('Missing userId.', AUTH_ERROR_CODES.SESSION_ERROR);
+      throw new BadRequestError("Missing userId.", AUTH_ERROR_CODES.SESSION_ERROR);
     }
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.', USER_ERROR_CODES.USER_NOT_FOUND);
+      throw new BadRequestError("User not found.", USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     const todo = await this.todoRepository.getTodoById(todoId, userId);
     if (!todo) {
-      throw new BadRequestError('Todo not found.', TODO_ERROR_CODES.TODO_NOT_FOUND);
+      throw new BadRequestError("Todo not found.", TODO_ERROR_CODES.TODO_NOT_FOUND);
     }
     
     const validated = (new UpdateTodoValidator).validate<UpdateTodoDto>(data);
@@ -131,26 +131,26 @@ export default class TodoService {
    */
   async deleteTodo(todoId: string|undefined, userId: string|undefined): Promise<{ result: boolean }> {
     if (!todoId) {
-      throw new BadRequestError('Missing todoId.', TODO_ERROR_CODES.MISSING_TODO_ID);
+      throw new BadRequestError("Missing todoId.", TODO_ERROR_CODES.MISSING_TODO_ID);
     }
 
     if (!userId) {
-      throw new BadRequestError('Missing userId.', AUTH_ERROR_CODES.SESSION_ERROR);
+      throw new BadRequestError("Missing userId.", AUTH_ERROR_CODES.SESSION_ERROR);
     }
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.', USER_ERROR_CODES.USER_NOT_FOUND);
+      throw new BadRequestError("User not found.", USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     const todo = await this.todoRepository.getTodoById(todoId, userId);
     if (!todo) {
-      throw new BadRequestError('Todo not found.', TODO_ERROR_CODES.TODO_NOT_FOUND);
+      throw new BadRequestError("Todo not found.", TODO_ERROR_CODES.TODO_NOT_FOUND);
     }
 
     const deletedTodo = await this.todoRepository.deleteTodo(todoId, userId);
     if (!deletedTodo) {
-      throw new ServerError('Todo deletion failed.', TODO_ERROR_CODES.TODO_DELETION_FAILED);
+      throw new ServerError("Todo deletion failed.", TODO_ERROR_CODES.TODO_DELETION_FAILED);
     }
 
     return { result: true };
@@ -168,15 +168,21 @@ export default class TodoService {
     }
 
     if (!userId) {
-      throw new BadRequestError('Missing userId.', AUTH_ERROR_CODES.SESSION_ERROR);
+      throw new BadRequestError("Missing userId.", AUTH_ERROR_CODES.SESSION_ERROR);
     }
 
     const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      throw new BadRequestError('User not found.', USER_ERROR_CODES.USER_NOT_FOUND);
+      throw new BadRequestError("User not found.", USER_ERROR_CODES.USER_NOT_FOUND);
     }
 
     const todoIdList = todoIds.split(",");
+
+    const todoCountById = await this.todoRepository.countTodosById(todoIdList, userId);
+    if (todoCountById < todoIdList.length) {
+      throw new BadRequestError("There are invalid todoIds found.", TODO_ERROR_CODES.INVALID_TODO_IDS_FOUND);
+    }
+
     await this.todoRepository.deleteMultipleTodos(todoIdList, userId);
     return { result: todoIdList.length };
   }

@@ -59,6 +59,17 @@ export default class TodoRepository {
       });
   }
 
+  async countTodosById(todoIds: string[], userId: string): Promise<number> {
+    return this.prisma
+      .todo
+      .count({
+        where: {
+          id: { in: todoIds },
+          userId: userId
+        },
+      });
+  }
+
   async countTodos(filters: FetchTodoDto, userId: string): Promise<number> {
     const whereQuery: Record<string, any> = { userId };
     if (filters.id) {
