@@ -58,15 +58,15 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
     return <LoadingPage />;
   }
 
-  const convertedTzCreatedAt = convertUtcToUserTimezone(data!.todo.createdAt, 'D MMM YYYY');
-  const convertedTzDueAt = convertUtcToUserTimezone(data!.todo.dueAt, 'D MMM YYYY')
+  const convertedTzCreatedAt = convertUtcToUserTimezone(data.todo.createdAt, 'D MMM YYYY');
+  const convertedTzDueAt = convertUtcToUserTimezone(data.todo.dueAt, 'D MMM YYYY')
   return (
     <Paper square={false} className="flex flex-col gap-8 p-5 h-full">
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-row gap-3">
-          <TodoPriorityChip priority={data!.todo.priority} />
+          <TodoPriorityChip priority={data.todo.priority} />
           <div className="flex flex-col justify-center">
-            <TodoStatusProgress status={data!.todo?.status} />
+            <TodoStatusProgress status={data.todo?.status} />
           </div>
         </div>
         <div className="flex flex-row gap-3">
@@ -79,19 +79,19 @@ const ViewTodoContainer: React.FC<Props> = ({ todoId }) => {
         </div>
       </div>
       <div className="flex flex-col">
-        <span className="text-xl font-bold todo-title">{data!.todo.title}</span>
+        <span className="text-xl font-bold todo-title">{data.todo.title}</span>
         <span className="text-sm text-gray-500">
           {`${convertedTzCreatedAt} - ${convertedTzDueAt}`}
         </span>
         <span className="mt-3 todo-details">
-          {data!.todo.details}
+          {data.todo.details}
         </span>
       </div>
       <ConfirmTodoDeleteDialog
         open={confirmDialogOpen}
         onClose={() => setConfirmDialogOpen(false)}
         onConfirm={() => mutateAsync()}
-        todoTitle={data!.todo.title}
+        todoTitle={data.todo.title}
       />
     </Paper>
   );
