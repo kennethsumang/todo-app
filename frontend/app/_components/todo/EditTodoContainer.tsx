@@ -12,6 +12,7 @@ import { convertUtcToUserTimezone, toDayjs } from "@/app/_libs/date";
 import ApiError from "@/app/_exceptions/api.error";
 import useUpdateTodoForm from "@/app/_hooks/use-update-todo-form.hook";
 import _ from "lodash";
+import { toast } from "react-toastify";
 
 interface Props {
   todoId: string;
@@ -20,10 +21,11 @@ interface Props {
 const EditTodoContainer: React.FC<Props> = ({ todoId }) => {
   const router = useRouter();
   const isInitialized = useRef<boolean>(false);
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isError } = useQuery({
     queryKey: ["todo", todoId],
     queryFn: () => requestSpecificTodo(todoId),
     enabled: !!todoId,
+    retry: false,
   });
   const { form, setForm, errors, setErrors, setInitialValues, validate, mutate } = useUpdateTodoForm(todoId);
 
@@ -42,18 +44,25 @@ const EditTodoContainer: React.FC<Props> = ({ todoId }) => {
   }, [data, form]);
 
   useEffect(() => {
-    if (error && error instanceof ApiError && error.code === 401) {
-      router.replace("/");
+    if (error && error instanceof ApiError) {
+      if (error.code === 401) {
+        router.replace("/");
+        return;
+      }
+
+      if (error.code === 400 && error.errorCode === "TODO_NOT_FOUND") {
+        router.replace("/todos");
+        toast("Todo not found.", { type: "error" });
+      }
     }
   }, [error, router]);
 
-  if (isLoading) {
-    return <LoadingPage />
+  if (!isLoading && isError) {
+    return null;
   }
 
-  if (error || !data) {
-    console.error(error);
-    return <></>;
+  if (isLoading) {
+    return <LoadingPage />
   }
 
   async function onSubmit(e: FormEvent) {
