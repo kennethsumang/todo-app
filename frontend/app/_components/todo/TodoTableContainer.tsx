@@ -27,6 +27,7 @@ import ConfirmMultipleTodoDeleteDialog from "./ConfirmMultipleTodoDeleteDialog";
 import { useMutation } from "@tanstack/react-query";
 import requestDeleteMultipleTodos from "@/app/_requests/todo/delete-multiple-todos.request";
 import { toast } from "react-toastify";
+import TodoDashboardDueDate from "./TodoDashboardDueDate";
 
 interface Props {
   todos: TodoItem[];
@@ -137,7 +138,14 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
                     {todo.title}
                   </Link>
                 </TableCell>
-                <TableCell>{convertUtcToUserTimezone(todo.dueAt)}</TableCell>
+                <TableCell>
+                  <TodoDashboardDueDate
+                    date={todo.dueAt}
+                    priority={todo.priority}
+                    status={todo.status}
+                    title={todo.title}
+                  />
+                </TableCell>
                 <TableCell>
                   <TodoPriorityChip priority={todo.priority} />
                 </TableCell>
