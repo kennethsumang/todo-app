@@ -18,9 +18,9 @@ export default function useUpdateTodoForm(todoId: string) {
   const [form, setForm] = useState<TodoForm>({ ...initialFormValues });
   const router = useRouter();
   const schema = Joi.object({
-    title: Joi.string().max(15).required().messages({
+    title: Joi.string().max(25).required().messages({
       "any.required": "Title is required.",
-      "string.max": "Title must be 15 characters or less.",
+      "string.max": "Title must be 25 characters or less.",
       "string.base": "Title is invalid.",
       "string.empty": "Title is required.",
     }),

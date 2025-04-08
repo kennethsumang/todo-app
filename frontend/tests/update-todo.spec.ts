@@ -1,7 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 function generateRandomString(length: number): string {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -24,10 +25,14 @@ test.describe("update todo", () => {
     await responsePromise;
   });
 
-  test("removing title and detail inputs and saving will show an error on title and details", async ({ page }) => {
+  test("removing title and detail inputs and saving will show an error on title and details", async ({
+    page,
+  }) => {
     const item = page.locator(".todo-title").first();
     const id = await item.getAttribute("data-id");
-    const pencilButton = page.getByRole("row", { name: `${id}-edit-button` }).getByRole("button");
+    const pencilButton = page
+      .getByRole("row", { name: `${id}-edit-button` })
+      .getByRole("button");
     await pencilButton.click();
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
@@ -40,10 +45,14 @@ test.describe("update todo", () => {
     await expect(page.getByText("Detail is required.")).toBeVisible();
   });
 
-  test("removing title input and saving will show an error on title", async ({ page }) => {
+  test("removing title input and saving will show an error on title", async ({
+    page,
+  }) => {
     const item = page.locator(".todo-title").first();
     const id = await item.getAttribute("data-id");
-    const pencilButton = page.getByRole("row", { name: `${id}-edit-button` }).getByRole("button");
+    const pencilButton = page
+      .getByRole("row", { name: `${id}-edit-button` })
+      .getByRole("button");
     await pencilButton.click();
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
@@ -54,10 +63,14 @@ test.describe("update todo", () => {
     await expect(page.getByText("Title is required.")).toBeVisible();
   });
 
-  test("removing detail input and saving will show an error on detail", async ({ page }) => {
+  test("removing detail input and saving will show an error on detail", async ({
+    page,
+  }) => {
     const item = page.locator(".todo-title").first();
     const id = await item.getAttribute("data-id");
-    const pencilButton = page.getByRole("row", { name: `${id}-edit-button` }).getByRole("button");
+    const pencilButton = page
+      .getByRole("row", { name: `${id}-edit-button` })
+      .getByRole("button");
     await pencilButton.click();
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
@@ -68,54 +81,84 @@ test.describe("update todo", () => {
     await expect(page.getByText("Detail is required.")).toBeVisible();
   });
 
-  test("setting more than 15 characters on title and saving will show an error", async ({ page }) => {
+  test("setting more than 25 characters on title and saving will show an error", async ({
+    page,
+  }) => {
     const item = page.locator(".todo-title").first();
     const id = await item.getAttribute("data-id");
-    const pencilButton = page.getByRole("row", { name: `${id}-edit-button` }).getByRole("button");
+    const pencilButton = page
+      .getByRole("row", { name: `${id}-edit-button` })
+      .getByRole("button");
     await pencilButton.click();
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
-    await page.getByRole("textbox", { name: "Title" }).fill(generateRandomString(16));
+    await page
+      .getByRole("textbox", { name: "Title" })
+      .fill(generateRandomString(26));
 
     await page.getByRole("button", { name: "Save" }).click();
 
-    await expect(page.getByText("Title must be 15 characters or less.")).toBeVisible();
+    await expect(
+      page.getByText("Title must be 25 characters or less.")
+    ).toBeVisible();
   });
 
-  test("setting more than 300 characters on detail and saving will show an error", async ({ page }) => {
+  test("setting more than 300 characters on detail and saving will show an error", async ({
+    page,
+  }) => {
     const item = page.locator(".todo-title").first();
     const id = await item.getAttribute("data-id");
-    const pencilButton = page.getByRole("row", { name: `${id}-edit-button` }).getByRole("button");
+    const pencilButton = page
+      .getByRole("row", { name: `${id}-edit-button` })
+      .getByRole("button");
     await pencilButton.click();
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
-    await page.getByRole("textbox", { name: "Details" }).fill(generateRandomString(301));
+    await page
+      .getByRole("textbox", { name: "Details" })
+      .fill(generateRandomString(301));
 
     await page.getByRole("button", { name: "Save" }).click();
 
-    await expect(page.getByText("Detail must be 300 characters or less.")).toBeVisible();
+    await expect(
+      page.getByText("Detail must be 300 characters or less.")
+    ).toBeVisible();
   });
 
-  test("valid inputs will update the todo successfully and redirect to view page", async ({ page }) => {
+  test("valid inputs will update the todo successfully and redirect to view page", async ({
+    page,
+  }) => {
     const item = page.locator(".todo-title").first();
     const id = await item.getAttribute("data-id");
-    const pencilButton = page.getByRole("row", { name: `${id}-edit-button` }).getByRole("button");
+    const pencilButton = page
+      .getByRole("row", { name: `${id}-edit-button` })
+      .getByRole("button");
     await pencilButton.click();
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}/edit`);
     await page.getByRole("textbox", { name: "Title" }).fill("New title");
-    await page.getByRole("textbox", { name: "Details" }).fill("New edited details");
+    await page
+      .getByRole("textbox", { name: "Details" })
+      .fill("New edited details");
 
-    const responsePromise = page.waitForResponse((resp) =>
-      resp.url().includes(`/api/todos/${id}`) && resp.request().method() === "PUT"
+    const responsePromise = page.waitForResponse(
+      (resp) =>
+        resp.url().includes(`/api/todos/${id}`) &&
+        resp.request().method() === "PUT"
     );
     await page.getByRole("button", { name: "Save" }).click();
     await responsePromise;
 
     await expect(page).toHaveURL(`http://localhost:5173/todos/${id}`);
 
-    const todoTitleInViewPage = await page.locator(".todo-title").first().textContent();
-    const todoDetailInViewPage = await page.locator(".todo-details").first().textContent();
+    const todoTitleInViewPage = await page
+      .locator(".todo-title")
+      .first()
+      .textContent();
+    const todoDetailInViewPage = await page
+      .locator(".todo-details")
+      .first()
+      .textContent();
     expect(todoTitleInViewPage).toEqual("New title");
     expect(todoDetailInViewPage).toEqual("New edited details");
   });
