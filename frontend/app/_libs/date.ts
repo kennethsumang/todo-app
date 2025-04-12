@@ -18,6 +18,12 @@ export function convertUtcToUserTimezone(
   return utcDate.format(format);
 }
 
+export function convertUserTimezoneToUtc(date: ValidDateType): Dayjs {
+  const userTz = dayjs.tz.guess();
+  const dateObj = dayjs(date).tz(userTz, true);
+  return dateObj.utc();
+}
+
 export function getUtcDate(): Date {
   return dayjs.utc().toDate();
 }
@@ -35,9 +41,12 @@ export function isBefore(date: ValidDateType, refDate: ValidDateType): boolean {
 }
 
 export function diffFromNowInHours(date: ValidDateType): number {
-  const now = dayjs.utc().tz(dayjs.tz.guess());
-  const referenceDate = dayjs(date);
-  return now.diff(referenceDate, "hour");
+  const userTz = dayjs.tz.guess();
+  const now = dayjs().tz(userTz);
+  const referenceDate = dayjs(date).tz(userTz);
+  console.log(`Now: ${now.format("YYYY-MM-DD HH:mm:ss Z")}`);
+  console.log(`Reference: ${referenceDate.format("YYYY-MM-DD HH:mm:ss Z")}`);
+  return Math.abs(referenceDate.diff(now, "hour"));
 }
 
 export function isAfterNow(date: ValidDateType): boolean {

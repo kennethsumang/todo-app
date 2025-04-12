@@ -64,6 +64,11 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
     setSelectedTodos(selectedItems);
   }
 
+  function handleDeleteItems() {
+    setConfirmDialogOpen(false);
+    mutateAsync();
+  }
+
   return (
     <Paper square={false} className="flex flex-col justify-between p-2 h-full">
       <Table>
@@ -173,7 +178,7 @@ const TodoTableContainer: React.FC<Props> = ({ todos, count }) => {
       <ConfirmMultipleTodoDeleteDialog
         open={confirmDialogOpen}
         onClose={() => setConfirmDialogOpen(false)}
-        onConfirm={() => mutateAsync()}
+        onConfirm={() => handleDeleteItems()}
         todoCount={selectedTodos.length}
       />
     </Paper>

@@ -1,6 +1,7 @@
 import { TodoForm, TodoItem } from "@/app/_types/todo";
 import BaseRequest, { RequestOptions } from "../base.request";
 import _ from "lodash";
+import { convertUserTimezoneToUtc } from "@/app/_libs/date";
 
 interface TodoRequestOptions extends RequestOptions {
   body: TodoForm;
@@ -24,7 +25,7 @@ export default async function requestUpdateTodo(
   form: TodoForm
 ) {
   return await new UpdateTodoRequest().request({
-    body: _.omit(form, ["priority"]),
+    body: { ..._.omit(form, ["priority"]), dueAt: convertUserTimezoneToUtc(form.dueAt) },
     params: { todoId },
   });
 }
